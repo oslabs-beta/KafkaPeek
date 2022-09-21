@@ -5,12 +5,12 @@ import LineChart from './LineChart';
 import TimeSeriesChart from './TimeSeriesChart';
 import RealTimeChart from './RealTimeChart';
 
-const Home = () => {
+const Dashboard = () => {
   return (
-    <div id='home-container'>
+    <div id='dashboard-container'>
       <Header />
       <Sidebar />
-      <div id='home-main'>
+      <div id='dashboard-main'>
         <LineChart />
         <TimeSeriesChart />
         <RealTimeChart />
@@ -19,4 +19,6 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Dashboard;
+
+
