@@ -2,11 +2,11 @@ const ip = require('ip')
 
 const { Kafka, CompressionTypes, logLevel } = require('kafkajs')
 
-const host = process.env.HOST_IP || ip.address()
+// const host = process.env.HOST_IP || ip.address()
 
 const kafka = new Kafka({
   logLevel: logLevel.DEBUG,
-  brokers: [`${host}:9092`],
+  brokers: [`localhost:9092`],
   clientId: 'example-producer',
 })
 
