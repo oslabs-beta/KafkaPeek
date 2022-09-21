@@ -1,0 +1,49 @@
+version: "2"
+
+services:
+  zookeeper:
+    image: docker.io/bitnami/zookeeper:latest
+    ports:
+      - "2181:2181"
+    volumes:
+      - "zookeeper_data:/bitnami"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka:
+    image: docker.io/bitnami/kafka:latest
+    ports:
+      - "9092:9092"
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+
+  jmx-kafka:
+    image: "sscaling/jmx-prometheus-exporter:latest"
+    ports:
+     - "5556:5556"
+    environment:
+     CONFIG_YML : "/etc/jmx_exporter/config.yml"
+    volumes:
+     - ./etc/jmx_exporter/config_kafka.yml:/etc/jmx_exporter/config.yml
+    #  - JVM_OPTS:-Xmx128M
+    container_name: jmx-kafka
+    depends_on:
+     - kafka
+     
+  prometheus:
+    image: "docker.io/bitnami/prometheus:latest"
+    ports:
+     - "9090:9090"
+    volumes:
+     - /path/to/prometheus/prometheus.yml:/config/prometheus.yml
+    command: "--config.file=/config/prometheus.yml"
+    container_name: prometheus
+volumes:
+  zookeeper_data:
+    driver: local
+  kafka_data:
+    driver: local
