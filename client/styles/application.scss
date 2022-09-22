@@ -1,0 +1,47 @@
+$primaryColor: #06172a;
+$secondaryColor: #123d57;
+$tertiaryColor: #1d6a92;
+$quarternaryColor: #2b9fc9;
+$quinaryColor: #2bcac8;
+
+@import 'landing.scss';
+@import 'dashboard.scss';
+@import 'header.scss';
+@import 'sidebar.scss';
+@import 'login.scss';
+
+//CSS Reset
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+  font-family: 'Amatic', sans-serif;
+  // outline: 1px red solid;
+}
+
+html {
+  width: 100vw;
+  height: 100vh;
+
+  body,
+  #root,
+  #app-container {
+    width: 100%;
+    height: 100%;
+
+    a {
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    input,
+    button {
+      border-radius: 5px;
+      padding: 5px;
+    }
+  }
+}

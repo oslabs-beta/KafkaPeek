@@ -1,14 +1,15 @@
 import React from 'react';
-import Header from '../containers/Header';
-import Sidebar from '../containers/Sidebar';
-import LineChart from './LineChart';
-import TimeSeriesChart from './TimeSeriesChart';
-import RealTimeChart from './RealTimeChart';
+import Header from './Header';
+import Sidebar from './Sidebar';
+import LineChart from '../components/LineChart';
+import TimeSeriesChart from '../components/TimeSeriesChart';
+import RealTimeChart from '../components/RealTimeChart';
 
 const Dashboard = () => {
   return (
     <div id='dashboard-container'>
-
+      <Header />
+      <Sidebar />
       <div id='dashboard-main'>
         <LineChart />
         <TimeSeriesChart />

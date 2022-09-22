@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   return (
     <div id='header-container'>
-      <div id='link-container-1'>
+      <div id='header-left'>
         <Link to='/'>Landing</Link>
       </div>
-      <div id='link-container-2'>
+      <div id='header-right'>
         <Link to='/dashboard'>Dashboard</Link>
         <Link to='/login'>Login</Link>
       </div>

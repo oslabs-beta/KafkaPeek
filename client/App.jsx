@@ -1,23 +1,20 @@
 import React from 'react';
 import { Router, Routes, Route, BrowserRouter } from 'react-router-dom';
-import Login from './components/Login';
+import Login from './containers/Login';
 import Signup from './components/Signup';
-import Dashboard from './components/Dashboard';
+import Dashboard from './containers/Dashboard';
 import Landing from './containers/Landing';
-import Main from './containers/Main';
+import Header from './containers/Header';
 
 const App = () => {
   return (
     <div id='app-container'>
-      <BrowserRouter>
-        <Main />
-        <Routes>
-          <Route path='/dashboard' element={<Dashboard active={true} />} />
+      <Routes>
+          <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route exact path='/' element={<Landing />} />
         </Routes>
-      </BrowserRouter>
     </div>
   );
 };

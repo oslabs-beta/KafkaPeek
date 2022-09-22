@@ -1,0 +1,49 @@
+#sidebar-container {
+  width: 100%;
+  height: 100%;
+  grid-area: sidebar;
+  background-color: $primaryColor;
+  color: aliceblue;
+
+  #top-sidebar {
+    width: 100%;
+    height: 25%;
+  }
+
+  #middle-sidebar {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15%;
+
+    .sidebar-button {
+      height: 20%;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      border-radius: 1rem;
+
+      &:hover {
+        background-color: $secondaryColor;
+        color: $quinaryColor;
+      }
+    }
+
+    a {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: lightgrey;
+    }
+  }
+
+  #bottom-sidebar {
+    width: 100%;
+    height: 25%;
+  }
+}

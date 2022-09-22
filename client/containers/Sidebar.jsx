@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Sidebar = ({setActive}) => {
+const Sidebar = () => {
 
   return (
     <div id="sidebar-container">
@@ -9,7 +9,7 @@ const Sidebar = ({setActive}) => {
         {/* logo and name */}
       </div>
       <div id="middle-sidebar">
-        <div className="sidebar-button" onClick={setActive("dashboard")}>
+        <div className="sidebar-button">
           <span>Icon</span>
           <Link to='/dashboard'>Dashboard</Link>
         </div>
