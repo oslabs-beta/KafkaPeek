@@ -10,11 +10,12 @@ const Dashboard = () => {
     <div id='dashboard-container'>
       <Header />
       <Sidebar />
-      <div id='dashboard-main'>
+      <div id='dashboard-charts'>
         <LineChart />
         <TimeSeriesChart />
         <RealTimeChart />
       </div>
+      {/* Create a main component that renders charts or settings, etc. */}
     </div>
   );
 };
