@@ -1,59 +1,126 @@
+# version: "3"
+
+# services: # zookeeper, kafka, jmx-kafka and prometheus are in a common network in the same docker container
+#   zookeeper: # First Image
+#     image: "bitnami/zookeeper:latest" # which image will we build from
+#     ports:
+#       - "2181:2181" # HOST PORT: CONTAINER PORT
+#     # volumes:
+#     #   - "zookeeper_data:/bitnami"
+#     environment:
+#       ALLOW_ANONYMOUS_LOGIN: "yes"
+#       ZOOKEEPER_CLIENT_PORT: 2181
+#       ZOOKEEPER_TICK_TIME: 2000
+#       ZOOKEEPER_INIT_LIMIT: 5
+#       ZOOKEEPER_SYNC_LIMIT: 2
+#     container_name: "zookeeper"
+
+#   kafka: # Second Image
+#     image: "bitnami/kafka:latest"
+#     # hostname: localhost
+#     ports:
+#       - "9092:9092"
+#       - "9991:9991"
+#     # volumes:
+#     #   - "kafka_data:/bitnami"
+#     environment:
+#       # - KAFKA_ADVERTISED_HOST_NAME=${HOST_IP}
+#       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9092
+#       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+#       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+#       - ALLOW_PLAINTEXT_LISTENER=yes
+#       - KAFKA_JMX_PORT=9991
+#       - KAFKA_LISTENERS=PLAINTEXT://:9092
+#       - JVM_ARGS="-Dcom.sun.management.jmxremote.port=9991 -Dcom.sun.management.jmxremote.rmi.port=9991 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+#       # - KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9991
+#       # - KAFKA_CREATE_TOPICS="anotherTopic:1:1"
+#       # - KAFKA_JMX_OPTS=-javaagent:"./etc/jmx_exporter/jmx_prometheus_javaagent-0.17.1.jar"=1234:config.yaml
+#     container_name: "kafka"
+#     depends_on:
+#       - zookeeper
+
+#   jmx-kafka: #Third Image
+#     image: "sscaling/jmx-prometheus-exporter:latest"
+#     ports:
+#      - "5556:5556"
+#     environment:
+#      CONFIG_YML : "/etc/jmx_exporter/config.yml"
+#     volumes:
+#      - ./etc/jmx_exporter/config.yml:/etc/jmx_exporter/config.yml #Input config file: Output config file into docker container
+#     #  - JVM_OPTS:-Xmx128M
+#     container_name: jmx-kafka
+#     depends_on:
+#      - kafka
+     
+#   prometheus: #Fourth Image
+#     image: "prom/prometheus:latest"
+#     ports:
+#      - "9090:9090"
+#     volumes:
+#      - ./etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+#     command: "--config.file=/config/prometheus.yml"
+#     container_name: prometheus
+# # volumes:
+# #   zookeeper_data:
+# #     driver: local
+# #   kafka_data:
+# #     driver: local
+
 version: "3"
-
-services: # zookeeper, kafka, jmx-kafka and prometheus are in a common network in the same docker container
-  zookeeper: # First Image
-    image: docker.io/bitnami/zookeeper:latest # which image will we build from
-    ports:
-      - "2181:2181" # HOST PORT: CONTAINER PORT
-    volumes:
-      - "zookeeper_data:/bitnami"
+services: 
+  zookeeper:
+    image: "bitnami/zookeeper:latest"
+    container_name: "zookeeper"
+    ports: 
+      - "2181:2181"
     environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes #Environmental variables
-    container_name: zookeeper
-
-  kafka: # Second Image
-    image: docker.io/bitnami/kafka:latest
-    hostname: localhost
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+  kafka:
+    image: "bitnami/kafka:latest"
+    # hostname: "localhost"
+    container_name: "kafka"
     ports:
       - "9092:9092"
-      # - "9091:9091"
-    volumes:
-      - "kafka_data:/bitnami"
+      - "9991:9991"
     environment:
-      # - KAFKA_ADVERTISED_HOST_NAME=${HOST_IP}
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      # - KAFKA_BROKER_ID=1
+      - JMX_PORT=9991
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      # - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      # - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      # - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      # - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      # - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+      # - KAFKA_LOG_RETENTION_MS=60000
       - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_JMX_PORT=5556
-      - KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=5556
-      - KAFKA_CREATE_TOPICS="anotherTopic:1:1"
-      # - KAFKA_JMX_OPTS=-javaagent:"./etc/jmx_exporter/jmx_prometheus_javaagent-0.17.1.jar"=1234:config.yaml
-    container_name: kafka
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - JVM_ARGS="-Dcom.sun.management.jmxremote.port=9991 -Dcom.sun.management.jmxremote.rmi.port=9991 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false" 
+
     depends_on:
       - zookeeper
-
-  jmx-kafka: #Third Image
+  jmx-kafka:
     image: "sscaling/jmx-prometheus-exporter:latest"
     ports:
      - "5556:5556"
     environment:
-     CONFIG_YML : "/config.yml"
+     CONFIG_YML : "/etc/jmx_exporter/config.yml"
     volumes:
-     - ./etc/jmx_exporter/config.yml:/config.yml #Input config file: Output config file into docker container
+     - ./etc/jmx_exporter/config.yml:/etc/jmx_exporter/config.yml
     #  - JVM_OPTS:-Xmx128M
     container_name: jmx-kafka
     depends_on:
      - kafka
-     
-  prometheus: #Fourth Image
-    image: "docker.io/bitnami/prometheus:latest"
+  prometheus:
+    image: "prom/prometheus:latest"
     ports:
      - "9090:9090"
     volumes:
-     - ./etc/prometheus/prometheus.yml:/config/prometheus.yml
-    command: "--config.file=/config/prometheus.yml"
+     - ./etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command: "--config.file=/etc/prometheus/prometheus.yml"
     container_name: prometheus
-volumes:
-  zookeeper_data:
-    driver: local
-  kafka_data:
-    driver: local

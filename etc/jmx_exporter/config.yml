@@ -1,5 +1,6 @@
-hostPort: kafka:9092
+hostPort: kafka:9991
 lowercaseOutputName: true
+lowercaseOutputLabelNames: true
 
 rules:
 # Special cases and very specific rules
