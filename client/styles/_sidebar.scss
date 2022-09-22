@@ -31,15 +31,23 @@
         background-color: $secondaryColor;
       }
 
-      span {
+      div {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        width: 30%;
+        height: 100%;
+        
+        .chart-icon { 
+          width: 100%; 
+          height: 100%;
+          // object-fit: cover;
+        }
       }
 
       a {
-        width: 100%;
+        width: 70%;
         height: 100%;
         display: flex;
         justify-content: left;
@@ -53,6 +61,10 @@
     .active-button {
       background-color: $secondaryColor;
       color: $quinaryColor;
+      
+      a {
+        color: $quinaryColor;
+      }
     }
   }
 
