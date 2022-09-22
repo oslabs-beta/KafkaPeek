@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Routes, Route, BrowserRouter } from 'react-router-dom';
 import Login from './containers/Login';
-import Signup from './components/Signup';
+import Signup from './containers/Signup';
 import Dashboard from './containers/Dashboard';
 import Landing from './containers/Landing';
 import Header from './containers/Header';
