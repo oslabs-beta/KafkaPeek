@@ -1,0 +1,130 @@
+hostPort: kafka:9991
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+
+whitelistObjectNames:
+  - kafka.server:type=BrokerTopicMetrics,*
+  - kafka.controller:type=KafkaController,*
+  - kafka.network:type=RequestMetrics,*
+  - kafka.server:type=KafkaServer,name=BrokerState
+  - kafka.server:type=KafkaRequestHandlerPool,*
+  - kafka.network:type=SocketServer,*
+  - kafka.network:type=Processor,*
+  - kafka.network:type=RequestMetrics,*
+  - kafka.log:*
+
+rules:
+  #-------------------------------------------------------------------------------------------------------
+  # KafkaServers : State of broker server
+  #
+  #  - BrokerState
+  #-------------------------------------------------------------------------------------------------------
+  - pattern: kafka.server<type=KafkaServer, name=BrokerState><>Value
+    name: kafka_server_brokerstate
+    labels:
+      service: kafka-broker
+      env: cluster-demo
+  #-------------------------------------------------------------------------------------------------------
+  # KafkaServer / BrokerTopicMetrics - I/O metrics :
+  #
+  # - BytesInPerSec, BytesOutPerSec, BytesRejectedPerSec,
+  # - FailedFetchRequestsPerSec, FailedProduceRequestsPerSec,MessagesInPerSec,
+  # - TotalFetchRequestPerSec, TotalProduceRequestPerSec, ReplicationBytesInPerSec, ReplicationBytesOutPerSec
+  #-------------------------------------------------------------------------------------------------------
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=(BytesInPerSec|BytesOutPerSec|MessagesInPerSec|ReplicationBytesOutPerSec|ReplicationBytesInPerSec)><>(OneMinute)Rate
+    name: kafka_server_broker_topic_metrics_$1_rate
+    labels:
+      aggregate: $2
+      service: kafka-broker
+      env: cluster-demo
+
+  # - pattern: kafka.server<type=BrokerTopicMetrics, name=(BytesInPerSec|BytesOutPerSec|MessagesInPerSec|ReplicationBytesOutPerSec|ReplicationBytesInPerSec), topic=([^,]+)><>(OneMinute)Rate
+  #   name: kafka_server_broker_topic_metrics_$1_rate
+  #   labels:
+  #     topic: $2
+  #     aggregate: $3
+  #     service: kafka-broker
+  #     env: cluster-demo
+  #-------------------------------------------------------------------------------------------------------
+  # KafkaController :
+  #
+  #  - ActiveControllerCount, OfflinePartitionsCount, PreferredReplicaImbalanceCount
+  #-------------------------------------------------------------------------------------------------------
+  - pattern: kafka.controller<type=KafkaController, name=([^,]+)><>Value
+    name: kafka_controller_$1
+    labels:
+      service: kafka-broker
+      env: cluster-demo
+  #-------------------------------------------------------------------------------------------------------
+  # KafkaRequestHandlerPool : Latency
+  #
+  # - KafkaRequestHandlerPool
+  #-------------------------------------------------------------------------------------------------------
+  - pattern: kafka.server<type=KafkaRequestHandlerPool, name=RequestHandlerAvgIdlePercent><>(\w+)
+    name: kafka_server_request_handler_avg_idle_percent
+    labels:
+      aggregate: $1
+      service: kafka-broker
+      env: cluster-demo
+
+  #-------------------------------------------------------------------------------------------------------
+  # Network Socket Server : Latency
+  #
+  # - NetworkProcessorAvgIdlePercent
+  #-------------------------------------------------------------------------------------------------------
+  - pattern: kafka.network<type=SocketServer, name=NetworkProcessorAvgIdlePercent><>(Value)
+    name: kafka_network_socket_server_processor_avg_idle_percent
+    labels:
+      service: kafka-broker
+      env: cluster-demo
+
+  #-------------------------------------------------------------------------------------------------------
+  # Network Processor : Latency
+  #
+  # - IdlePercent
+  #-------------------------------------------------------------------------------------------------------
+  - pattern: kafka.network<type=Processor, name=IdlePercent, networkProcessor=([0-9]+)><>(Value)
+    name: kafka_network_processor_idle_percent
+    labels:
+      processor: $1
+      service: kafka-broker
+      env: cluster-demo
+  #-------------------------------------------------------------------------------------------------------
+  # Network KafkaRequestMetrics :
+  #
+  # - LocalTimeMs, RemoteTimeMs,
+  # - RequestQueueTimeMs,
+  # - ResponseQueueTimeMs, ResponseSendTimeMs
+  # - ThrottleTimeMs
+  # - TotalTimeMs
+  #-------------------------------------------------------------------------------------------------------
+  - pattern: kafka.network<type=RequestMetrics, name=(\w+)TimeMs, request=(Produce|Fetch|FetchConsumer|FetchFollower)><>(OneMinuteRate|Mean)
+    name: kafka_network_request_metrics_time_ms
+    labels:
+      scope: $1
+      request: $2
+      aggregate: $3
+      service: kafka-broker
+      env: cluster-demo
+  #-------------------------------------------------------------------------------------------------------
+  # LogFlushStats :
+  #-------------------------------------------------------------------------------------------------------
+  - pattern: kafka.log<type=LogFlushStats, name=LogFlushRateAndTimeMs><>(\w+)
+    name: kafka_log_flush_stats_rate_and_time_ms
+    labels:
+      aggregate: $1
+      service: kafka-broker
+      env: cluster-demo
+  #-------------------------------------------------------------------------------------------------------
+  # Network KafkaRequest :
+  #
+  # - RequestPerSec,
+  #-------------------------------------------------------------------------------------------------------
+  - pattern: kafka.network<type=RequestMetrics, name=RequestsPerSec, request=(\w+), version=([0-9]+)><>(OneMinuteRate|Mean)
+    name: kafka_network_request_per_sec
+    labels:
+      request: $1
+      version: $2
+      aggregate: $3
+      service: kafka-broker
+      env: cluster-demo
