@@ -1,0 +1,74 @@
+#sidebar-container {
+  width: 100%;
+  height: 100%;
+  grid-area: sidebar;
+  background-color: $primaryColor;
+  background: linear-gradient(
+    145deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(18, 61, 87, 1) 75%
+  );
+  color: aliceblue;
+
+  #top-sidebar {
+    width: 100%;
+    height: 25%;
+  }
+
+  #middle-sidebar {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15%;
+
+    .sidebar-button {
+      height: 20%;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin: .5rem;
+
+      &:hover {
+        background-color: $secondaryColor;
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 30%;
+        height: 100%;
+      }
+
+      a {
+        width: 70%;
+        height: 100%;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        color: lightgrey;
+        padding: 5px;
+      }
+    }
+
+    .active-button {
+      background-color: $secondaryColor;
+      color: $quinaryColor;
+
+      a {
+        color: $quinaryColor;
+      }
+    }
+  }
+
+  #bottom-sidebar {
+    width: 100%;
+    height: 25%;
+  }
+}

@@ -1,0 +1,24 @@
+#header-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  grid-area: header;
+  padding: 1.5rem;
+
+  #header-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+  }
+  
+  #header-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+  }
+}
