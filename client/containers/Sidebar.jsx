@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import GraphIcon from '../assets/GraphIcon.jsx';
+import CogIcon from '../assets/CogIcon.jsx';
 
 const Sidebar = (props) => {
   const { active, setActive } = props;
@@ -13,7 +14,7 @@ const Sidebar = (props) => {
           <Link to='/dashboard'>Dashboard</Link>
         </div>
         <div className={active == 'profile' ? 'sidebar-button active-button' : 'sidebar-button'} onClick={() => setActive('profile')}>
-          <div>Icon</div>
+          <div><CogIcon/></div>
           <Link to='#'>Profile</Link>
         </div>
         <div className={active == 'settings' ? 'sidebar-button active-button' : 'sidebar-button'} onClick={() => setActive('settings')}>

@@ -3,6 +3,11 @@
   height: 100%;
   grid-area: sidebar;
   background-color: $primaryColor;
+  background: linear-gradient(
+    145deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(18, 61, 87, 1) 75%
+  );
   color: aliceblue;
 
   #top-sidebar {
@@ -38,12 +43,6 @@
         align-items: center;
         width: 30%;
         height: 100%;
-        
-        .chart-icon { 
-          width: 100%; 
-          height: 100%;
-          // object-fit: cover;
-        }
       }
 
       a {
@@ -55,13 +54,12 @@
         color: lightgrey;
         padding: 5px;
       }
-      
     }
-   
+
     .active-button {
       background-color: $secondaryColor;
       color: $quinaryColor;
-      
+
       a {
         color: $quinaryColor;
       }
@@ -72,6 +70,4 @@
     width: 100%;
     height: 25%;
   }
-
-
 }
