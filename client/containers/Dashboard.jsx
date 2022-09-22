@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import LineChart from '../components/LineChart';
 import TimeSeriesChart from '../components/TimeSeriesChart';
 import RealTimeChart from '../components/RealTimeChart';
 
-const Dashboard = () => {
+const Dashboard = ({active, setActive}) => {
   return (
     <div id='dashboard-container'>
       <Header />
-      <Sidebar />
+      <Sidebar active={active} setActive={setActive} />
       <div id='dashboard-charts'>
         <LineChart />
         <TimeSeriesChart />
