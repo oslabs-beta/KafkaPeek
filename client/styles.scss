@@ -1,3 +1,9 @@
+$primaryColor: #06172a;
+$secondaryColor: #123d57;
+$tertiaryColor: #1d6a92;
+$quarternaryColor: #2b9fc9;
+$quinaryColor: #2bcac8;
+
 //CSS Reset 
 * {
   margin: 0;
@@ -8,11 +14,12 @@
   vertical-align: baseline;
   box-sizing: border-box;
   font-family: 'Amatic', sans-serif;
-  outline: 1px red solid;
+  // outline: 1px red solid;
 }
 
 a { 
   text-decoration: none;
+  font-weight: 800;
 }
 
 input, button { 
@@ -64,6 +71,20 @@ body,
 }
 
 #dashboard-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-rows: 1fr 4fr 4fr; 
+  grid-template-areas:
+    'sidebar header header'
+    'sidebar main main'
+    'sidebar main main';
+}
+
+#main-container {
   width: 100%;
   height: 100%;
   display: grid;
@@ -149,7 +170,55 @@ body,
   width: 100%; 
   height: 100%; 
   grid-area: sidebar;
+  background-color: $primaryColor;
+  color:aliceblue;
+
+  #top-sidebar {
+    width: 100%;
+    height: 25%;
+  }
+  
+  #middle-sidebar{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15%;
+
+    .sidebar-button { 
+      height: 20%;
+      width: 100%;
+      display: flex; 
+      flex-direction: row;
+      border-radius: 1rem;
+       
+      &:hover { 
+        background-color: $secondaryColor;
+        color: $quinaryColor;
+      }
+
+    }
+
+    a {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: lightgrey;
+
+    }
+  }
+
+  #bottom-sidebar{
+    width: 100%;
+    height: 25%
+  }
 }
+
+
 
 #chart-container { 
   width: 100%; 
@@ -168,3 +237,4 @@ body,
   height: 100%; 
   grid-area: chart-3;
 }
+

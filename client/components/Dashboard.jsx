@@ -8,8 +8,7 @@ import RealTimeChart from './RealTimeChart';
 const Dashboard = () => {
   return (
     <div id='dashboard-container'>
-      <Header />
-      <Sidebar />
+
       <div id='dashboard-main'>
         <LineChart />
         <TimeSeriesChart />
