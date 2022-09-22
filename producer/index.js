@@ -13,6 +13,13 @@ const kafka = new Kafka({
 const topic = 'anotherTopic'
 const producer = kafka.producer()
 
+// await admin.createTopics({
+//   validateOnly: true,
+//   waitForLeaders: true,
+//   timeout: 200,
+//   topics: <ITopicConfig[]>,
+// })
+
 const getRandomNumber = () => Math.round(Math.random(10) * 1000)
 const createMessage = num => ({
   key: `key-${num}`,

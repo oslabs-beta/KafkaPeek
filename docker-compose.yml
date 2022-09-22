@@ -12,13 +12,10 @@ services: # zookeeper, kafka, jmx-kafka and prometheus are in a common network i
     container_name: zookeeper
 
   kafka: # Second Image
-    image: docker.io/bitnami/kafka:latest
-    hostname: localhost
+    image: bitnami/kafka:latest
     ports:
       - "9092:9092"
-      # - "9091:9091"
-    volumes:
-      - "kafka_data:/bitnami"
+      - "9991:9991"
     environment:
       # - KAFKA_ADVERTISED_HOST_NAME=${HOST_IP}
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181

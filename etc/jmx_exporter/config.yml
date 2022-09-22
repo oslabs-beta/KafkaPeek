@@ -1,4 +1,4 @@
-hostPort: kafka:9092
+hostPort: kafka:9991
 lowercaseOutputName: true
 
 rules:
