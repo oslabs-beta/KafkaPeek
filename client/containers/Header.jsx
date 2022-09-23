@@ -5,15 +5,23 @@ const Header = () => {
   return (
     <div id='header-container'>
       <div id='header-left'>
-        <Link to='/'>Landing</Link>
+        <Link to='/'>Zurau</Link>
+      </div>
+      <div id='header-mid'>
+        <div id='header-mid-left'>
+          <a href=''>Documentation</a>
+        </div>
+        <div id='header-mid-right'>
+          <a href=''>Github</a>
+        </div>
       </div>
       <div id='header-right'>
-        <Link to='/dashboard'>Dashboard</Link>
-        <Link to='/login'>Login</Link>
+        <button>
+          <Link to='/signin'>Sign in {'>'}</Link>
+        </button>
       </div>
     </div>
   );
 };
 
 export default Header;
-
