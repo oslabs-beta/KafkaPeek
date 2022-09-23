@@ -7,7 +7,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/assets')));
 
-
 // serving html to localhost:3000
 app.get('/', (req,res,next)=>{
     res.status(200).sendFile(path.join(__dirname, '/../client/index.html'));
