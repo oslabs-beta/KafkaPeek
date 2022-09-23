@@ -12,7 +12,7 @@ const Sidebar = (props) => {
       <div id='top-sidebar'>
         <ZurauLogo />
         <div className="spacer"/>
-        <div>ZURAU</div> 
+        <div id="sidebar-title">Zurau</div> 
       </div>
       <div id='middle-sidebar'>
         <div

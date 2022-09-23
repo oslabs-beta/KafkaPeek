@@ -4,9 +4,10 @@ $tertiaryColor: #1d6a92;
 $quarternaryColor: #2b9fc9;
 $quinaryColor: #2bcac8;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&display=swap');
-
-$playfair-display: 'Playfair Display', serif;
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+$titleFont: 'Josefin Sans', sans-serif;
+$secondaryFont: 'Lato', sans-serif;
 
 @import 'landing.scss';
 @import 'dashboard.scss';
@@ -23,7 +24,7 @@ $playfair-display: 'Playfair Display', serif;
   font: inherit;
   vertical-align: baseline;
   box-sizing: border-box;
-  font-family: 'Amatic', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   // outline: 1px red solid;
 }
 
