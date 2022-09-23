@@ -4,6 +4,10 @@ $tertiaryColor: #1d6a92;
 $quarternaryColor: #2b9fc9;
 $quinaryColor: #2bcac8;
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&display=swap');
+
+$playfair-display: 'Playfair Display', serif;
+
 @import 'landing.scss';
 @import 'dashboard.scss';
 @import 'header.scss';
@@ -44,11 +48,6 @@ html {
     button {
       border-radius: 5px;
       padding: 5px;
-    }
-
-    svg {
-      height: auto;
-      width: 100%;
     }
   }
 }
