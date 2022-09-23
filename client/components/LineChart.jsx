@@ -4,7 +4,7 @@ import Chart from 'react-apexcharts';
 const LineChart = () => {
   const [options, setOptions] = useState({
     chart: {
-      height: 350,
+      height: 200,
       type: 'line',
       zoom: {
         enabled: false,
