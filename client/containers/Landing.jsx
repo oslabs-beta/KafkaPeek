@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
+import Dashboard from './Dashboard';
 
 const Landing = () => {
   return (
@@ -27,7 +28,7 @@ const Landing = () => {
           to date on the status of their Kafka environments.
         </p>
         <button>
-          <Link to='/#' element={<Landing />}>
+          <Link to='/dashboard' element={<Dashboard />}>
             Try it now {'>'}
           </Link>
         </button>
