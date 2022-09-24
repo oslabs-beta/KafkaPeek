@@ -258,13 +258,13 @@ rules:
       service: kafka-broker
       env: cluster-demo
 
-  - pattern: kafka.server<type=BrokerTopicMetrics, name=(BytesInPerSec|BytesOutPerSec|MessagesInPerSec|ReplicationBytesOutPerSec|ReplicationBytesInPerSec), topic=([^,]+)><>(OneMinute)Rate
-    name: kafka_server_broker_topic_metrics_$1_rate
-    labels:
-      topic: $2
-      aggregate: $3
-      service: kafka-broker
-      env: cluster-demo
+  # - pattern: kafka.server<type=BrokerTopicMetrics, name=(BytesInPerSec|BytesOutPerSec|MessagesInPerSec|ReplicationBytesOutPerSec|ReplicationBytesInPerSec), topic=([^,]+)><>(OneMinute)Rate
+  #   name: kafka_server_broker_topic_metrics_$1_rate
+  #   labels:
+  #     topic: $2
+  #     aggregate: $3
+  #     service: kafka-broker
+  #     env: cluster-demo
   #-------------------------------------------------------------------------------------------------------
   # KafkaServer / DelayedFetchMetrics :
   #-------------------------------------------------------------------------------------------------------

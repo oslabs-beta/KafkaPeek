@@ -2,6 +2,15 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const PORT = process.env.PORT || 3000;
+//--------creating socket.IO connection--------
+const { createServer } = require('http')
+const { Server } = require('socket.io');
+const { response } = require('express');
+const httpServer = createServer(app)
+const io = new Server(httpServer)
+
+const { fetchQuery } = require('./queries')
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,6 +25,39 @@ app.get('/dist/bundle.js', (req,res,next)=>{
     res.status(200).sendFile(path.join(__dirname, '../dist/bundle.js'));
 });
 
+//--------define parameters to query on websocket---------
+
+const params = {
+  1: ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[5m:10s]'],
+  2: ['kafka_server_broker_topic_metrics_bytesoutpersec_rate','[5m:10s]'],
+  3: ['kafka_server_broker_topic_metrics_messagesinpersec_rate','[5m:10s]'],
+  4: ['kafka_log_size','[5m:10s]'],
+}
+
+//--------initialize socket.io connection to front end-------
+
+io.on('connection', (socket) => {
+  console.log('a new user connected');
+  //emit fetch request every 5 seconds
+  socket.on('rate', (args) => {
+    console.log(args,'in socket.on');
+    setInterval(async () => {
+      // const fetchData = await fetchQuery(params['1'][0], params['1'][1]);
+      socket.emit(`${params['1'][0]}`)
+      // socket.emit(`${params['1'][1]}`,fetchData)
+    }, 3000);
+  })
+
+
+  // setInterval(async () => {
+  //   const fetchData = await fetchQuery(params['1'][0], params['1'][1]);
+  //   socket.emit(`${params['1'][1]}`,fetchData)
+  // }, 3000);
+  //log message on disconnect
+  socket.on('disconnect', () => {
+    console.log('websocket to client was disconnected!')
+  })
+});
 
 // catch all handler for all unknown routes
 app.use((req, res) => {
@@ -34,7 +76,7 @@ app.use((err, req, res, next) => {
     return res.status(errorObj.status).json(errorObj.message);
   });
   
-  app.listen(PORT, () => console.log(`Server listening on port: ${PORT}...`));
+  httpServer.listen(PORT, () => console.log(`Server listening on port: ${PORT}...`));
   
   module.exports = app;
   
