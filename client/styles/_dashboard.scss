@@ -7,7 +7,7 @@
   grid-template-columns: 1fr 2fr 2fr;
   grid-template-rows: 1fr 4fr 4fr;
   grid-template-areas:
-    'sidebar header header'
+    'sidebar main main'
     'sidebar main main'
     'sidebar main main';
 
@@ -22,7 +22,7 @@
     justify-content: center;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    grid-gap: 0.5rem;
+    grid-gap: 1rem;
     grid-template-areas:
       'chart-3 chart-3'
       'chart-2 chart';

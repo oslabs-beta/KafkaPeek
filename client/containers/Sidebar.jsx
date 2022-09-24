@@ -3,12 +3,17 @@ import { Link } from 'react-router-dom';
 import GraphIcon from '../assets/GraphIcon.jsx';
 import CogIcon from '../assets/CogIcon.jsx';
 import UserIcon from '../assets/UserIcon.jsx';
+import ZurauLogo from '../assets/ZurauLogo.jsx';
 
 const Sidebar = (props) => {
   const { active, setActive } = props;
   return (
     <div id='sidebar-container'>
-      <div id='top-sidebar'>{/* logo and name */}</div>
+      <div id='top-sidebar'>
+        <ZurauLogo />
+        <div className="spacer"/>
+        <div id="sidebar-title">Zurau</div> 
+      </div>
       <div id='middle-sidebar'>
         <div
           className={
@@ -21,7 +26,7 @@ const Sidebar = (props) => {
           <div>
             <GraphIcon />
           </div>
-          <Link to='/dashboard'>Dashboard</Link>
+          <Link to='/dashboard'>Analytics</Link>
         </div>
         <div
           className={
@@ -34,7 +39,7 @@ const Sidebar = (props) => {
           <div>
             <UserIcon />
           </div>
-          <Link to='#'>Profile</Link>
+          <Link to='#'>Account</Link>
         </div>
         <div
           className={
