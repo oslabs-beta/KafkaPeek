@@ -1,0 +1,48 @@
+#dashboard-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-rows: 1fr 4fr 4fr;
+  grid-template-areas:
+    'sidebar main main'
+    'sidebar main main'
+    'sidebar main main';
+
+  #dashboard-charts {
+    width: 100%;
+    height: 100%;
+    grid-area: main;
+
+    display: grid;
+    align-items: center;
+    padding: 1rem;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 1rem;
+    grid-template-areas:
+      'chart-3 chart-3'
+      'chart-2 chart';
+
+    #chart-container {
+      width: 100%;
+      height: 100%;
+      grid-area: chart;
+    }
+
+    #chart-container-2 {
+      width: 100%;
+      height: 100%;
+      grid-area: chart-2;
+    }
+
+    #chart-container-3 {
+      width: 100%;
+      height: 100%;
+      grid-area: chart-3;
+    }
+  }
+}

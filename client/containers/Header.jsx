@@ -4,16 +4,24 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   return (
     <div id='header-container'>
-      <div id='link-container-1'>
-        <Link to='/'>Landing</Link>
+      <div id='header-left'>
+        <Link to='/'>Zurau</Link>
       </div>
-      <div id='link-container-2'>
-        <Link to='/dashboard'>Dashboard</Link>
-        <Link to='/login'>Login</Link>
+      <div id='header-mid'>
+        <div id='header-mid-left'>
+          <a href=''>Documentation</a>
+        </div>
+        <div id='header-mid-right'>
+          <a href=''>Github</a>
+        </div>
+      </div>
+      <div id='header-right'>
+        <button>
+          <Link to='/signin'>Sign in {'>'}</Link>
+        </button>
       </div>
     </div>
   );
 };
 
 export default Header;
-
