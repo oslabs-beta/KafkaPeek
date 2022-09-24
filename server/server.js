@@ -6,12 +6,19 @@ const PORT = process.env.PORT || 3000;
 const { createServer } = require('http')
 const { Server } = require('socket.io');
 const { response } = require('express');
+const cors = require('cors')
+const ioConfig = {
+  cors: {
+    origin: ['*'],
+  },
+}
+
 const httpServer = createServer(app)
-const io = new Server(httpServer)
+const io = new Server(httpServer, ioConfig)
 
 const { fetchQuery } = require('./queries')
 
-
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/assets')));
@@ -39,12 +46,15 @@ const params = {
 io.on('connection', (socket) => {
   console.log('a new user connected');
   //emit fetch request every 5 seconds
-  socket.on('rate', (args) => {
-    console.log(args,'in socket.on');
+  socket.on('rate', (...args) => {
+    // console.log({...args})
+    const [ query, timeFrame ] = args;
+    console.log(query, timeFrame)
+    // console.log(query,'in socket.on');
     setInterval(async () => {
-      // const fetchData = await fetchQuery(params['1'][0], params['1'][1]);
-      socket.emit(`${params['1'][0]}`)
-      // socket.emit(`${params['1'][1]}`,fetchData)
+      const fetchData = await fetchQuery(query, timeFrame);
+      // socket.emit('rate', 'hello','hello2')
+      socket.emit('rate',fetchData)
     }, 3000);
   })
 
