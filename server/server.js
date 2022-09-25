@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const PORT = process.env.PORT || 3000;
+const PORT = 4000;
 //--------creating socket.IO connection--------
 const { createServer } = require('http')
 const { Server } = require('socket.io');
@@ -35,10 +35,11 @@ app.get('/dist/bundle.js', (req,res,next)=>{
 //--------define parameters to query on websocket---------
 
 const params = {
-  1: ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[5m:10s]'],
-  2: ['kafka_server_broker_topic_metrics_bytesoutpersec_rate','[5m:10s]'],
-  3: ['kafka_server_broker_topic_metrics_messagesinpersec_rate','[5m:10s]'],
-  4: ['kafka_log_size','[5m:10s]'],
+  1: ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[5m:5s]'],
+  2: ['kafka_server_broker_topic_metrics_bytesoutpersec_rate','[5m:5s]'],
+  3: ['kafka_server_broker_topic_metrics_messagesinpersec_rate','[5m:5s]'],
+  4: ['sum(kafka_server_broker_topic_metrics_messagesinpersec_rate) by(topic)', '[5m:5s]'],
+  5: ["sum(kafka_controller_activecontrollercount)",""],
 }
 
 //--------initialize socket.io connection to front end-------
@@ -46,23 +47,22 @@ const params = {
 io.on('connection', (socket) => {
   console.log('a new user connected');
   //emit fetch request every 5 seconds
-  socket.on('rate', (...args) => {
-    // console.log({...args})
-    const [ query, timeFrame ] = args;
-    console.log(query, timeFrame)
-    // console.log(query,'in socket.on');
+  socket.on('rate', (args) => {
+    const { bytesInPerSec, bytesOutPerSec, messagesInPerSec, activeControllerCount } = args;
+    // console.log(bytesInPerSec, bytesOutPerSec)
     setInterval(async () => {
-      const fetchData = await fetchQuery(query, timeFrame);
-      // socket.emit('rate', 'hello','hello2')
-      socket.emit('rate',fetchData)
-    }, 3000);
+      const fetchBytesIn = await fetchQuery(bytesInPerSec[0], bytesInPerSec[1]);
+      const fetchBytesOut = await fetchQuery(bytesOutPerSec[0],bytesOutPerSec[1]);
+      const fetchMessagesIn = await fetchQuery(messagesInPerSec[0], messagesInPerSec[1]);
+      const fetchactiveControllerCount = await fetchQuery(activeControllerCount[0],activeControllerCount[1]);
+      socket.emit('rate',{
+        bytesInPerSec: fetchBytesIn,
+        bytesOutPerSec: fetchBytesOut,
+        messagesInPerSec: fetchMessagesIn,
+        activeControllerCount: fetchactiveControllerCount
+      })
+    }, 5000);
   })
-
-
-  // setInterval(async () => {
-  //   const fetchData = await fetchQuery(params['1'][0], params['1'][1]);
-  //   socket.emit(`${params['1'][1]}`,fetchData)
-  // }, 3000);
   //log message on disconnect
   socket.on('disconnect', () => {
     console.log('websocket to client was disconnected!')

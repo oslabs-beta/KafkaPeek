@@ -1,60 +1,9 @@
-# version: '2'
-# services:
-#   zookeeper:
-#     image: wurstmeister/zookeeper:latest
-#     ports:
-#       - "2181:2181"
-#     container_name: zookeeper
-
-#   kafka:
-#     image: wurstmeister/kafka:2.11-1.1.1
-#     ports:
-#       - "9092:9092"
-#       - "9991:9991"
-#     links:
-#       - zookeeper
-#     environment:
-#       KAFKA_ADVERTISED_HOST_NAME: kafka
-#       KAFKA_ADVERTISED_PORT: 9092
-#       KAFKA_PORT: 9092
-#       KAFKA_BROKER_ID: 1
-#       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9092
-#       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
-#       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-#       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-#       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-#       KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=9991"
-#       JMX_PORT: 9991
-#     depends_on:
-#       - zookeeper
-
-#   jmx-kafka:
-#     image: "sscaling/jmx-prometheus-exporter:latest"
-#     ports:
-#     - "5556:5556"
-#     environment:
-#      CONFIG_YML : "/config.yml"
-#     volumes:
-#      - ./etc/jmx_exporter/config.yml:/config.yml
-#     container_name: jmx-kafka
-#     depends_on:
-#       - kafka
-
-#   prometheus: #Fourth Image
-#     image: "docker.io/bitnami/prometheus:latest"
-#     ports:
-#      - "9090:9090"
-#     volumes:
-#      - ./etc/prometheus/prometheus.yml:/config/prometheus.yml
-#     command: "--config.file=/config/prometheus.yml"
-#     container_name: prometheus
-
 version: '3'
 services:
   grafana:
     image: "grafana/grafana:latest"
     ports:
-     - "4000:4000"
+     - "3000:3000"
     environment:
       GF_PATHS_DATA : /var/lib/grafana
       GF_SECURITY_ADMIN_PASSWORD : kafka
@@ -121,3 +70,4 @@ services:
       CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
       CONFLUENT_METRICS_ENABLE: 'false'
       KAFKA_HEAP_OPTS: ${KAFKA_HEAP_OPTS}
+    command: sh -c "((sleep 15 && kafka-topics --create --replication-factor 1 --partitions 3 --topic topic-test --bootstrap-server kafka:29092)&) && /etc/confluent/docker/run ">
