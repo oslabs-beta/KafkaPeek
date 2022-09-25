@@ -21,7 +21,7 @@ const config = {
     headers: { 'Access-Control-Allow-Origin': '*' },
     // port: 3000,
     proxy: {
-      "/api": "http://localhost:3000",
+      "/api": "http://localhost:4000",
     },
   },
   module: {

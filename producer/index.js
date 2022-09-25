@@ -11,7 +11,9 @@ const kafka = new Kafka({
 })
 
 const topic = 'topic-test'
-const producer = kafka.producer()
+const producer = kafka.producer({
+  allowAutoTopicCreation: false,
+});
 
 const getRandomNumber = () => Math.round(Math.random(10) * 1000)
 const createMessage = num => ({
