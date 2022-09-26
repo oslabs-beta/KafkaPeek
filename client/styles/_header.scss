@@ -17,6 +17,7 @@
 
     a {
       color: white;
+      font-family: $titleFont;      
       &:hover { 
         color: rgba(253, 253, 253, 0.5);
       }
@@ -31,13 +32,24 @@
     align-items: center;
     width: 50%;
     height: 100%;
+ 
 
-    #header-mid-left, #header-mid-right { 
+    #header-mid-left { 
       width: 50%; 
       height: 100%;
       display: flex; 
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
+      padding: 5%;
+    }
+
+    #header-mid-right { 
+      width: 50%; 
+      height: 100%;
+      display: flex; 
+      justify-content: flex-start;
+      align-items: center;
+      padding: 5%;
     }
 
     a {
