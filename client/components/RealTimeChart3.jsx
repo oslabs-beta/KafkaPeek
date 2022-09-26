@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Chart from 'react-apexcharts';
 
-const RealTimeChart = () => {
+const RealTimeChart3 = () => {
   const [options, setOptions] = useState({
     chart: {
       height: 350,
@@ -48,10 +48,10 @@ const RealTimeChart = () => {
   ]);
 
   return (
-    <div id='chart-container'>
+    <div id='chart-container-3'>
       <Chart options={options} series={series} type='line' height={'100%'} />
     </div>
   );
 };
 
-export default RealTimeChart;
+export default RealTimeChart3;

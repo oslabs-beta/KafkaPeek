@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ZurauLogo from '../assets/ZurauLogo';
 
 const Header = () => {
   return (
     <div id='header-container'>
       <div id='header-left'>
+        <ZurauLogo  />
         <Link to='/'>Zurau</Link>
       </div>
       <div id='header-mid'>
