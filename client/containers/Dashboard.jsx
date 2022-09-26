@@ -45,10 +45,20 @@ const Dashboard = ({ active, setActive }) => {
   
   //socket logic
   
-  const socket = io();
+  const socket = io('http://localhost:4000');
+  socket.on('connect', () => {
+    console.log('connected')
+  })
+  socket.emit('rate', {
+    "bytesInPerSec": ["kafka_server_broker_topic_metrics_bytesinpersec_rate","[5m:5s]"],
+    "bytesOutPerSec": ["kafka_server_broker_topic_metrics_bytesoutpersec_rate","[5m:5s]"],
+    "messagesInPerSec": ["kafka_server_broker_topic_metrics_messagesinpersec_rate","[5m:5s]"],
+    "activeControllerCount": ["sum(kafka_controller_activecontrollercount)",""]
+    })
   socket.on("rate", (data) => { 
     //transform that data
     //setCategories + setSeries
+
     console.log("SOCKET", data)
   })
 

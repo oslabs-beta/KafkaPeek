@@ -9,7 +9,7 @@ const { response } = require('express');
 const cors = require('cors')
 const ioConfig = {
   cors: {
-    origin: ['*'],
+    origin: ['http://localhost:8080'],
   },
 }
 
