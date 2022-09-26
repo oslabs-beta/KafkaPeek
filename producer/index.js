@@ -2,7 +2,7 @@ const ip = require('ip')
 
 const { Kafka, CompressionTypes, logLevel } = require('kafkajs')
 
-// const host = process.env.HOST_IP || ip.address()
+const host = process.env.HOST_IP || ip.address()
 
 const kafka = new Kafka({
   logLevel: logLevel.DEBUG,
@@ -10,8 +10,10 @@ const kafka = new Kafka({
   clientId: 'example-producer',
 })
 
-const topic = 'anotherTopic'
-const producer = kafka.producer()
+const topic = 'topic-test'
+const producer = kafka.producer({
+  allowAutoTopicCreation: false,
+});
 
 const getRandomNumber = () => Math.round(Math.random(10) * 1000)
 const createMessage = num => ({
