@@ -24,8 +24,8 @@
     grid-template-rows: 1fr 1fr;
     grid-gap: 1rem;
     grid-template-areas:
-      'chart-3 chart-3'
-      'chart-2 chart';
+      'chart chart'
+      'chart-2 chart-3';
 
     #chart-container {
       width: 100%;
