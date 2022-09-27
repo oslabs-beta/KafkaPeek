@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import RealTimeChart from '../components/RealTimeChart';
 import RealTimeChart2 from '../components/RealTimeChart2';
 import RealTimeChart3 from '../components/RealTimeChart3';
+import StaticMetricDisplay from '../components/StaticMetricDisplay';
 
 import { io } from "socket.io-client";
 
@@ -13,20 +14,18 @@ socket.emit('rate', {
   "bytesInPerSec": ["kafka_server_broker_topic_metrics_bytesinpersec_rate",""],
   "bytesOutPerSec": ["kafka_server_broker_topic_metrics_bytesoutpersec_rate",""],
 //   "messagesInPerSec": ["kafka_server_broker_topic_metrics_messagesinpersec_rate",""],
-//   "activeControllerCount": ["sum(kafka_controller_activecontrollercount)",""]
+  "activeControllerCount": ["sum(kafka_controller_activecontrollercount)",""]
   })
 
 const Dashboard = ({ active, setActive }) => {
   // const [categories, setCategories] = useState(''); //title 
   const [series, setSeries] = useState([]);
   const [series2, setSeries2] = useState([]);
-
+  const [activeControllerCount, setActiveControllerCount] = useState(0);
 
   useEffect(() => {
-    console.log('inside useEffect')
     socket.on('rate', (data) => {
-      // console.log('logged into the useEffect: socket on')
-      // console.log('guess what?', data.bytesInPerSec.value)
+
       const transformedSeries = [];
       let time = data.bytesInPerSec.value[0] * 1000
       let bytes = parseInt(data.bytesInPerSec.value[1])
@@ -39,13 +38,10 @@ const Dashboard = ({ active, setActive }) => {
       transformedSeries2.push(time2,bytes2)
       setSeries2(currentData => [...currentData, transformedSeries2])
 
+      console.log("ACTIVE", data.activeControllerCount.value)
+
      })
-  }, []);
-
-  
-  
-
- 
+  }, []); 
 
   //socket logic
   
@@ -108,8 +104,12 @@ const Dashboard = ({ active, setActive }) => {
     <div id='dashboard-container'>
       <Sidebar active={active} setActive={setActive} />
       <div id='dashboard-charts'>
-        <RealTimeChart series={[{data: series}]}  />
-        <RealTimeChart2 series2={[{data: series2}]}/>
+        <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={1}/>
+        <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={2}/>
+        <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={3} />
+        <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={3}/>
+        <RealTimeChart series={[{data: series}, {data: series2}]} />
+        <RealTimeChart2 series={[{data: series2}]}/>
         <RealTimeChart3 />
       </div>
       {/* Create a main component that renders charts or settings, etc. */}

@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-
-
-
 class RealTimeChart extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      series: [{ data: props.series }],
+      series: [{ data: props.series }, { data: props.series2 }],
       options: {
         chart: {
           id: 'realtime',
-          height: 350,
+          height: '100%',
+          width: '100%',
           type: 'line',
           animations: {
             enabled: true,
@@ -44,7 +42,7 @@ class RealTimeChart extends React.Component {
         },
         xaxis: {
           type: 'datetime',
-          range: 300000, 
+          range: 300000,
         },
         yaxis: {
           min: 0,

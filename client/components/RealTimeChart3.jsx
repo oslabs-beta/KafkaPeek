@@ -4,7 +4,8 @@ import Chart from 'react-apexcharts';
 const RealTimeChart3 = () => {
   const [options, setOptions] = useState({
     chart: {
-      height: 350,
+      height: '100%',
+      width: '100%',
       type: 'line',
       zoom: {
         enabled: false,

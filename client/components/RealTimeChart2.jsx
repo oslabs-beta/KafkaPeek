@@ -9,11 +9,12 @@ class RealTimeChart2 extends React.Component {
     super(props);
 
     this.state = {
-      series: [{ data: props.series2 }],
+      series: [{ data: props.series }],
       options: {
         chart: {
           id: 'realtime',
-          height: 350,
+          height: '100%',
+          width: '100%',
           type: 'line',
           animations: {
             enabled: true,
@@ -77,7 +78,7 @@ class RealTimeChart2 extends React.Component {
       <div id='chart-container-2'>
         <ReactApexChart
           options={this.state.options}
-          series={this.props.series2}
+          series={this.props.series}
           type='line'
           height={350}
         />
