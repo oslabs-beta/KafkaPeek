@@ -30,13 +30,13 @@ class RealTimeChart extends React.Component {
           },
         },
         dataLabels: {
-          enabled: true,
+          enabled: false,
         },
         stroke: {
           curve: 'smooth',
         },
         title: {
-          text: `${props.categories}`,
+          text: ``,
           align: 'left',
         },
         markers: {
@@ -77,7 +77,7 @@ class RealTimeChart extends React.Component {
       <div id='chart-container'>
         <ReactApexChart
           options={this.state.options}
-          series={this.state.series}
+          series={this.props.series}
           type='line'
           height={350}
         />
