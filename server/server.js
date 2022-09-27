@@ -53,12 +53,12 @@ io.on('connection', (socket) => {
     setInterval(async () => {
       const fetchBytesIn = await fetchQuery(bytesInPerSec[0], bytesInPerSec[1]);
       const fetchBytesOut = await fetchQuery(bytesOutPerSec[0],bytesOutPerSec[1]);
-      // const fetchMessagesIn = await fetchQuery(messagesInPerSec[0], messagesInPerSec[1]);
+      const fetchMessagesIn = await fetchQuery(messagesInPerSec[0], messagesInPerSec[1]);
       // const fetchactiveControllerCount = await fetchQuery(activeControllerCount[0],activeControllerCount[1]);
       socket.emit('rate',{
         bytesInPerSec: fetchBytesIn,
-        bytesOutPerSec: fetchBytesOut
-        // messagesInPerSec: fetchMessagesIn,
+        bytesOutPerSec: fetchBytesOut,
+        messagesInPerSec: fetchMessagesIn,
         // activeControllerCount: fetchactiveControllerCount
       })
     }, 1000);
