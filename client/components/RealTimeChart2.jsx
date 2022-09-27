@@ -4,12 +4,12 @@ import ReactApexChart from 'react-apexcharts';
 
 
 
-class RealTimeChart extends React.Component {
+class RealTimeChart2 extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      series: [{ data: props.series }],
+      series: [{ data: props.series2 }],
       options: {
         chart: {
           id: 'realtime',
@@ -74,10 +74,10 @@ class RealTimeChart extends React.Component {
 
   render() {
     return (
-      <div id='chart-container'>
+      <div id='chart-container-2'>
         <ReactApexChart
           options={this.state.options}
-          series={this.props.series}
+          series={this.props.series2}
           type='line'
           height={350}
         />
@@ -86,4 +86,4 @@ class RealTimeChart extends React.Component {
   }
 }
 
-export default RealTimeChart;
+export default RealTimeChart2;
