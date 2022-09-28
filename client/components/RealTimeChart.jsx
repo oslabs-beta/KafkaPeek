@@ -34,7 +34,7 @@ class RealTimeChart extends React.Component {
           curve: 'smooth',
         },
         title: {
-          text: ``,
+          text: `BytesInPerSec`,
           align: 'left',
         },
         markers: {

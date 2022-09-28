@@ -13,7 +13,7 @@ const socket = io('http://localhost:4000');
 socket.emit('rate', {
   "bytesInPerSec": ["kafka_server_broker_topic_metrics_bytesinpersec_rate",""],
   "bytesOutPerSec": ["kafka_server_broker_topic_metrics_bytesoutpersec_rate",""],
-//   "messagesInPerSec": ["kafka_server_broker_topic_metrics_messagesinpersec_rate",""],
+//"messagesInPerSec": ["kafka_server_broker_topic_metrics_messagesinpersec_rate",""],
   "activeControllerCount": ["sum(kafka_controller_activecontrollercount)",""]
   })
 
