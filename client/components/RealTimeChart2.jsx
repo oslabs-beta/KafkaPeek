@@ -9,11 +9,12 @@ class RealTimeChart2 extends React.Component {
     super(props);
 
     this.state = {
-      series: [{ data: props.series2 }],
+      series: [{ data: props.series }],
       options: {
         chart: {
           id: 'realtime',
-          height: 350,
+          height: '100%',
+          width: '100%',
           type: 'line',
           animations: {
             enabled: true,
@@ -23,7 +24,7 @@ class RealTimeChart2 extends React.Component {
             },
           },
           toolbar: {
-            show: false,
+            show: true,
           },
           zoom: {
             enabled: false,
@@ -36,50 +37,55 @@ class RealTimeChart2 extends React.Component {
           curve: 'smooth',
         },
         title: {
-          text: ``,
+          text: 'Messages In Per Second',
           align: 'left',
         },
+        
         markers: {
           size: 0,
+          hover: {
+            size: 0
+          }
         },
+        
         xaxis: {
           type: 'datetime',
           range: 300000, 
         },
         yaxis: {
           min: 0,
-          max: 2500,
+          max: 500,
+          decimalsInFloat: 2,
+          opposite: true,
+          labels: {
+            offsetX: -10
+          }
         },
         legend: {
-          show: false,
+          show: true,
+          floating: true,
+          horizontalAlign: 'left',
+          onItemClick: {
+            toggleDataSeries: false
+          },
+          position: 'top',
+          offsetY: -20,
+          offsetX: 300
         },
+        
       },
     };
   }
-
-  // componentDidUpdate() {
-  //   // window.setInterval(() => {
-  //   //   getNewSeries(lastDate, {
-  //   //     min: 10,
-  //   //     max: 90,
-  //   //   }); // socket.io data
-
-  //   ApexCharts.exec('realtime', 'updateSeries', [
-  //     {
-  //       data: props.series,
-  //     },
-  //   ]);
-  //   // }, 1000);
-  // }
 
   render() {
     return (
       <div id='chart-container-2'>
         <ReactApexChart
           options={this.state.options}
-          series={this.props.series2}
+          series={this.props.series}
           type='line'
-          height={350}
+          height={'100%'}
+          width={'100%'}
         />
       </div>
     );

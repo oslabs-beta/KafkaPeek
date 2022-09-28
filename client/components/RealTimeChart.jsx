@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-
-
-
 class RealTimeChart extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      series: [{ data: props.series }],
+      series: [{ 
+        name: 'Bytes In/sec',
+        data: props.series 
+      }, {
+        name: 'Bytes Out/sec',
+        data: props.series
+      }],
       options: {
         chart: {
           id: 'realtime',
-          height: 350,
+          height: '100%',
+          width: '100%',
           type: 'line',
           animations: {
             enabled: true,
@@ -23,7 +27,7 @@ class RealTimeChart extends React.Component {
             },
           },
           toolbar: {
-            show: false,
+            show: true,
           },
           zoom: {
             enabled: false,
@@ -36,23 +40,46 @@ class RealTimeChart extends React.Component {
           curve: 'smooth',
         },
         title: {
-          text: ``,
+          text: 'Bytes In/sec & Bytes Out/sec',
           align: 'left',
         },
+
+        noData: {
+          text: "Loading data...",
+        },
+        
         markers: {
           size: 0,
+          hover: {
+            size: 0
+          }
         },
+        
         xaxis: {
           type: 'datetime',
-          range: 300000, 
+          range: 300000,
         },
         yaxis: {
           min: 0,
           max: 2500,
+          decimalsInFloat: 2,
+          opposite: true,
+          labels: {
+            offsetX: -10
+          }
         },
         legend: {
-          show: false,
+          show: true,
+          floating: true,
+          horizontalAlign: 'left',
+          onItemClick: {
+            toggleDataSeries: false
+          },
+          position: 'top',
+          offsetY: -20,
+          offsetX: 300
         },
+        
       },
     };
   }
@@ -79,7 +106,8 @@ class RealTimeChart extends React.Component {
           options={this.state.options}
           series={this.props.series}
           type='line'
-          height={350}
+          height={'100%'}
+          width={'100%'}
         />
       </div>
     );
