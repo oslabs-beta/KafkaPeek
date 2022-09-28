@@ -43,6 +43,10 @@ class RealTimeChart extends React.Component {
           text: 'Bytes In/sec & Bytes Out/sec',
           align: 'left',
         },
+
+        noData: {
+          text: "Loading data...",
+        },
         
         markers: {
           size: 0,

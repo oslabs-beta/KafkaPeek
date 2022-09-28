@@ -34,16 +34,16 @@ app.get('/dist/bundle.js', (req,res,next)=>{
 
 //--------define parameters to query on websocket---------
 
-const params = {
-  bytesInPerSec: ['kafka_server_broker_topic_metrics_bytesinpersec_rate',''],
-  bytesOutPerSec: ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
-  messagesInPerSec: ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
-  jvmHeapUsage: ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
-  activeControllerCount: ['sum(kafka_controller_activecontrollercount)',''],
-  underRepPartitions: ['kafka_server_replica_manager_underreplicatedpartitions',''],
-  offlinePartions: ['kafka_controller_offlinepartitionscount',''],
-  brokersRunning: ['count(kafka_server_brokerstate)','']
-}
+// const params = {
+//   bytesInPerSec: ['kafka_server_broker_topic_metrics_bytesinpersec_rate',''],
+//   bytesOutPerSec: ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
+//   messagesInPerSec: ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
+//   jvmHeapUsage: ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
+//   activeControllerCount: ['sum(kafka_controller_activecontrollercount)',''],
+//   underRepPartitions: ['kafka_server_replica_manager_underreplicatedpartitions',''],
+//   offlinePartitions: ['kafka_controller_offlinepartitionscount',''],
+//   brokersRunning: ['count(kafka_server_brokerstate)','']
+// }
 
 //--------initialize socket.io connection to front end-------
 

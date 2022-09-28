@@ -37,7 +37,7 @@ class RealTimeChart3 extends React.Component {
           curve: 'smooth',
         },
         title: {
-          text: 'JVM Heap Usage (in Millions)',
+          text: 'JVM Heap Usage MB',
           align: 'left',
         },
         
