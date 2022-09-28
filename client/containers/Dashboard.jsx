@@ -11,11 +11,14 @@ import { io } from "socket.io-client";
 
 const socket = io('http://localhost:4000');
 socket.emit('rate', {
-  "bytesInPerSec": ["kafka_server_broker_topic_metrics_bytesinpersec_rate",""],
-  "bytesOutPerSec": ["kafka_server_broker_topic_metrics_bytesoutpersec_rate",""],
-  "messagesInPerSec": ["kafka_server_broker_topic_metrics_messagesinpersec_rate",""],
-//   "activeControllerCount": ["sum(kafka_controller_activecontrollercount)",""]
-  })
+  'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate',''],
+  'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
+  'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
+  'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
+  'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
+  'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
+  'offlineParitions': ['kafka_controller_offlinepartitionscount','']
+})
 
 const Dashboard = ({ active, setActive }) => {
   // const [categories, setCategories] = useState(''); //title 
@@ -54,9 +57,13 @@ const Dashboard = ({ active, setActive }) => {
     <div id='dashboard-container'>
       <Sidebar active={active} setActive={setActive} />
       <div id='dashboard-charts'>
+        <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={1}/>
+        <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={2}/>
+        <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={3} />
+        <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={3}/>
         <RealTimeChart series={[{name: 'Bytes In/sec', data: bytesIn},{name: 'Bytes Out/sec', data: bytesOut}]} />
         <RealTimeChart2 series={[{data: msgsIn}]}/>
-        <RealTimeChart3 />
+
       </div>
       {/* Create a main component that renders charts or settings, etc. */}
     </div>
