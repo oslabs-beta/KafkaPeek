@@ -18,13 +18,13 @@
 
     display: grid;
     align-items: center;
-    padding: .5rem;
+    padding: 1rem;
     justify-content: center;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: .5fr 4fr 3fr;
-    grid-gap: .5rem;
+    grid-gap: 1rem;
     grid-template-areas:
-      'metric metric-2 metric-3 metric-3'
+      'metric metric-2 metric-3 metric-4'
       'chart chart chart chart'
       'chart-2 chart-2 chart-3 chart-3';
     // background-color: rgb(197, 166, 108);
@@ -49,7 +49,7 @@
       background-color: white; 
       box-shadow: 0 0 5px $secondaryColor;
       border-radius: 1rem;
-      padding:10px;
+      padding: 10px;
     }
 
     #metric-container-3 {
@@ -59,7 +59,17 @@
       background-color: white; 
       box-shadow: 0 0 5px $secondaryColor;
       border-radius: 1rem;
-      padding:10px;
+      padding: 10px;
+    }
+
+    #metric-container-4 {
+      width: 100%;
+      height: 100%;
+      grid-area: metric-4;
+      background-color: white; 
+      box-shadow: 0 0 5px $secondaryColor;
+      border-radius: 1rem;
+      padding: 10px;
     }
 
     #chart-container {
@@ -69,7 +79,7 @@
       background-color: white;
       box-shadow: 0 0 5px $secondaryColor;
       border-radius: 1rem;
-      padding:10px;
+      padding: 10px;
     }
 
     #chart-container-2 {
@@ -79,7 +89,7 @@
       background-color: white; 
       box-shadow: 0 0 5px $secondaryColor;
       border-radius: 1rem;
-      padding:10px;
+      padding: 10px;
     }
 
     #chart-container-3 {
@@ -89,7 +99,7 @@
       background-color: white; 
       box-shadow: 0 0 5px $secondaryColor;
       border-radius: 1rem;
-      padding:10px;
+      padding: 10px;
     }
   }
 }

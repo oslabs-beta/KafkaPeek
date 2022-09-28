@@ -37,7 +37,7 @@ class RealTimeChart3 extends React.Component {
           curve: 'smooth',
         },
         title: {
-          text: 'JVM Heap Usage',
+          text: 'JVM Heap Usage (in Millions)',
           align: 'left',
         },
         
@@ -54,7 +54,7 @@ class RealTimeChart3 extends React.Component {
         },
         yaxis: {
           min: 0,
-          max: 500,
+          max: 1500,
           decimalsInFloat: 2,
           opposite: true,
           labels: {
@@ -76,21 +76,6 @@ class RealTimeChart3 extends React.Component {
       },
     };
   }
-
-  // componentDidUpdate() {
-  //   // window.setInterval(() => {
-  //   //   getNewSeries(lastDate, {
-  //   //     min: 10,
-  //   //     max: 90,
-  //   //   }); // socket.io data
-
-  //   ApexCharts.exec('realtime', 'updateSeries', [
-  //     {
-  //       data: props.series,
-  //     },
-  //   ]);
-  //   // }, 1000);
-  // }
 
   render() {
     return (

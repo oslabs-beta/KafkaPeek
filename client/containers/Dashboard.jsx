@@ -17,19 +17,25 @@ socket.emit('rate', {
   'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
   'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
   'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
-  'offlineParitions': ['kafka_controller_offlinepartitionscount','']
+  'offlinePartions': ['kafka_controller_offlinepartitionscount',''],
+  'brokersRunning': ['count(kafka_server_brokerstate)','']
 })
 
 const Dashboard = ({ active, setActive }) => {
-  // const [categories, setCategories] = useState(''); //title 
+  //Dynamic Metrics
   const [bytesIn, setBytesIn] = useState([]);
   const [bytesOut, setBytesOut] = useState([]);
   const [msgsIn, setMsgsIn] = useState([]);
   const [jvmUsage, setJvmUsage] = useState([]);
-  // const [activeControllerCount, setActiveControllerCount] = useState(0);
+  //Static Metrics
+  const [activeControllerCount, setActiveControllerCount] = useState(0);
+  // const [offlinePartitions, setOfflinePartitions] = useState(0);
+  // const [underReplicatedPartitions, setUnderReplicatedPartitions] = useState(0);
+  const [brokersRunning, setBrokersRunning] = useState(0);
 
   useEffect(() => {
     socket.on('rate', (data) => {
+      // console.log("BROKER I", data)
       const binSeries = [];
       let binTime = (data.bytesInPerSec.value[0] - 14400) * 1000;
       let binBytes = parseInt(data.bytesInPerSec.value[1]);
@@ -49,12 +55,25 @@ const Dashboard = ({ active, setActive }) => {
       setMsgsIn(currentData => [...currentData, msgInSeries]);
     
       const jvmSeries = []; 
-      let jvmTime = (data.jvmHeapUsage.value[0] - 14400) *1000;
-      let jvmBytes = parseInt(data.jvmHeapUsage.value[1]);
+      let jvmTime = (data.jvmHeapUsage.value[0] - 14400) * 1000;
+      let jvmBytes = parseInt(data.jvmHeapUsage.value[1] / 1000000);
       jvmSeries.push(jvmTime, jvmBytes);
       setJvmUsage(currentData => [...currentData, jvmSeries]);  
 
-     })
+      const activeControllerCount = parseInt(data.activeControllerCount.value[1]);
+      setActiveControllerCount(activeControllerCount)
+
+      // const offlinePartitions = parseInt(data.offlinePartitions.value[1]);
+      // setOfflinePartitions(offlinePartitions)
+
+      // const underReplicatedPartitions = parseInt(data.underReplicatedPartitions.value[1]);
+      // setUnderReplicatedPartitions(underReplicatedPartitions)
+
+      // console.log("BROKER II", data.brokersRunning)
+      const brokersRunning = parseInt(data.brokersRunning.value[1]);
+      setBrokersRunning(brokersRunning)
+
+     }) 
   }, []);
 
      
@@ -67,8 +86,8 @@ const Dashboard = ({ active, setActive }) => {
       <Sidebar active={active} setActive={setActive} />
       <div id='dashboard-charts'>
         <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={1}/>
-        <StaticMetricDisplay metric={offlinePartitions} title={"Offline Partitions"} container={2}/>
-        <StaticMetricDisplay metric={underReplicatedPartitions} title={"Under Replicated Partitions"} container={3} />
+        {/* <StaticMetricDisplay metric={offlinePartitions} title={"Offline Partitions"} container={2}/>
+        <StaticMetricDisplay metric={underReplicatedPartitions} title={"Under Replicated Partitions"} container={3} /> */}
         <StaticMetricDisplay metric={brokersRunning} title={"Brokers Running"} container={4}/>
         <RealTimeChart series={[{name: 'Bytes In Per Sec', data: bytesIn},{name: 'Bytes Out Per Sec', data: bytesOut}]} />
         <RealTimeChart2 series={[{name: 'Messages In Per Second', data: msgsIn}]}/>

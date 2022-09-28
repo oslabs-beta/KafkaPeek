@@ -77,21 +77,6 @@ class RealTimeChart2 extends React.Component {
     };
   }
 
-  // componentDidUpdate() {
-  //   // window.setInterval(() => {
-  //   //   getNewSeries(lastDate, {
-  //   //     min: 10,
-  //   //     max: 90,
-  //   //   }); // socket.io data
-
-  //   ApexCharts.exec('realtime', 'updateSeries', [
-  //     {
-  //       data: props.series,
-  //     },
-  //   ]);
-  //   // }, 1000);
-  // }
-
   render() {
     return (
       <div id='chart-container-2'>

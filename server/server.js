@@ -39,9 +39,10 @@ const params = {
   bytesOutPerSec: ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
   messagesInPerSec: ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
   jvmHeapUsage: ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
-  activeControllerCount: ["sum(kafka_controller_activecontrollercount)",""],
+  activeControllerCount: ['sum(kafka_controller_activecontrollercount)',''],
   underRepPartitions: ['kafka_server_replica_manager_underreplicatedpartitions',''],
-  offlineParitions: ['kafka_controller_offlinepartitionscount','']
+  offlinePartions: ['kafka_controller_offlinepartitionscount',''],
+  brokersRunning: ['count(kafka_server_brokerstate)','']
 }
 
 //--------initialize socket.io connection to front end-------
