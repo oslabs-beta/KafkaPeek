@@ -6,7 +6,13 @@ class RealTimeChart extends React.Component {
     super(props);
 
     this.state = {
-      series: [{ data: props.series }, { data: props.series2 }],
+      series: [{ 
+        name: 'Bytes In/sec',
+        data: props.series 
+      }, {
+        name: 'Bytes Out/sec',
+        data: props.series
+      }],
       options: {
         chart: {
           id: 'realtime',
@@ -21,7 +27,7 @@ class RealTimeChart extends React.Component {
             },
           },
           toolbar: {
-            show: false,
+            show: true,
           },
           zoom: {
             enabled: false,
@@ -34,12 +40,17 @@ class RealTimeChart extends React.Component {
           curve: 'smooth',
         },
         title: {
-          text: `BytesInPerSec`,
+          text: 'Bytes In/sec & Bytes Out/sec',
           align: 'left',
         },
+        
         markers: {
           size: 0,
+          hover: {
+            size: 0
+          }
         },
+        
         xaxis: {
           type: 'datetime',
           range: 300000,
@@ -47,10 +58,24 @@ class RealTimeChart extends React.Component {
         yaxis: {
           min: 0,
           max: 2500,
+          decimalsInFloat: 2,
+          opposite: true,
+          labels: {
+            offsetX: -10
+          }
         },
         legend: {
-          show: false,
+          show: true,
+          floating: true,
+          horizontalAlign: 'left',
+          onItemClick: {
+            toggleDataSeries: false
+          },
+          position: 'top',
+          offsetY: -20,
+          offsetX: 300
         },
+        
       },
     };
   }
