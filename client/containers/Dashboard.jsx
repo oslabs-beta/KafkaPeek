@@ -18,6 +18,8 @@ socket.emit('rate', {
   'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
   'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
   'offlineParitions': ['kafka_controller_offlinepartitionscount','']
+  
+
 })
 
 const Dashboard = ({ active, setActive }) => {
@@ -49,21 +51,31 @@ const Dashboard = ({ active, setActive }) => {
       msgInSeries.push(msgInTime, msgInBytes)
       setMsgsIn(currentData => [...currentData, msgInSeries])
     
+      const jvmSeries = []; 
+      let temp1 = (data.jvmHeapUsage.value[0] - 14400) *1000;
+      let temp2 = parseInt(data.jvmHeapUsage.value[1]);
+      jvmSeries.push(temp1, temp2);
+      setJvmHeapUsage(currentData => [...currentData, jvmSeries]);  
+
      })
   }, []);
 
+     
+          
 
+
+ 
   return (
     <div id='dashboard-container'>
       <Sidebar active={active} setActive={setActive} />
       <div id='dashboard-charts'>
         <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={1}/>
-        <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={2}/>
-        <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={3} />
-        <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={3}/>
-        <RealTimeChart series={[{name: 'Bytes In/sec', data: bytesIn},{name: 'Bytes Out/sec', data: bytesOut}]} />
-        <RealTimeChart2 series={[{data: msgsIn}]}/>
-
+        <StaticMetricDisplay metric={offlinePartitions} title={"Offline Partitions"} container={2}/>
+        <StaticMetricDisplay metric={underReplicatedPartitions} title={"Under Replicated Partitions"} container={3} />
+        <StaticMetricDisplay metric={brokersRunning} title={"Brokers Running"} container={4}/>
+        <RealTimeChart series={[{name: 'Bytes In Per Sec', data: bytesIn},{name: 'Bytes Out Per Sec', data: bytesOut}]} />
+        <RealTimeChart2 series={[{name: 'Messages In Per Second', data: msgsIn}]}/>
+        <RealTimeChart3 series={[{data: jvmHeapUsage}]}/>
       </div>
       {/* Create a main component that renders charts or settings, etc. */}
     </div>

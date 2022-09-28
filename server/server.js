@@ -35,33 +35,52 @@ app.get('/dist/bundle.js', (req,res,next)=>{
 //--------define parameters to query on websocket---------
 
 const params = {
-  1: ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[5m:5s]'],
-  2: ['kafka_server_broker_topic_metrics_bytesoutpersec_rate','[5m:5s]'],
-  3: ['kafka_server_broker_topic_metrics_messagesinpersec_rate','[5m:5s]'],
-  4: ['sum(kafka_server_broker_topic_metrics_messagesinpersec_rate) by(topic)', '[5m:5s]'],
-  5: ["sum(kafka_controller_activecontrollercount)",""],
+  bytesInPerSec: ['kafka_server_broker_topic_metrics_bytesinpersec_rate',''],
+  bytesOutPerSec: ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
+  messagesInPerSec: ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
+  activeControllerCount: ["sum(kafka_controller_activecontrollercount)",""],
+  jvmHeapUsage: ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
+  underRepPartitions: ['kafka_server_replica_manager_underreplicatedpartitions',''],
+  offlineParitions: ['kafka_controller_offlinepartitionscount','']
 }
 
 //--------initialize socket.io connection to front end-------
+
+// {
+//   "bytesInPerSec": ["kafka_server_broker_topic_metrics_bytesinpersec_rate",""],
+//   "bytesOutPerSec": ["kafka_server_broker_topic_metrics_bytesoutpersec_rate",""],
+//   "messagesInPerSec": ["kafka_server_broker_topic_metrics_messagesinpersec_rate",""],
+//   "activeControllerCount": ["sum(kafka_controller_activecontrollercount)",""]
+//   }
 
 io.on('connection', (socket) => {
   console.log('a new user connected');
   //emit fetch request every 5 seconds
   socket.on('rate', (args) => {
-    const { bytesInPerSec, bytesOutPerSec, messagesInPerSec, activeControllerCount } = args;
-    // console.log(bytesInPerSec, bytesOutPerSec)
+
+
     setInterval(async () => {
-      const fetchBytesIn = await fetchQuery(bytesInPerSec[0], bytesInPerSec[1]);
-      const fetchBytesOut = await fetchQuery(bytesOutPerSec[0],bytesOutPerSec[1]);
-      const fetchMessagesIn = await fetchQuery(messagesInPerSec[0], messagesInPerSec[1]);
-      const fetchactiveControllerCount = await fetchQuery(activeControllerCount[0],activeControllerCount[1]);
-      socket.emit('rate',{
-        bytesInPerSec: fetchBytesIn,
-        bytesOutPerSec: fetchBytesOut,
-        messagesInPerSec: fetchMessagesIn,
-        activeControllerCount: fetchactiveControllerCount
-      })
+      const fetchObj = {};
+      for(const [k , v] of Object.entries(args)) {
+        fetchObj[k] = await fetchQuery(v[0],v[1]);
+      }
+      
+      socket.emit('rate',fetchObj)
     }, 1000);
+    // const { bytesInPerSec, bytesOutPerSec, messagesInPerSec, activeControllerCount } = args;
+    // // console.log(bytesInPerSec, bytesOutPerSec)
+    // setInterval(async () => {
+    //   const fetchBytesIn = await fetchQuery(bytesInPerSec[0], bytesInPerSec[1]);
+    //   const fetchBytesOut = await fetchQuery(bytesOutPerSec[0],bytesOutPerSec[1]);
+    //   const fetchMessagesIn = await fetchQuery(messagesInPerSec[0], messagesInPerSec[1]);
+    //   const fetchactiveControllerCount = await fetchQuery(activeControllerCount[0],activeControllerCount[1]);
+    //   socket.emit('rate',{
+    //     bytesInPerSec: fetchBytesIn,
+    //     bytesOutPerSec: fetchBytesOut,
+    //     messagesInPerSec: fetchMessagesIn,
+    //     activeControllerCount: fetchactiveControllerCount
+    //   })
+    // }, 1000);
   })
   
   //log message on disconnect

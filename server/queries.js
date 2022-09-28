@@ -15,8 +15,10 @@ const fetchQuery = async (query, timeFrame) => {
                 return data.data.data.result[0];
             case ('sum(kafka_controller_activecontrollercount)'):
                 return data.data.data.result[0];
+            case ('kafka_jvm_heap_usage{env="cluster-demo'):
+                return data.data.data.result[0];
             default:
-                return data;
+                return data.data.data.result[0];
         }
     } catch (err) {
         console.log(`Error in ${query}, err: ${err}`)
