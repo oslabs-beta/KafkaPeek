@@ -14,12 +14,10 @@ socket.emit('rate', {
   'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate',''],
   'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
   'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
-  'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
   'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
+  'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
   'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
   'offlineParitions': ['kafka_controller_offlinepartitionscount','']
-  
-
 })
 
 const Dashboard = ({ active, setActive }) => {
@@ -27,35 +25,34 @@ const Dashboard = ({ active, setActive }) => {
   const [bytesIn, setBytesIn] = useState([]);
   const [bytesOut, setBytesOut] = useState([]);
   const [msgsIn, setMsgsIn] = useState([]);
-  const [activeControllerCount, setActiveControllerCount] = useState(0);
+  const [jvmUsage, setJvmUsage] = useState([]);
+  // const [activeControllerCount, setActiveControllerCount] = useState(0);
 
   useEffect(() => {
     socket.on('rate', (data) => {
-      // console.log('logged into the useEffect: socket on')
-      // console.log('guess what?', data.bytesInPerSec.value)
       const binSeries = [];
-      let binTime = (data.bytesInPerSec.value[0] - 14400) * 1000
-      let binBytes = parseInt(data.bytesInPerSec.value[1])
-      binSeries.push(binTime, binBytes)
-      setBytesIn(currentData => [...currentData, binSeries])
+      let binTime = (data.bytesInPerSec.value[0] - 14400) * 1000;
+      let binBytes = parseInt(data.bytesInPerSec.value[1]);
+      binSeries.push(binTime, binBytes);
+      setBytesIn(currentData => [...currentData, binSeries]);
 
       const boutSeries = [];
-      let boutTime = (data.bytesOutPerSec.value[0] - 14400) * 1000
-      let boutBytes = parseInt(data.bytesOutPerSec.value[1])
-      boutSeries.push(boutTime, boutBytes)
-      setBytesOut(currentData => [...currentData, boutSeries])
+      let boutTime = (data.bytesOutPerSec.value[0] - 14400) * 1000;
+      let boutBytes = parseInt(data.bytesOutPerSec.value[1]);
+      boutSeries.push(boutTime, boutBytes);
+      setBytesOut(currentData => [...currentData, boutSeries]);
 
       const msgInSeries = [];
-      let msgInTime = (data.messagesInPerSec.value[0] - 14400) * 1000
-      let msgInBytes = parseInt(data.messagesInPerSec.value[1])
-      msgInSeries.push(msgInTime, msgInBytes)
-      setMsgsIn(currentData => [...currentData, msgInSeries])
+      let msgInTime = (data.messagesInPerSec.value[0] - 14400) * 1000;
+      let msgInBytes = parseInt(data.messagesInPerSec.value[1]);
+      msgInSeries.push(msgInTime, msgInBytes);
+      setMsgsIn(currentData => [...currentData, msgInSeries]);
     
       const jvmSeries = []; 
-      let temp1 = (data.jvmHeapUsage.value[0] - 14400) *1000;
-      let temp2 = parseInt(data.jvmHeapUsage.value[1]);
-      jvmSeries.push(temp1, temp2);
-      setJvmHeapUsage(currentData => [...currentData, jvmSeries]);  
+      let jvmTime = (data.jvmHeapUsage.value[0] - 14400) *1000;
+      let jvmBytes = parseInt(data.jvmHeapUsage.value[1]);
+      jvmSeries.push(jvmTime, jvmBytes);
+      setJvmUsage(currentData => [...currentData, jvmSeries]);  
 
      })
   }, []);
@@ -75,7 +72,7 @@ const Dashboard = ({ active, setActive }) => {
         <StaticMetricDisplay metric={brokersRunning} title={"Brokers Running"} container={4}/>
         <RealTimeChart series={[{name: 'Bytes In Per Sec', data: bytesIn},{name: 'Bytes Out Per Sec', data: bytesOut}]} />
         <RealTimeChart2 series={[{name: 'Messages In Per Second', data: msgsIn}]}/>
-        <RealTimeChart3 series={[{data: jvmHeapUsage}]}/>
+        <RealTimeChart3 series={[{name: 'JVM Heap Usage', data: jvmUsage}]}/>
       </div>
       {/* Create a main component that renders charts or settings, etc. */}
     </div>
