@@ -80,7 +80,8 @@ class RealTimeChart2 extends React.Component {
           options={this.state.options}
           series={this.props.series}
           type='line'
-          height={350}
+          height={'100%'}
+          width={'100%'}
         />
       </div>
     );

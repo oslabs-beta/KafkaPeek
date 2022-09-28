@@ -50,7 +50,13 @@ const RealTimeChart3 = () => {
 
   return (
     <div id='chart-container-3'>
-      <Chart options={options} series={series} type='line' height={'100%'} />
+      <Chart
+        options={options}
+        series={series}
+        type='line'
+        height={'100%'}
+        width={'100%'}
+      />
     </div>
   );
 };
