@@ -10,11 +10,14 @@ import { io } from "socket.io-client";
 
 const socket = io('http://localhost:4000');
 socket.emit('rate', {
-  "bytesInPerSec": ["kafka_server_broker_topic_metrics_bytesinpersec_rate",""],
-  "bytesOutPerSec": ["kafka_server_broker_topic_metrics_bytesoutpersec_rate",""],
-//   "messagesInPerSec": ["kafka_server_broker_topic_metrics_messagesinpersec_rate",""],
-//   "activeControllerCount": ["sum(kafka_controller_activecontrollercount)",""]
-  })
+  'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate',''],
+  'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
+  'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
+  'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
+  'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
+  'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
+  'offlineParitions': ['kafka_controller_offlinepartitionscount','']
+})
 
 const Dashboard = ({ active, setActive }) => {
   // const [categories, setCategories] = useState(''); //title 
@@ -25,6 +28,7 @@ const Dashboard = ({ active, setActive }) => {
   useEffect(() => {
     console.log('inside useEffect')
     socket.on('rate', (data) => {
+      
       // console.log('logged into the useEffect: socket on')
       // console.log('guess what?', data.bytesInPerSec.value)
       const transformedSeries = [];
@@ -38,7 +42,10 @@ const Dashboard = ({ active, setActive }) => {
       let bytes2 = parseInt(data.bytesOutPerSec.value[1])
       transformedSeries2.push(time2,bytes2)
       setSeries2(currentData => [...currentData, transformedSeries2])
-
+      console.log(data.messagesInPerSec.value,'<-- messages')
+      console.log(data.jvmHeapUsage.value,'<-- JVMHEAP')
+      console.log(data.underRepPartitions.value, '<-- underRepPartitions')
+      console.log(data.offlineParitions.value, '<-- offlinepartitions')
      })
   }, []);
 
