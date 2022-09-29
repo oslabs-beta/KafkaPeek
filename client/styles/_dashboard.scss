@@ -1,0 +1,105 @@
+#dashboard-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-rows: 1fr 4fr 4fr;
+  grid-template-areas:
+    'sidebar main main'
+    'sidebar main main'
+    'sidebar main main';
+
+  #dashboard-charts {
+    width: 100%;
+    height: 100%;
+    grid-area: main;
+
+    display: grid;
+    align-items: center;
+    padding: 1rem;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: .5fr 4fr 3fr;
+    grid-gap: 1rem;
+    grid-template-areas:
+      'metric metric-2 metric-3 metric-4'
+      'chart chart chart chart'
+      'chart-2 chart-2 chart-3 chart-3';
+    // background-color: rgb(197, 166, 108);
+ 
+    #metric-container-1 {
+      width: 100%;
+      height: 100%;
+      grid-area: metric;
+      background-color: white;  
+      box-shadow: 0 0 5px $secondaryColor;
+      border-radius: 1rem;
+      padding: 10px;
+      &:hover { 
+        background-color:aliceblue
+      }
+    }
+
+    #metric-container-2 {
+      width: 100%;
+      height: 100%;
+      grid-area: metric-2;
+      background-color: white; 
+      box-shadow: 0 0 5px $secondaryColor;
+      border-radius: 1rem;
+      padding: 10px;
+    }
+
+    #metric-container-3 {
+      width: 100%;
+      height: 100%;
+      grid-area: metric-3;
+      background-color: white; 
+      box-shadow: 0 0 5px $secondaryColor;
+      border-radius: 1rem;
+      padding: 10px;
+    }
+
+    #metric-container-4 {
+      width: 100%;
+      height: 100%;
+      grid-area: metric-4;
+      background-color: white; 
+      box-shadow: 0 0 5px $secondaryColor;
+      border-radius: 1rem;
+      padding: 10px;
+    }
+
+    #chart-container {
+      width: 100%;
+      height: 100%;
+      grid-area: chart;
+      background-color: white;
+      box-shadow: 0 0 5px $secondaryColor;
+      border-radius: 1rem;
+      padding: 10px;
+    }
+
+    #chart-container-2 {
+      width: 100%;
+      height: 100%;
+      grid-area: chart-2;
+      background-color: white; 
+      box-shadow: 0 0 5px $secondaryColor;
+      border-radius: 1rem;
+      padding: 10px;
+    }
+
+    #chart-container-3 {
+      width: 100%;
+      height: 100%;
+      grid-area: chart-3;
+      background-color: white; 
+      box-shadow: 0 0 5px $secondaryColor;
+      border-radius: 1rem;
+      padding: 10px;
+    }
+  }
+}
