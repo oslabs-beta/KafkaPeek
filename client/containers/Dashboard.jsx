@@ -10,16 +10,30 @@ import StaticMetricDisplay from '../components/StaticMetricDisplay';
 import { io } from "socket.io-client";
 
 const socket = io('http://localhost:4000');
-socket.emit('rate', {
-  'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate',''],
-  'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
-  'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
-  'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
-  'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
-  'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
-  'offlinePartitions': ['kafka_controller_offlinepartitionscount',''],
-  'brokersRunning': ['count(kafka_server_brokerstate)','']
-})
+
+const emitFunc = () => {
+  socket.emit('rate', {
+    'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[5m:10s]']
+    // 'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
+    // 'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
+    // 'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
+    // 'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
+    // 'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
+    // 'offlinePartitions': ['kafka_controller_offlinepartitionscount',''],
+    // 'brokersRunning': ['count(kafka_server_brokerstate)','']
+  })
+}
+setTimeout(emitFunc, 10000)
+// socket.emit('rate', {
+//   'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[5m:10s]']
+//   // 'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
+//   // 'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
+//   // 'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
+//   // 'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
+//   // 'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
+//   // 'offlinePartitions': ['kafka_controller_offlinepartitionscount',''],
+//   // 'brokersRunning': ['count(kafka_server_brokerstate)','']
+// })
 
 const Dashboard = ({ active, setActive }) => {
   //Dynamic Metrics
@@ -38,41 +52,43 @@ const Dashboard = ({ active, setActive }) => {
       // console.log("BROKER I", data)
       // console.log(data.underRepPartitions.value, '<-- underRepPartitions')
       // console.log(data.offlinePartitions.value, '<-- offlinepartitions')
-      const binSeries = [];
-      let binTime = (data.bytesInPerSec.value[0] - 14400) * 1000;
-      let binBytes = parseInt(data.bytesInPerSec.value[1]);
-      binSeries.push(binTime, binBytes);
-      setBytesIn(currentData => [...currentData, binSeries]);
+      console.log(data.bytesInPerSec)
+      setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])
+      // const binSeries = [];
+      // let binTime = (data.bytesInPerSec.value[0] - 14400) * 1000;
+      // let binBytes = parseInt(data.bytesInPerSec.value[1]);
+      // binSeries.push(binTime, binBytes);
+      // setBytesIn(currentData => [...currentData, binSeries]);
 
-      const boutSeries = [];
-      let boutTime = (data.bytesOutPerSec.value[0] - 14400) * 1000;
-      let boutBytes = parseInt(data.bytesOutPerSec.value[1]);
-      boutSeries.push(boutTime, boutBytes);
-      setBytesOut(currentData => [...currentData, boutSeries]);
+      // const boutSeries = [];
+      // let boutTime = (data.bytesOutPerSec.value[0] - 14400) * 1000;
+      // let boutBytes = parseInt(data.bytesOutPerSec.value[1]);
+      // boutSeries.push(boutTime, boutBytes);
+      // setBytesOut(currentData => [...currentData, boutSeries]);
 
-      const msgInSeries = [];
-      let msgInTime = (data.messagesInPerSec.value[0] - 14400) * 1000;
-      let msgInBytes = parseInt(data.messagesInPerSec.value[1]);
-      msgInSeries.push(msgInTime, msgInBytes);
-      setMsgsIn(currentData => [...currentData, msgInSeries]);
+      // const msgInSeries = [];
+      // let msgInTime = (data.messagesInPerSec.value[0] - 14400) * 1000;
+      // let msgInBytes = parseInt(data.messagesInPerSec.value[1]);
+      // msgInSeries.push(msgInTime, msgInBytes);
+      // setMsgsIn(currentData => [...currentData, msgInSeries]);
     
-      const jvmSeries = []; 
-      let jvmTime = (data.jvmHeapUsage.value[0] - 14400) * 1000;
-      let jvmBytes = parseInt(data.jvmHeapUsage.value[1] / 1000000);
-      jvmSeries.push(jvmTime, jvmBytes);
-      setJvmUsage(currentData => [...currentData, jvmSeries]);  
+      // const jvmSeries = []; 
+      // let jvmTime = (data.jvmHeapUsage.value[0] - 14400) * 1000;
+      // let jvmBytes = parseInt(data.jvmHeapUsage.value[1] / 1000000);
+      // jvmSeries.push(jvmTime, jvmBytes);
+      // setJvmUsage(currentData => [...currentData, jvmSeries]);  
 
-      const activeControllerCount = parseInt(data.activeControllerCount.value[1]);
-      setActiveControllerCount(activeControllerCount)
+      // const activeControllerCount = parseInt(data.activeControllerCount.value[1]);
+      // setActiveControllerCount(activeControllerCount)
 
-      const newInitialPartition = parseInt(data.offlinePartitions.value[1]);
-      if (newInitialPartition !== offlinePartitions) setOfflinePartitions(newInitialPartition);
+      // const newInitialPartition = parseInt(data.offlinePartitions.value[1]);
+      // if (newInitialPartition !== offlinePartitions) setOfflinePartitions(newInitialPartition);
  
-      const newUnderRep = parseInt(data.underRepPartitions.value[1]);
-      if (newUnderRep !== underReplicatedPartitions) setUnderReplicatedPartitions(newUnderRep);
+      // const newUnderRep = parseInt(data.underRepPartitions.value[1]);
+      // if (newUnderRep !== underReplicatedPartitions) setUnderReplicatedPartitions(newUnderRep);
 
-      const brokersRunning = parseInt(data.brokersRunning.value[1]);
-      setBrokersRunning(brokersRunning)
+      // const brokersRunning = parseInt(data.brokersRunning.value[1]);
+      // setBrokersRunning(brokersRunning)
 
      }) 
   }, []);

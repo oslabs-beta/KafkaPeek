@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import Dashboard from './Dashboard';
 
 const Landing = () => {
+  
   return (
     <div id='landing-container'>
       <Header />
