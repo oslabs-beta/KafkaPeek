@@ -13,27 +13,17 @@ const socket = io('http://localhost:4000');
 
 const emitFunc = () => {
   socket.emit('rate', {
-    'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[5m:10s]']
-    // 'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
-    // 'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
-    // 'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
+    'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[5m:10s]'],
+    'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate','[5m:10s]'],
+    'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate','[5m:10s]'],
+    'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}','[5m:10s]'],
     // 'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
     // 'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
     // 'offlinePartitions': ['kafka_controller_offlinepartitionscount',''],
     // 'brokersRunning': ['count(kafka_server_brokerstate)','']
   })
 }
-setTimeout(emitFunc, 10000)
-// socket.emit('rate', {
-//   'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[5m:10s]']
-//   // 'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
-//   // 'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
-//   // 'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
-//   // 'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
-//   // 'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
-//   // 'offlinePartitions': ['kafka_controller_offlinepartitionscount',''],
-//   // 'brokersRunning': ['count(kafka_server_brokerstate)','']
-// })
+setTimeout(emitFunc, 5000)
 
 const Dashboard = ({ active, setActive }) => {
   //Dynamic Metrics
@@ -54,6 +44,11 @@ const Dashboard = ({ active, setActive }) => {
       // console.log(data.offlinePartitions.value, '<-- offlinepartitions')
       console.log(data.bytesInPerSec)
       setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])
+      setBytesOut(currentData => [...currentData, ...data.bytesOutPerSec]);
+      setMsgsIn(currentData => [...currentData, ...data.messagesInPerSec]);
+      console.log('jvmHeapUsage', data)
+      let jvmDataParse = 
+      setJvmUsage(currentData => [...currentData, ...data.jvmHeapUsage]);  
       // const binSeries = [];
       // let binTime = (data.bytesInPerSec.value[0] - 14400) * 1000;
       // let binBytes = parseInt(data.bytesInPerSec.value[1]);
