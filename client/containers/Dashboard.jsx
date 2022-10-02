@@ -13,17 +13,17 @@ const socket = io('http://localhost:4000');
 
 const emitFunc = () => {
   socket.emit('rate', {
-    'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[5m:10s]'],
-    'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate','[5m:10s]'],
-    'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate','[5m:10s]'],
-    'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}','[5m:10s]'],
+    'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[10m:10s]'],
+    'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate','[10m:10s]'],
+    'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate','[10m:10s]'],
+    'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}','[10m:10s]'],
     // 'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
     // 'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
     // 'offlinePartitions': ['kafka_controller_offlinepartitionscount',''],
     // 'brokersRunning': ['count(kafka_server_brokerstate)','']
   })
 }
-setTimeout(emitFunc, 5000)
+setTimeout(emitFunc, 4000)
 
 const Dashboard = ({ active, setActive }) => {
   //Dynamic Metrics
@@ -39,39 +39,11 @@ const Dashboard = ({ active, setActive }) => {
 
   useEffect(() => {
     socket.on('rate', (data) => {
-      // console.log("BROKER I", data)
-      // console.log(data.underRepPartitions.value, '<-- underRepPartitions')
-      // console.log(data.offlinePartitions.value, '<-- offlinepartitions')
-      console.log(data.bytesInPerSec)
+
       setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])
       setBytesOut(currentData => [...currentData, ...data.bytesOutPerSec]);
       setMsgsIn(currentData => [...currentData, ...data.messagesInPerSec]);
-      console.log('jvmHeapUsage', data)
-      let jvmDataParse = 
       setJvmUsage(currentData => [...currentData, ...data.jvmHeapUsage]);  
-      // const binSeries = [];
-      // let binTime = (data.bytesInPerSec.value[0] - 14400) * 1000;
-      // let binBytes = parseInt(data.bytesInPerSec.value[1]);
-      // binSeries.push(binTime, binBytes);
-      // setBytesIn(currentData => [...currentData, binSeries]);
-
-      // const boutSeries = [];
-      // let boutTime = (data.bytesOutPerSec.value[0] - 14400) * 1000;
-      // let boutBytes = parseInt(data.bytesOutPerSec.value[1]);
-      // boutSeries.push(boutTime, boutBytes);
-      // setBytesOut(currentData => [...currentData, boutSeries]);
-
-      // const msgInSeries = [];
-      // let msgInTime = (data.messagesInPerSec.value[0] - 14400) * 1000;
-      // let msgInBytes = parseInt(data.messagesInPerSec.value[1]);
-      // msgInSeries.push(msgInTime, msgInBytes);
-      // setMsgsIn(currentData => [...currentData, msgInSeries]);
-    
-      // const jvmSeries = []; 
-      // let jvmTime = (data.jvmHeapUsage.value[0] - 14400) * 1000;
-      // let jvmBytes = parseInt(data.jvmHeapUsage.value[1] / 1000000);
-      // jvmSeries.push(jvmTime, jvmBytes);
-      // setJvmUsage(currentData => [...currentData, jvmSeries]);  
 
       // const activeControllerCount = parseInt(data.activeControllerCount.value[1]);
       // setActiveControllerCount(activeControllerCount)

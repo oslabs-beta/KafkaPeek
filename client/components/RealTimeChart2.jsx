@@ -20,7 +20,7 @@ class RealTimeChart2 extends React.Component {
             enabled: true,
             easing: 'linear',
             dynamicAnimation: {
-              speed: 1000,
+              speed: 300,
             },
           },
           toolbar: {
@@ -50,11 +50,11 @@ class RealTimeChart2 extends React.Component {
         
         xaxis: {
           type: 'datetime',
-          range: 300000, 
+          range: 600000, 
         },
         yaxis: {
           min: 0,
-          max: 500,
+          max: 300,
           decimalsInFloat: 2,
           opposite: true,
           labels: {

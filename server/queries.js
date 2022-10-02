@@ -21,8 +21,8 @@ let counter = 0;
 const fetchQuery = async (query, timeFrame) => {
     //send a fetch request to prometheus using axios
 
-    if(counter <= 4) {
-        console.log(`sending PAST 5m of cluster query on params: ${query}`)
+    if(counter < 4) {
+        // console.log(`sending PAST 5m of cluster query on params: ${query}`)
         try {
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}${timeFrame}`)
             counter++
@@ -49,15 +49,17 @@ const fetchQuery = async (query, timeFrame) => {
                     return data.data.data.result[0].value[1];
                 default:
                     let preConvert = data.data.data.result[0].values
+                    console.log(timeConvert(preConvert))
                     return timeConvert(preConvert);
             }
         } catch (err) {
             console.log(`Error in ${query}, err: ${err}`)
         }
     } else {
-        console.log(`sending CURRENT ONLY cluster query on params: ${query}`)
+        
         try {
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}`)
+            // console.log(`sending CURRENT ONLY cluster query on params: ${query}`)
             switch(query) {
                 // case ('kafka_server_broker_topic_metrics_bytesinpersec_rate'):
                 //     // let preConvert = [data.data.data.result[0].value]
@@ -70,8 +72,6 @@ const fetchQuery = async (query, timeFrame) => {
                 //     return data.data.data.result[0];
                 case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
                     let jvmPre = [data.data.data.result[0].value]
-                    console.log(jvmPre);
-                    console.log(jvmConvert(jvmPre))
                     return jvmConvert(jvmPre);  
                 case ('kafka_server_replica_manager_underreplicatedpartitions'):
                     return data.data.data.result[0].value[1];     
@@ -83,8 +83,6 @@ const fetchQuery = async (query, timeFrame) => {
                     return data.data.data.result[0].value[1];
                 default:
                     let preConvert = [data.data.data.result[0].value]
-                    // console.log([data.data.data.result[0].value])
-                    // console.log(timeConvert(preConvert))
                     return timeConvert(preConvert);
             }
         } catch (err) {
