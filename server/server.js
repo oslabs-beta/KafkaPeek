@@ -16,7 +16,7 @@ const ioConfig = {
 const httpServer = createServer(app)
 const io = new Server(httpServer, ioConfig)
 
-const { fetchQuery } = require('./queries')
+const { fetchQuery, resetCounter } = require('./queries')
 
 app.use(cors())
 app.use(express.json());
@@ -60,9 +60,14 @@ io.on('connection', (socket) => {
       
       socket.emit('rate',fetchObj)
     }, 1000);
-    // console.log(fetchIntervalID)
+    console.log('Sending new metrics!')
   })
-  
+
+  socket.on('stop', () => {
+    clearInterval(fetchIntervalID);
+    console.log('Metrics stopped!')
+  })
+
   //log message on disconnect
   socket.on('disconnect', () => {
     clearInterval(fetchIntervalID)

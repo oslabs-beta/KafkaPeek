@@ -22,20 +22,11 @@ const fetchQuery = async (query, timeFrame) => {
     //send a fetch request to prometheus using axios
 
     if(counter < 4) {
-        // console.log(`sending PAST 5m of cluster query on params: ${query}`)
+        console.log(`sending PAST 5m of cluster query on params: ${query}`)
         try {
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}${timeFrame}`)
             counter++
             switch(query) {
-                // case ('kafka_server_broker_topic_metrics_bytesinpersec_rate'):
-                //     let preConvert = data.data.data.result[0].values
-                //     // console.log(preConvert)
-                //     // console.log(timeConvert(preConvert))
-                //     return timeConvert(preConvert);
-                // case ('kafka_server_broker_topic_metrics_bytesoutpersec_rate'):
-                //     return data.data.data.result[0];
-                // case ('kafka_server_broker_topic_metrics_messagesinpersec_rate'):
-                //     return data.data.data.result[0];
                 case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
                     let jvmPre = data.data.data.result[0].values
                     return jvmConvert(jvmPre); 
@@ -49,7 +40,6 @@ const fetchQuery = async (query, timeFrame) => {
                     return data.data.data.result[0].value[1];
                 default:
                     let preConvert = data.data.data.result[0].values
-                    console.log(timeConvert(preConvert))
                     return timeConvert(preConvert);
             }
         } catch (err) {
@@ -59,17 +49,8 @@ const fetchQuery = async (query, timeFrame) => {
         
         try {
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}`)
-            // console.log(`sending CURRENT ONLY cluster query on params: ${query}`)
+            console.log(`sending CURRENT ONLY cluster query on params: ${query}`)
             switch(query) {
-                // case ('kafka_server_broker_topic_metrics_bytesinpersec_rate'):
-                //     // let preConvert = [data.data.data.result[0].value]
-                //     // // console.log([data.data.data.result[0].value])
-                //     // // console.log(timeConvert(preConvert))
-                //     // return timeConvert(preConvert);
-                // case ('kafka_server_broker_topic_metrics_bytesoutpersec_rate'):
-                //     return data.data.data.result[0];
-                // case ('kafka_server_broker_topic_metrics_messagesinpersec_rate'):
-                //     return data.data.data.result[0];
                 case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
                     let jvmPre = [data.data.data.result[0].value]
                     return jvmConvert(jvmPre);  
@@ -89,11 +70,10 @@ const fetchQuery = async (query, timeFrame) => {
             console.log(`Error in ${query}, err: ${err}`)
         }
     }
-
-
-
 }
 
+const resetCounter = () => {
+    counter = 0;
+}
 
-
-module.exports = { fetchQuery }
+module.exports = { fetchQuery, resetCounter }
