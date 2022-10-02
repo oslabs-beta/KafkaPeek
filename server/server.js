@@ -16,7 +16,7 @@ const ioConfig = {
 const httpServer = createServer(app)
 const io = new Server(httpServer, ioConfig)
 
-const { fetchQuery } = require('./queries')
+const { fetchQuery, resetCounter } = require('./queries')
 
 app.use(cors())
 app.use(express.json());
@@ -46,21 +46,13 @@ app.get('/dist/bundle.js', (req,res,next)=>{
 // }
 
 //--------initialize socket.io connection to front end-------
-
-// {
-//   "bytesInPerSec": ["kafka_server_broker_topic_metrics_bytesinpersec_rate",""],
-//   "bytesOutPerSec": ["kafka_server_broker_topic_metrics_bytesoutpersec_rate",""],
-//   "messagesInPerSec": ["kafka_server_broker_topic_metrics_messagesinpersec_rate",""],
-//   "activeControllerCount": ["sum(kafka_controller_activecontrollercount)",""]
-//   }
-
+var fetchIntervalID;
 io.on('connection', (socket) => {
   console.log('a new user connected');
   //emit fetch request every 5 seconds
+
   socket.on('rate', (args) => {
-
-
-    setInterval(async () => {
+   fetchIntervalID = setInterval(async () => {
       const fetchObj = {};
       for(const [k , v] of Object.entries(args)) {
         fetchObj[k] = await fetchQuery(v[0],v[1]);
@@ -68,24 +60,18 @@ io.on('connection', (socket) => {
       
       socket.emit('rate',fetchObj)
     }, 1000);
-    // const { bytesInPerSec, bytesOutPerSec, messagesInPerSec, activeControllerCount } = args;
-    // // console.log(bytesInPerSec, bytesOutPerSec)
-    // setInterval(async () => {
-    //   const fetchBytesIn = await fetchQuery(bytesInPerSec[0], bytesInPerSec[1]);
-    //   const fetchBytesOut = await fetchQuery(bytesOutPerSec[0],bytesOutPerSec[1]);
-    //   const fetchMessagesIn = await fetchQuery(messagesInPerSec[0], messagesInPerSec[1]);
-    //   const fetchactiveControllerCount = await fetchQuery(activeControllerCount[0],activeControllerCount[1]);
-    //   socket.emit('rate',{
-    //     bytesInPerSec: fetchBytesIn,
-    //     bytesOutPerSec: fetchBytesOut,
-    //     messagesInPerSec: fetchMessagesIn,
-    //     activeControllerCount: fetchactiveControllerCount
-    //   })
-    // }, 1000);
+    console.log('Sending new metrics!')
   })
-  
+
+  socket.on('stop', () => {
+    clearInterval(fetchIntervalID);
+    console.log('Metrics stopped!')
+  })
+
   //log message on disconnect
   socket.on('disconnect', () => {
+    clearInterval(fetchIntervalID)
+    resetCounter()
     console.log('websocket to client was disconnected!')
   })
 });

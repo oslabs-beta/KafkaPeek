@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './Sidebar';
 // import LineChart from '../components/LineChart';
 // import TimeSeriesChart from '../components/TimeSeriesChart';
@@ -9,19 +9,31 @@ import StaticMetricDisplay from '../components/StaticMetricDisplay';
 
 import { io } from "socket.io-client";
 
-const socket = io('http://localhost:4000');
-socket.emit('rate', {
-  'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate',''],
-  'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate',''],
-  'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate',''],
-  'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}',''],
-  'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
-  'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
-  'offlinePartitions': ['kafka_controller_offlinepartitionscount',''],
-  'brokersRunning': ['count(kafka_server_brokerstate)','']
-})
+const socket = io('http://localhost:4000', {
+  autoConnect: false
+});
+
+const emitFunc = () => {
+  socket.emit('rate', {
+    'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[10m:10s]'],
+    'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate','[10m:10s]'],
+    'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate','[10m:10s]'],
+    'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}','[10m:10s]'],
+    'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
+    'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
+    'offlinePartitions': ['kafka_controller_offlinepartitionscount',''],
+    'brokersRunning': ['count(kafka_server_brokerstate)','']
+  })
+}
+
+const stopFunc = () => {
+  socket.emit('stop');
+}
 
 const Dashboard = ({ active, setActive }) => {
+  let startMetric = useRef(false);
+  let socketDisconnect = useRef(false);
+  const [buttonText, setButtonText] = useState('Get Metrics');
   //Dynamic Metrics
   const [bytesIn, setBytesIn] = useState([]);
   const [bytesOut, setBytesOut] = useState([]);
@@ -33,47 +45,39 @@ const Dashboard = ({ active, setActive }) => {
   const [underReplicatedPartitions, setUnderReplicatedPartitions] = useState(0);
   const [brokersRunning, setBrokersRunning] = useState(0);
 
+  const handleClick = () => {
+    if(!startMetric.current) {
+      socket.connect()
+      emitFunc();
+      setButtonText('Pause')
+      startMetric.current = !startMetric.current;
+    } else {
+      stopFunc();
+      setButtonText('Get Metrics')
+      startMetric.current = !startMetric.current;
+    }
+  }
+
+  useEffect(() => {
+    if(!socketDisconnect.current) {
+      stopFunc()
+      socket.disconnect();
+      socketDisconnect.current = !socketDisconnect.current
+    }
+  },[socketDisconnect.current]);
+
+  
+
   useEffect(() => {
     socket.on('rate', (data) => {
-      // console.log("BROKER I", data)
-      // console.log(data.underRepPartitions.value, '<-- underRepPartitions')
-      // console.log(data.offlinePartitions.value, '<-- offlinepartitions')
-      const binSeries = [];
-      let binTime = (data.bytesInPerSec.value[0] - 14400) * 1000;
-      let binBytes = parseInt(data.bytesInPerSec.value[1]);
-      binSeries.push(binTime, binBytes);
-      setBytesIn(currentData => [...currentData, binSeries]);
-
-      const boutSeries = [];
-      let boutTime = (data.bytesOutPerSec.value[0] - 14400) * 1000;
-      let boutBytes = parseInt(data.bytesOutPerSec.value[1]);
-      boutSeries.push(boutTime, boutBytes);
-      setBytesOut(currentData => [...currentData, boutSeries]);
-
-      const msgInSeries = [];
-      let msgInTime = (data.messagesInPerSec.value[0] - 14400) * 1000;
-      let msgInBytes = parseInt(data.messagesInPerSec.value[1]);
-      msgInSeries.push(msgInTime, msgInBytes);
-      setMsgsIn(currentData => [...currentData, msgInSeries]);
-    
-      const jvmSeries = []; 
-      let jvmTime = (data.jvmHeapUsage.value[0] - 14400) * 1000;
-      let jvmBytes = parseInt(data.jvmHeapUsage.value[1] / 1000000);
-      jvmSeries.push(jvmTime, jvmBytes);
-      setJvmUsage(currentData => [...currentData, jvmSeries]);  
-
-      const activeControllerCount = parseInt(data.activeControllerCount.value[1]);
-      setActiveControllerCount(activeControllerCount)
-
-      const newInitialPartition = parseInt(data.offlinePartitions.value[1]);
-      if (newInitialPartition !== offlinePartitions) setOfflinePartitions(newInitialPartition);
- 
-      const newUnderRep = parseInt(data.underRepPartitions.value[1]);
-      if (newUnderRep !== underReplicatedPartitions) setUnderReplicatedPartitions(newUnderRep);
-
-      const brokersRunning = parseInt(data.brokersRunning.value[1]);
-      setBrokersRunning(brokersRunning)
-
+      setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])
+      setBytesOut(currentData => [...currentData, ...data.bytesOutPerSec]);
+      setMsgsIn(currentData => [...currentData, ...data.messagesInPerSec]);
+      setJvmUsage(currentData => [...currentData, ...data.jvmHeapUsage]);  
+      setActiveControllerCount(data.activeControllerCount);
+      setOfflinePartitions(data.offlinePartitions);
+      setUnderReplicatedPartitions(data.underRepPartitions);
+      setBrokersRunning(data.brokersRunning);
      }) 
   }, []);
 
@@ -84,8 +88,11 @@ const Dashboard = ({ active, setActive }) => {
  
   return (
     <div id='dashboard-container'>
-      <Sidebar active={active} setActive={setActive} />
+      <Sidebar active={active} setActive={setActive} socketDisconnect={socketDisconnect}/>
       <div id='dashboard-charts'>
+      <button onClick={handleClick}>
+        {buttonText}
+      </button>
         <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={1}/>
         <StaticMetricDisplay metric={offlinePartitions} title={"Offline Partitions"} container={2}/>
         <StaticMetricDisplay metric={underReplicatedPartitions} title={"Under Replicated Partitions"} container={3} />
