@@ -9,7 +9,9 @@ import StaticMetricDisplay from '../components/StaticMetricDisplay';
 
 import { io } from "socket.io-client";
 
-const socket = io('http://localhost:4000');
+const socket = io('http://localhost:4000', {
+  autoConnect: false
+});
 
 const emitFunc = () => {
   socket.emit('rate', {
@@ -44,6 +46,7 @@ const Dashboard = ({ active, setActive }) => {
 
   const handleClick = () => {
     if(!startMetric.current) {
+      socket.connect()
       emitFunc();
       setButtonText('Pause')
       startMetric.current = !startMetric.current;
@@ -56,7 +59,7 @@ const Dashboard = ({ active, setActive }) => {
 
   useEffect(() => {
     socket.on('rate', (data) => {
-
+      console.log('socket.on inside useEffect')
       setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])
       setBytesOut(currentData => [...currentData, ...data.bytesOutPerSec]);
       setMsgsIn(currentData => [...currentData, ...data.messagesInPerSec]);

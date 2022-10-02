@@ -71,6 +71,7 @@ io.on('connection', (socket) => {
   //log message on disconnect
   socket.on('disconnect', () => {
     clearInterval(fetchIntervalID)
+    resetCounter()
     console.log('websocket to client was disconnected!')
   })
 });
