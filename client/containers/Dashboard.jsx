@@ -32,6 +32,7 @@ const stopFunc = () => {
 
 const Dashboard = ({ active, setActive }) => {
   let startMetric = useRef(false);
+  let socketDisconnect = useRef(false);
   const [buttonText, setButtonText] = useState('Get Metrics');
   //Dynamic Metrics
   const [bytesIn, setBytesIn] = useState([]);
@@ -58,8 +59,17 @@ const Dashboard = ({ active, setActive }) => {
   }
 
   useEffect(() => {
+    if(!socketDisconnect.current) {
+      stopFunc()
+      socket.disconnect();
+      socketDisconnect.current = !socketDisconnect.current
+    }
+  },[socketDisconnect.current]);
+
+  
+
+  useEffect(() => {
     socket.on('rate', (data) => {
-      console.log('socket.on inside useEffect')
       setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])
       setBytesOut(currentData => [...currentData, ...data.bytesOutPerSec]);
       setMsgsIn(currentData => [...currentData, ...data.messagesInPerSec]);
@@ -78,7 +88,7 @@ const Dashboard = ({ active, setActive }) => {
  
   return (
     <div id='dashboard-container'>
-      <Sidebar active={active} setActive={setActive} />
+      <Sidebar active={active} setActive={setActive} socketDisconnect={socketDisconnect}/>
       <div id='dashboard-charts'>
       <button onClick={handleClick}>
         {buttonText}

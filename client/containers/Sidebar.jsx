@@ -6,7 +6,12 @@ import UserIcon from '../assets/UserIcon.jsx';
 import ZurauLogo from '../assets/ZurauLogo.jsx';
 
 const Sidebar = (props) => {
-  const { active, setActive } = props;
+  const { active, setActive, socketDisconnect } = props;
+
+  const handleClickHome = () => {
+    socketDisconnect.current = !socketDisconnect.current
+  }
+
   return (
     <div id='sidebar-container'>
       <div id='top-sidebar'>
@@ -15,6 +20,10 @@ const Sidebar = (props) => {
         <div id="sidebar-title">Zurau</div> 
       </div>
       <div id='middle-sidebar'>
+        <div onClick={handleClickHome}>
+        <Link to='/'>Home</Link>
+        </div>
+      
         <div
           className={
             active == 'charts'
@@ -23,6 +32,7 @@ const Sidebar = (props) => {
           }
           onClick={() => setActive('charts')}
         >
+          
           <div>
             <GraphIcon />
           </div>
