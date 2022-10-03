@@ -45,7 +45,7 @@ router.get('/github/callback', async (req,res) => {
 
 })
 
-
+//http://localhost/4000/auth/logout/
 router.get('/logout',(req,res)=>{
     req.session = null; 
     console.log(req.session)

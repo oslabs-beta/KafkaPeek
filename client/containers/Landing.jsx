@@ -10,7 +10,8 @@ const EMAIL = URL_PARAMS.get('email')
 
 
 const Landing = () => {
-  console.log(NAME, ID, USERNAME, EMAIL)
+  // console.log(NAME, ID, USERNAME, EMAIL)
+  const [loggedIn, setLogIn] = useState(false);
   return (
     <div id='landing-container'>
       <Header />

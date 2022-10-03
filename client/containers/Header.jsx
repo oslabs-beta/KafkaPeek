@@ -23,6 +23,7 @@ const Header = () => {
       </div>
       <div id='header-right'>
         {
+          //check for state
           !loggedIn ? signinButton : dashboardButton
         }
       </div>
