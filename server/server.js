@@ -2,6 +2,12 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const PORT = 4000;
+
+// --------------- authRoutes ---------------
+const authRouter = require('./router/routes.js')
+
+
+
 //--------creating socket.IO connection--------
 const { createServer } = require('http')
 const { Server } = require('socket.io');
@@ -75,6 +81,19 @@ io.on('connection', (socket) => {
     console.log('websocket to client was disconnected!')
   })
 });
+
+//--------------- oauth paths ----------------------------
+
+app.use('/auth', authRouter);
+
+
+
+
+
+
+
+
+
 
 // catch all handler for all unknown routes
 app.use((req, res) => {
