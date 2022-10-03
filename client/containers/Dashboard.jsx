@@ -14,7 +14,7 @@ const socket = io('http://localhost:4000', {
 });
 
 const emitFunc = () => {
-  socket.emit('rate', {
+  socket.emit('health', {
     'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[10m:10s]'],
     'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate','[10m:10s]'],
     'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate','[10m:10s]'],
@@ -69,7 +69,7 @@ const Dashboard = ({ active, setActive }) => {
   
 
   useEffect(() => {
-    socket.on('rate', (data) => {
+    socket.on('health', (data) => {
       setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])
       setBytesOut(currentData => [...currentData, ...data.bytesOutPerSec]);
       setMsgsIn(currentData => [...currentData, ...data.messagesInPerSec]);
