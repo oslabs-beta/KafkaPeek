@@ -1,10 +1,16 @@
 import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import Header from './Header';
 import Dashboard from './Dashboard';
+const URL_PARAMS = new URLSearchParams(window.location.search);
+const NAME = URL_PARAMS.get('name')
+const ID = URL_PARAMS.get('id')
+const USERNAME = URL_PARAMS.get('username')
+const EMAIL = URL_PARAMS.get('email')
+
 
 const Landing = () => {
-  
+  console.log(NAME, ID, USERNAME, EMAIL)
   return (
     <div id='landing-container'>
       <Header />

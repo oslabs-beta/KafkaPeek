@@ -4,12 +4,12 @@ const router = express.Router();
 const dotenv = require('dotenv')
 dotenv.config();
 const axios = require('axios');
-const session = require('cookie-session')
+const cookieSession = require('cookie-session')
 
 const cookie_secret = process.env.COOKIE_SECRET;
 
 
-router.use(session({
+router.use(cookieSession({
     secret: 'mainSecret'
 }))
 // --------- all variables -----------------------------------------------------
@@ -19,7 +19,7 @@ const callback_url = 'http://localhost:4000/auth/github/callback'
 
 
 router.get('/github', (req,res,next)=>{
-    const url = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${callback_url}&scope=read:user,user:email`
+    const url = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${callback_url}`
     return res.redirect(url)
 })
 
@@ -28,18 +28,28 @@ router.get('/github/callback', async (req,res) => {
     const token = await getAccessToken(code)
     const githubData = await getGithubUser(token)
     if(githubData){
-        res.cookie('Github Id',githubData.id)
-        res.cookie('name', githubData.name )
+        // res.cookie('Github Id',githubData.id)
+        // res.cookie('name', githubData.name )
         req.session.githubId = githubData.id
         req.session.token = token
         req.session.user = githubData.login
         req.session.name = githubData.name
-        return res.redirect('http://localhost:8080')
+        req.session.email = githubData.email
+        console.log(req.session);
+
+        return res.redirect(`http://localhost:8080/?name=${req.session.name}&id=${req.session.githubId}&email=${req.session.email}&username=${req.session.user}`)
     }else{
         console.log('Error')
         return res.send('Error happened')
     }
 
+})
+
+
+router.get('/logout',(req,res)=>{
+    req.session = null; 
+    console.log(req.session)
+    return res.redirect('http://localhost:8080')
 })
 
 
