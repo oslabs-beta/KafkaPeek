@@ -29,9 +29,9 @@ const Landing = () => {
           Zurau helps engineering teams of all sizes quickly and easily stay up
           to date on the status of their Kafka environments.
         </p>
-        <Link to='/dashboard' element={<Dashboard />}>
-          <button>Try it now {'>'}</button>
-        </Link>
+        <a href = 'http://localhost:4000/auth/github'>
+          <button>Sign in with GitHub</button>
+        </a>
       </div>
     </div>
   );
