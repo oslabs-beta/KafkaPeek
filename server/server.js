@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, '../client/assets')));
 // serving html to localhost:3000
 app.get('/', (req,res,next)=>{
     res.status(200).sendFile(path.join(__dirname, '/../client/index.html'));
-  });
+});
   
 app.get('/dist/bundle.js', (req,res,next)=>{
     res.status(200).sendFile(path.join(__dirname, '../dist/bundle.js'));
@@ -51,23 +51,43 @@ app.get('/dist/bundle.js', (req,res,next)=>{
 //   brokersRunning: ['count(kafka_server_brokerstate)','']
 // }
 
+
+// performance metrics references
+//   requestsPerSec: ["kafka_network_request_per_sec","[10m:10s]"]
+//   requestTotalTime :["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}","[10m:10s]"]
+//   responseQueueTime : ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseQueue',env='cluster-demo', aggregate='99thPercentile'}","[10m:10s]"]
+//   responseSendTime : ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseSend',env='cluster-demo', aggregate='Mean'}","[10m:10s]"]
+//   processorIdlePercent : ["kafka_network_processor_idle_percent","[10m:10s]"]
+
 //--------initialize socket.io connection to front end-------
 var fetchIntervalID;
 io.on('connection', (socket) => {
   console.log('a new user connected');
   //emit fetch request every 5 seconds
 
-  socket.on('rate', (args) => {
+  socket.on('health', (args) => {
    fetchIntervalID = setInterval(async () => {
       const fetchObj = {};
       for(const [k , v] of Object.entries(args)) {
         fetchObj[k] = await fetchQuery(v[0],v[1]);
       }
       
-      socket.emit('rate',fetchObj)
+      socket.emit('health',fetchObj)
     }, 1000);
     console.log('Sending new metrics!')
   })
+
+  socket.on('performance', (args) => {
+    fetchIntervalID = setInterval(async () => {
+       const fetchObj = {};
+       for(const [k , v] of Object.entries(args)) {
+         fetchObj[k] = await fetchQuery(v[0],v[1]);
+       }
+       
+       socket.emit('performance',fetchObj)
+     }, 1000);
+     console.log('Sending new metrics!')
+   })
 
   socket.on('stop', () => {
     clearInterval(fetchIntervalID);
@@ -85,10 +105,6 @@ io.on('connection', (socket) => {
 //--------------- oauth paths ----------------------------
 
 app.use('/auth', authRouter);
-
-
-
-
 
 
 
