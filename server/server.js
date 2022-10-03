@@ -34,10 +34,6 @@ app.get('/', (req,res,next)=>{
     res.status(200).sendFile(path.join(__dirname, '/../client/index.html'));
 });
   
-app.get('/dashboard', (req,res,next)=>{
-  res.status(200).sendFile(path.join(__dirname, '/../client/index.html'));
-});
-  
 app.get('/dist/bundle.js', (req,res,next)=>{
     res.status(200).sendFile(path.join(__dirname, '../dist/bundle.js'));
 });
