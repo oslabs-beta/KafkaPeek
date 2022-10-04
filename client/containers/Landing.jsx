@@ -1,13 +1,12 @@
-import React, { useRef, useState } from 'react';
-import { Link, redirect, useParams } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from './Header';
-import Dashboard from './Dashboard';
 
 ///http://localhost:4000/auth/logout <-------- use this to logout user
-const Landing = () => {
+const Landing = ({ user }) => {
   return (
     <div id='landing-container'>
-      <Header params={URL_PARAMS}/>
+      <Header user={user} />
       <div className='gradient-container'>
         <span></span>
         <span></span>
