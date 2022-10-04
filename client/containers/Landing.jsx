@@ -1,31 +1,19 @@
-import React, { useRef } from 'react';
-import { Link, redirect } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
+import { Link, redirect, useParams } from 'react-router-dom';
 import Header from './Header';
 import Dashboard from './Dashboard';
 
-const URL_PARAMS = new URLSearchParams(window.location.search);
-const NAME = URL_PARAMS.get('name')
-const ID = URL_PARAMS.get('id')
-const USERNAME = URL_PARAMS.get('username')
-const EMAIL = URL_PARAMS.get('email')
-
 ///http://localhost:4000/auth/logout <-------- use this to logout user
 const Landing = () => {
-  // console.log(NAME, ID, USERNAME, EMAIL)
-  const [loggedIn, setLogIn] = useState(false);
   return (
     <div id='landing-container'>
-      <Header />
+      <Header params={URL_PARAMS}/>
       <div className='gradient-container'>
         <span></span>
         <span></span>
         <span></span>
         <span></span>
       </div>
-      {/* 
-      <div class='img-wrapper'>
-        <img src='https://stripe.com/img/v3/home/app-illustrations/catawiki.svg' />
-      </div> */}
       <div className='copy-container'>
         <h1>
           Keep a keen eye on your
@@ -37,27 +25,12 @@ const Landing = () => {
           Zurau helps engineering teams of all sizes quickly and easily stay up
           to date on the status of their Kafka environments.
         </p>
-        <a href='http://localhost:4000/auth/github'>
-          <button>Sign in with GitHub</button>
-        </a>
+        <Link to='/dashboard'>
+          <button>Try It Out {'>'}</button>
+        </Link>
       </div>
     </div>
   );
 };
 
 export default Landing;
-
-{
-  /* <Header />
-      <div id='landing-main'>
-        <div id='landing-welcome'>
-          <h1>Zurau</h1>
-          <h4>The most useful kafka companion app on the web</h4>
-          <div id='log-button'>
-            <Link to="/login">
-              <button type='submit' className='button'>Sign up or Log in!</button>
-            </Link>
-          </div>
-        </div>
-      </div> */
-}

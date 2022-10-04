@@ -1,11 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useState, useEffect } from 'react-router-dom';
 import ZurauLogo from '../assets/ZurauLogo';
 
-const Header = () => {
-  // const [loggedIn, setLogIn] = useState(false);
-  const loggedIn = true;
-  const signinButton = <button><Link to='/signin'>Sign in {'>'}</Link></button>;
+const Header = ({loggedIn}) => {
+  const signinButton = <button><a href="http://localhost:4000/auth/github">Sign In With Github{'>'}</a></button>;
   const dashboardButton = <button><Link to='/dashboard'>Go To Dashboard {'>'}</Link></button>;
   return (
     <div id='header-container'>
@@ -24,7 +22,8 @@ const Header = () => {
       <div id='header-right'>
         {
           //check for state
-          !loggedIn ? signinButton : dashboardButton
+          //if this state is true or false
+          name == null ? signinButton : dashboardButton
         }
       </div>
     </div>
