@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './Sidebar';
+// import LineChart from '../components/LineChart';
+// import TimeSeriesChart from '../components/TimeSeriesChart';
 import RealTimeChart from '../components/RealTimeChart';
 import RealTimeChart2 from '../components/RealTimeChart2';
 import RealTimeChart3 from '../components/RealTimeChart3';
