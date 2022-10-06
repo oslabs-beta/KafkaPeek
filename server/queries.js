@@ -21,16 +21,17 @@ const jvmConvert = (arr)=> {
 // data.result[2].values --> Mean
 const multiGraphConvert = (arr) => {
     const newArr = [];
+    const newObj = {};
     arr.forEach(mainObj => {
-        const subArr = [];
+        // const subArr = [];
         if(mainObj.values) {
-            subArr.push(timeConvert(mainObj.values));
-            newArr.push(subArr);
+            // console.log('logging multiGraphConvert->',mainObj.values)
+            newArr.push(timeConvert(mainObj.values));
         }
         if(mainObj.value) {
-            console.log('logging sinde of multiGraphConvert->',mainObj.value)
-            subArr.push(timeConvert([mainObj.value]));
-            newArr.push(subArr);
+            // console.log('logging multiGraphConvert->',mainObj.value)
+            // subArr.push(...timeConvert([mainObj.value]));
+            newArr.push(timeConvert([mainObj.value]));
         }
     })
     return newArr;
@@ -58,6 +59,8 @@ const fetchQuery = async (query, timeFrame) => {
                     return data.data.data.result[0].value[1];            
                 case ('count(kafka_server_brokerstate)'):
                     return data.data.data.result[0].value[1];
+                case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
+                    return data.data.data.result[0].value[1];
                 case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
                 // case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseQueue',env='cluster-demo', aggregate='99thPercentile'}`):
                     let convertedVal = multiGraphConvert(data.data.data.result)
@@ -84,6 +87,8 @@ const fetchQuery = async (query, timeFrame) => {
                 case ('sum(kafka_controller_activecontrollercount)'):
                     return data.data.data.result[0].value[1];            
                 case ('count(kafka_server_brokerstate)'):
+                    return data.data.data.result[0].value[1];
+                case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
                     return data.data.data.result[0].value[1];
                 case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
                     let convertedVal = multiGraphConvert(data.data.data.result)
