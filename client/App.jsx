@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
 import Dashboard from './containers/Dashboard';
 import Landing from './containers/Landing';
 import axios from 'axios';
 
+import {useSearchParams} from 'react-router-dom';
+
 const URL_PARAMS = new URLSearchParams(window.location.search);
 
 const App = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [active, setActive] = useState('charts');
   const [user, setUser] = useState({
     name: '',
@@ -21,15 +24,28 @@ const App = () => {
 
   useEffect(() => {
     console.log('ACCESS TOKEN', accessToken);
+    
     const getGithubUser = async (access_token) => {
+      
       const res = await axios.get('https://api.github.com/user', {
         headers: {
           Authorization: `bearer ${access_token}`,
         },
       });
-      await setUser(res.data);      
+      
+      const userObj = await {
+        name: res.data.name,
+        id: res.data.id, 
+        login: res.data.login,
+        email: res.data.emil
+      };
+      await setUser(userObj);    
     };
-    if (accessToken) getGithubUser(accessToken);
+    if (accessToken) {
+      getGithubUser(accessToken);
+      searchParams.delete('token');
+      setSearchParams(searchParams);
+    }
     console.log(user, '<---- logging new State hopefully');
   }, [accessToken]);
 
@@ -39,7 +55,7 @@ const App = () => {
         <Route
           path='/dashboard'
           element={
-            <Dashboard active={active} setActive={setActive} user={user} />
+            <Dashboard active={active} setActive={setActive} user={user}/>
           }
         />
         <Route
