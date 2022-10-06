@@ -62,8 +62,9 @@ const fetchQuery = async (query, timeFrame) => {
                 case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
                     return data.data.data.result[0].value[1];
                 case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
-                // case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseQueue',env='cluster-demo', aggregate='99thPercentile'}`):
+                case ('kafka_network_processor_idle_percent'):
                     let convertedVal = multiGraphConvert(data.data.data.result)
+                    console.log('logging convertedVal 10min ->', convertedVal);
                     return convertedVal;
                 default:
                     let preConvert = data.data.data.result[0].values
@@ -91,6 +92,7 @@ const fetchQuery = async (query, timeFrame) => {
                 case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
                     return data.data.data.result[0].value[1];
                 case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
+                case ('kafka_network_processor_idle_percent'):
                     let convertedVal = multiGraphConvert(data.data.data.result)
                     console.log('logging convertedVal2 ->', convertedVal);
                     return convertedVal;
