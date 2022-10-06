@@ -4,6 +4,7 @@ import Login from './containers/Login';
 import Signup from './containers/Signup';
 import Dashboard from './containers/Dashboard';
 import Landing from './containers/Landing';
+import axios from 'axios';
 
 const URL_PARAMS = new URLSearchParams(window.location.search);
 
@@ -12,25 +13,25 @@ const App = () => {
   const [user, setUser] = useState({
     name: '',
     id: '',
-    username: '',
+    login: '',
     email: '',
   });
 
-  let userObject = {
-    name: '',
-    id: '',
-    username: '',
-    email: '',
-  };
+  const accessToken = URL_PARAMS.get('token');
 
   useEffect(() => {
-    userObject.name = URL_PARAMS.get('name');
-    userObject.id = URL_PARAMS.get('id');
-    userObject.username = URL_PARAMS.get('username');
-    userObject.email = URL_PARAMS.get('email');
-    setUser(userObject);
-    console.log(userObject);
-  }, [URL_PARAMS]);
+    console.log('ACCESS TOKEN', accessToken);
+    const getGithubUser = async (access_token) => {
+      const res = await axios.get('https://api.github.com/user', {
+        headers: {
+          Authorization: `bearer ${access_token}`,
+        },
+      });
+      await setUser(res.data);      
+    };
+    if (accessToken) getGithubUser(accessToken);
+    console.log(user, '<---- logging new State hopefully');
+  }, [accessToken]);
 
   return (
     <div id='app-container'>

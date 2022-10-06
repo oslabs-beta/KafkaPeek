@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const axios = require('axios');
 const cookieSession = require('cookie-session');
+// import { Navigate } from 'react-router-dom';
 
 const cookie_secret = process.env.COOKIE_SECRET;
 
@@ -27,19 +28,15 @@ router.get('/github', (req, res, next) => {
 router.get('/github/callback', async (req, res) => {
   const code = req.query.code;
   const token = await getAccessToken(code);
-  const githubData = await getGithubUser(token);
+  // const githubData = await getGithubUser(token);
 
-  if (githubData) {
+  if (token) {
     // res.cookie('Github Id',githubData.id)
     // res.cookie('name', githubData.name )
-    req.session.githubId = githubData.id;
+    // req.session.githubId = githubData.id;
     req.session.token = token;
-    req.session.user = githubData.login;
-    req.session.name = githubData.name;
-    req.session.email = githubData.email;
-
     return res.redirect(
-      `http://localhost:8080/?name=${req.session.name}&id=${req.session.githubId}&email=${req.session.email}&username=${req.session.user}`
+      `http://localhost:8080/?token=${req.session.token}`
     );
   } else {
     console.log('Error');
@@ -73,14 +70,14 @@ async function getAccessToken(code) {
   return params.get('access_token');
 }
 
-async function getGithubUser(access_token) {
-  const res = await axios.get('https://api.github.com/user', {
-    headers: {
-      Authorization: `bearer ${access_token}`,
-    },
-  });
-  console.log(res.data);
-  return res.data;
-}
+// async function getGithubUser(access_token) {
+//   const res = await axios.get('https://api.github.com/user', {
+//     headers: {
+//       Authorization: `bearer ${access_token}`,
+//     },
+//   });
+//   console.log(res.data);
+//   return res.data;
+// }
 
 module.exports = router;

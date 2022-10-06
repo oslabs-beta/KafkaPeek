@@ -36,7 +36,7 @@ const Header = ({ user }) => {
           </a>
         </div>
       </div>
-      <div id='header-right'>{name == '' || name == null ? signinButton : dashboardButton}</div>
+      <div id='header-right'>{id == '' || id == null ? signinButton : dashboardButton}</div>
     </div>
   );
 };
