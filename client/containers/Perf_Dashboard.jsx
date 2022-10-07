@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './Sidebar';
-import Perf_ReqTotalTime from '../components/Perf_ReqTotalTime';
-// import RealTimeChart2 from '../components/RealTimeChart2';
-// import RealTimeChart3 from '../components/RealTimeChart3';
-// import StaticMetricDisplay from '../components/StaticMetricDisplay';
+
+import Perf_ReqPerSec from '../components/Perf_ReqPerSec';
+import Perf_ReqTotalTime from '../components/Perf_ReqTotalTime';        
+import Perf_ResQueueTime from '../components/Perf_ResQueueTime';
+import Perf_ResSendTime from '../components/Perf_ResSendTime';
+import Perf_ProcIdlePercent from '../components/Perf_ProcIdlePercent';
 
 import { io } from 'socket.io-client';
 
@@ -13,11 +15,11 @@ const socket = io('http://localhost:4000', {
 
 const emitFunc = () => {
   socket.emit('performance', {
-    // 'requestsPerSec': ['kafka_network_request_per_sec','[10m:10s]'],
-    'requestTotalTime':['kafka_network_request_metrics_time_ms{instance="jmx-kafka:5556", request="FetchConsumer",scope="Total",env="cluster-demo"}','[10m:10s]'],
-    // 'responseQueueTime': ['kafka_network_request_metrics_time_ms{instance="jmx-kafka:5556", request="FetchConsumer",scope="ResponseQueue",env="cluster-demo", aggregate="99thPercentile"}','[10m:10s]'],
-    // 'responseSendTime': ['kafka_network_request_metrics_time_ms{instance="jmx-kafka:5556", request="FetchConsumer",scope="ResponseSend",env="cluster-demo", aggregate="Mean"}','[10m:10s]'],
-    // 'processorIdlePercent': ['kafka_network_processor_idle_percent','[10m:10s]']
+    'processorIdlePercent' : ["kafka_network_processor_idle_percent","[10m:10s]"],
+    'requestTotalTime' :["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}","[10m:10s]"],
+    'responseQueueTime' : ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseQueue',env='cluster-demo', aggregate='99thPercentile'}","[10m:10s]"],
+    'responseSendTime' : ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseSend',env='cluster-demo', aggregate='Mean'}","[10m:10s]"],
+    'requestsPerSec': ["kafka_network_request_per_sec{aggregate=~'OneMinuteRate',request='Produce'}",""]
   })
 }
 
@@ -30,16 +32,14 @@ const Dashboard = ({ active, setActive }) => {
   let socketDisconnect = useRef(false);
   const [buttonText, setButtonText] = useState('Get Metrics');
   //Dynamic Metrics
-  const [reqTotalTime, setreqTotalTime] = useState([]);
-  // const [bytesOut, setBytesOut] = useState([]);
-  // const [msgsIn, setMsgsIn] = useState([]);
-  // const [jvmUsage, setJvmUsage] = useState([]);
-  //Static Metrics
-  // const [activeControllerCount, setActiveControllerCount] = useState(0);
-  // const [offlinePartitions, setOfflinePartitions] = useState(0);
-  // const [underReplicatedPartitions, setUnderReplicatedPartitions] = useState(0);
-  // const [brokersRunning, setBrokersRunning] = useState(0);
-
+  const [reqPerSec, setReqPerSec] = useState([])
+  const [resQueueTime, setResQueueTime] = useState([]);
+  const [resSendTime, setResSendTime] = useState([]);
+  const [procIdlePercent, setProcIdlePercent] = useState([]);
+  const [ reqTTMean, setReqTTMean ] = useState([]);
+  const [reqTTSeventyFifth, setReqTTSeventyFifth] = useState([]);
+  const [reqTTNinetyNinth, setReqTTNinetyNinth] = useState([]);
+  
   const handleClick = () => {
     if(!startMetric.current) {
       socket.connect()
@@ -65,22 +65,24 @@ const Dashboard = ({ active, setActive }) => {
 
   useEffect(() => {
     socket.on('performance', (data) => {
-      setreqTotalTime(currentData => [...currentData, ...data.reqTotalTimePerSec])
-      // setBytesOut(currentData => [...currentData, ...data.bytesOutPerSec]);
-      // setMsgsIn(currentData => [...currentData, ...data.messagesInPerSec]);
-      // setJvmUsage(currentData => [...currentData, ...data.jvmHeapUsage]);  
-      // setActiveControllerCount(data.activeControllerCount);
-      // setOfflinePartitions(data.offlinePartitions);
-      // setUnderReplicatedPartitions(data.underRepPartitions);
-      // setBrokersRunning(data.brokersRunning);
+      // setReqPerSec(currentData => [...currentData, ...data.requestsPerSec])
+      const [ mean, ninetyNinth, seventyFifth ] = data.requestTotalTime;
+      // console.log('mean', mean);
+      // console.log('ninetyNinth', ninetyNinth)
+      setReqTTMean(currentData => [...currentData, ...mean]);
+      setReqTTNinetyNinth(currentData => [...currentData, ...ninetyNinth]);
+      setReqTTSeventyFifth(currentData => [...currentData, ...seventyFifth]);
+      setResQueueTime(currentData => [...currentData, ...data.responseQueueTime]);
+      setResSendTime(currentData => [...currentData, ...data.responseSendTime]);
+      // setProcIdlePercent(currentData => [...currentData, ...data.processorIdlePercent]);  
      }) 
   }, []);
 
      
           
 
+  
 
- 
   return (
     <div id='dashboard-container'>
       <Sidebar active={active} setActive={setActive} socketDisconnect={socketDisconnect}/>
@@ -88,16 +90,13 @@ const Dashboard = ({ active, setActive }) => {
       <button onClick={handleClick}>
         {buttonText}
       </button>
-        {/* <StaticMetricDisplay metric={activeControllerCount} title={'Active Controller Count'} container={1}/>
-        <StaticMetricDisplay metric={offlinePartitions} title={'Offline Partitions'} container={2}/>
-        <StaticMetricDisplay metric={underReplicatedPartitions} title={'Under Replicated Partitions'} container={3} />
-        <StaticMetricDisplay metric={brokersRunning} title={'Brokers Running'} container={4}/>
-        <RealTimeChart series={[{name: 'Bytes In Per Sec', data: reqTotalTime},{name: 'Bytes Out Per Sec', data: bytesOut}]} />
-        <RealTimeChart2 series={[{name: 'Messages In Per Second', data: msgsIn}]}/>
-        <RealTimeChart3 series={[{name: 'JVM Heap Usage', data: jvmUsage}]}/> */}
-        <Perf_ReqTotalTime series={[{name: 'Mean', data: reqTotalTime}]} />
-        {/* /*, {name: '99th Percentile', data: reqTotalTime}, {name: '75th Percentile', data: reqTotalTime}*/ */}
-
+        {/* <Perf_ReqPerSec series={[{name: 'Requests Per Second', data: reqPerSec}]} />  */}
+        {/* <Perf_ReqTotalTime series={[{name: 'Mean', data: reqTotalTime[0], }]} />  */}
+        <Perf_ReqTotalTime series={[{name: 'Mean', data: reqTTMean},{name: '99th Percentile', data: reqTTNinetyNinth}, {name: '75th Percentile', data: reqTTSeventyFifth}]} /> 
+        <Perf_ResQueueTime series={[{name: 'Response Queue Time', data: resQueueTime}]} />
+        <Perf_ResSendTime series={[{name: 'Response Send Time', data: resSendTime}]} />
+        {/* <Perf_ProcIdlePercent series={[{name: 'Processor Idle Percent', data: procIdlePercent}]} /> */}
+        
       </div>
       {/* Create a main component that renders charts or settings, etc. */}
     </div>

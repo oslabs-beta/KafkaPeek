@@ -82,7 +82,7 @@ const Dashboard = ({ active, setActive }) => {
   }, []);
 
      
-          
+  // console.log([{name: 'Bytes In Per Sec', data: bytesIn},{name: 'Bytes Out Per Sec', data: bytesOut}])  
 
 
  
