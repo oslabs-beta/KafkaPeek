@@ -47,21 +47,6 @@ const App = () => {
     console.log(user, '<---- logging new State hopefully');
   }, [accessToken]);
 
-  // useEffect(() => {
-  //   console.log('hi')
-  //   const getGithubUser = async () => {
-  //     const res = await axios.get('/auth/data', {
-  //       headers: {
-  //         Authorization: `bearer ${access_token}`,
-  //       },
-  //     });
-  //     console.log(res.data)
-  //     await setUser(res.data);   
-  //     return 
-  //   }
-  //   getGithubUser();
-  //   console.log(user, '<---- logging new State hopefully');
-  // }, [user]);
 
   return (
     <div id='app-container'>

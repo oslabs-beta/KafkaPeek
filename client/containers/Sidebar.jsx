@@ -10,7 +10,7 @@ import Logout from '../assets/Logout.jsx'
 const Sidebar = (props) => {
   const { active, setActive, socketDisconnect } = props;
 
-  const handleClickHome = () => {
+  const toggleSocket = () => {
     socketDisconnect.current = !socketDisconnect.current
   }
 
@@ -22,7 +22,7 @@ const Sidebar = (props) => {
         <div id="sidebar-title">Zurau</div> 
       </div>
       <div id='middle-sidebar'>
-        {/* <div onClick={handleClickHome}>
+        {/* <div onClick={toggleSocket}>
         <Link to='/'>Home</Link>
         </div> */}
 
@@ -32,7 +32,7 @@ const Sidebar = (props) => {
               ? 'sidebar-button active-button'
               : 'sidebar-button'
           }
-          onClick={handleClickHome}
+          onClick={toggleSocket}
         >
           <div>
             <HomeIcon />
@@ -42,17 +42,38 @@ const Sidebar = (props) => {
 
         <div
           className={
-            active == 'charts'
+            active == 'health'
               ? 'sidebar-button active-button'
               : 'sidebar-button'
           }
-          onClick={() => setActive('charts')}
-        >
           
+          onClick={() => {
+            setActive('health');
+            toggleSocket;
+          }}
+        >
           <div>
             <GraphIcon />
           </div>
-          <Link to='/h_dashboard'>Analytics</Link>
+          <Link to='/h_dashboard'>Health Metrics</Link>
+
+        </div>
+        <div
+          className={
+            active == 'performance'
+              ? 'sidebar-button active-button'
+              : 'sidebar-button'
+          }
+          onClick={() => {
+            setActive('performance');
+            toggleSocket;
+          }}
+        >
+          <div>
+            <GraphIcon />
+          </div>
+          <Link to='/p_dashboard'>Performance Metrics</Link>
+
         </div>
         <div
           className={
@@ -88,7 +109,7 @@ const Sidebar = (props) => {
                 ? 'sidebar-button active-button'
                 : 'sidebar-button'
             }
-            onClick={handleClickHome}
+            onClick={toggleSocket}
           >
       
               <a id='bottom-logout' href='http://localhost:4000/auth/logout'>
