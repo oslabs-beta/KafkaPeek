@@ -16,7 +16,7 @@ const Header = ({ user }) => {
 
   const dashboardButton = (
     <button>
-      <Link to='/dashboard'>Go To Dashboard {'>'}</Link>
+      <Link to='/h_dashboard'>Go To Dashboard {'>'}</Link>
     </button>
   );
 

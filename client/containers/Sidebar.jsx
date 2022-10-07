@@ -49,7 +49,7 @@ const Sidebar = (props) => {
           <div>
             <GraphIcon />
           </div>
-          <Link to='/dashboard'>Analytics</Link>
+          <Link to='/h_dashboard'>Analytics</Link>
         </div>
         <div
           className={

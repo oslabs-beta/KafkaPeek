@@ -15,23 +15,42 @@ const jvmConvert = (arr)=> {
     });
     return newArr
 }
-
+const reqTTConvert = (arr) => {
+    const newArr = [];
+    arr.forEach(data => {
+        newArr.push([((data[0] - 14400) * 1000), parseInt(data[1]) / 1000])
+    })
+    return newArr;
+}
 // data.result[0].values --> 75thPercentile
 // data.result[1].values --> 99thPercentile
 // data.result[2].values --> Mean
 const multiGraphConvert = (arr) => {
     const newArr = [];
     arr.forEach(mainObj => {
-        const subArr = [];
-        if(mainObj.values) {
-            subArr.push(timeConvert(mainObj.values));
-            newArr.push(subArr);
+        // const subArr = [];
+        console.log('Metric Name', mainObj.metric.__name__)
+        if(mainObj.metric.__name__ === 'kafka_network_request_metrics_time_ms') {
+            if(mainObj.values) {
+                // console.log('logging multiGraphConvert->',mainObj.values)
+                newArr.push(reqTTConvert(mainObj.values));
+            }
+            if(mainObj.value) {
+                // console.log('logging multiGraphConvert->',mainObj.value)
+                newArr.push(reqTTConvert([mainObj.value]));
+            }
+        } else {
+            if(mainObj.values) {
+                // console.log('logging multiGraphConvert->',mainObj.values)
+                newArr.push(timeConvert(mainObj.values));
+            }
+            if(mainObj.value) {
+                // console.log('logging multiGraphConvert->',mainObj.value)
+                // subArr.push(...timeConvert([mainObj.value]));
+                newArr.push(timeConvert([mainObj.value]));
+            }
         }
-        if(mainObj.value) {
-            console.log('logging sinde of multiGraphConvert->',mainObj.value)
-            subArr.push(timeConvert([mainObj.value]));
-            newArr.push(subArr);
-        }
+
     })
     return newArr;
 }
@@ -58,13 +77,18 @@ const fetchQuery = async (query, timeFrame) => {
                     return data.data.data.result[0].value[1];            
                 case ('count(kafka_server_brokerstate)'):
                     return data.data.data.result[0].value[1];
+                case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
+                    return data.data.data.result[0].value[1];
+                case ('kafka_network_processor_idle_percent'):
                 case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
-                // case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseQueue',env='cluster-demo', aggregate='99thPercentile'}`):
-                    let convertedVal = multiGraphConvert(data.data.data.result)
+                    let convertedVal = await multiGraphConvert(data.data.data.result)
+                    console.log('logging convertedVal 10min ->', convertedVal);
                     return convertedVal;
                 default:
                     let preConvert = data.data.data.result[0].values
-                    return timeConvert(preConvert);
+                    let output = timeConvert(preConvert)
+                    console.log(`${query}`, output)
+                    return output
             }
         } catch (err) {
             console.log(`Error in ${query}, err: ${err}`)
@@ -85,13 +109,19 @@ const fetchQuery = async (query, timeFrame) => {
                     return data.data.data.result[0].value[1];            
                 case ('count(kafka_server_brokerstate)'):
                     return data.data.data.result[0].value[1];
+                case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
+                    return data.data.data.result[0].value[1];
+                // case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
+                case ('kafka_network_processor_idle_percent'):
                 case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
-                    let convertedVal = multiGraphConvert(data.data.data.result)
+                    let convertedVal = await multiGraphConvert(data.data.data.result)
                     console.log('logging convertedVal2 ->', convertedVal);
                     return convertedVal;
                 default:
                     let preConvert = [data.data.data.result[0].value]
-                    return timeConvert(preConvert);
+                    let output = timeConvert(preConvert)
+                    console.log(`${query}`, output)
+                    return output
             }
         } catch (err) {
             console.log(`Error in ${query}, err: ${err}`)

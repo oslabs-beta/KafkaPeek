@@ -50,11 +50,11 @@ app.get('/dist/bundle.js', (req, res, next) => {
 // }
 
 // performance metrics references
-//   requestsPerSec: ["kafka_network_request_per_sec","[10m:10s]"]
-//   requestTotalTime :["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}","[10m:10s]"]
-//   responseQueueTime : ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseQueue',env='cluster-demo', aggregate='99thPercentile'}","[10m:10s]"]
-//   responseSendTime : ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseSend',env='cluster-demo', aggregate='Mean'}","[10m:10s]"]
-//   processorIdlePercent : ["kafka_network_processor_idle_percent","[10m:10s]"]
+// requestsPerSec: ["kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}",""]
+// requestTotalTime :["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}","[10m:10s]"]
+// responseQueueTime : ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseQueue',env='cluster-demo', aggregate='99thPercentile'}","[10m:10s]"]
+// responseSendTime : ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseSend',env='cluster-demo', aggregate='Mean'}","[10m:10s]"]
+// processorIdlePercent : ["kafka_network_processor_idle_percent","[10m:10s]"]
 
 //--------initialize socket.io connection to front end-------
 var fetchIntervalID;

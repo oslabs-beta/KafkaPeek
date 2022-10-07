@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
-import Dashboard from './containers/Dashboard';
+import Health_Dashboard from './containers/Health_Dashboard';
 import Landing from './containers/Landing';
 import axios from 'axios';
+// import { useNavigate } from "react-router-dom";
+import Perf_Dashboard from './containers/Perf_Dashboard';
 
 const URL_PARAMS = new URLSearchParams(window.location.search);
 const accessToken = URL_PARAMS.get('token');
@@ -42,9 +44,15 @@ const App = () => {
     <div id='app-container'>
       <Routes>
         <Route
-          path='/dashboard'
+          path='/h_dashboard'
           element={
-            <Dashboard active={active} setActive={setActive} user={user}/>
+            <Health_Dashboard active={active} setActive={setActive} user={user}/>
+          }
+        />
+        <Route
+          path='/p_dashboard'
+          element={
+            <Perf_Dashboard active={active} setActive={setActive} user={user}/>
           }
         />
         <Route
