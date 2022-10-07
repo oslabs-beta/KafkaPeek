@@ -5,9 +5,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 const axios = require('axios');
 const cookieSession = require('cookie-session');
+const oauthController = require('../controllers/oauthController.js')
 // import { Navigate } from 'react-router-dom';
 
-const cookie_secret = process.env.COOKIE_SECRET;
+// const cookie_secret = process.env.COOKIE_SECRET;
 
 router.use(
   cookieSession({
@@ -25,24 +26,25 @@ router.get('/github', (req, res, next) => {
   return res.redirect(url);
 });
 
-router.get('/github/callback', async (req, res) => {
-  const code = req.query.code;
-  const token = await getAccessToken(code);
-  // const githubData = await getGithubUser(token);
-
-  if (token) {
-    // res.cookie('Github Id',githubData.id)
-    // res.cookie('name', githubData.name )
-    // req.session.githubId = githubData.id;
-    req.session.token = token;
-    return res.redirect(
-      `http://localhost:8080/?token=${req.session.token}`
-    );
-  } else {
-    console.log('Error');
-    return res.send('Error happened');
-  }
+router.get('/github/callback',
+oauthController.githubData,
+async (req, res) => {
+  req.session.name = res.locals.github.name;
+  req.session.id = res.locals.github.id;
+  req.session.login = res.locals.github.login;
+  req.session.email = res.locals.github.email;
+  req.session.token = res.locals.token
+  return res.redirect(`http://localhost:8080/?token=${req.session.token}`) 
 });
+
+router.get('/data',(req,res)=>{
+  return res.status(200).send({
+    name: req.session.name,
+    id: req.session.id,
+    login: req.session.login,
+    email: req.session.email
+  })
+})
 
 //http://localhost/4000/auth/logout/
 router.get('/logout', (req, res) => {
@@ -51,33 +53,6 @@ router.get('/logout', (req, res) => {
   return res.redirect('http://localhost:8080');
 });
 
-// -------- helper functions --------------------------------------------------------
-async function getAccessToken(code) {
-  const res = await axios
-    .post('https://github.com/login/oauth/access_token', {
-      client_id,
-      client_secret,
-      code,
-      scope: ['user:email'],
-    })
-    .then(function (response) {
-      return response.data;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  const params = new URLSearchParams(res);
-  return params.get('access_token');
-}
 
-// async function getGithubUser(access_token) {
-//   const res = await axios.get('https://api.github.com/user', {
-//     headers: {
-//       Authorization: `bearer ${access_token}`,
-//     },
-//   });
-//   console.log(res.data);
-//   return res.data;
-// }
 
 module.exports = router;

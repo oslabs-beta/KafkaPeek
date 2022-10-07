@@ -1,9 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import UserIcon from '../assets/UserIcon';
 import Header from './Header';
-
+import { useNavigate } from "react-router-dom";
 ///http://localhost:4000/auth/logout <-------- use this to logout user
 const Landing = ({ user }) => {
+  const navigate = useNavigate();
+  if (user.name !== '' || user.name !== null){
+    navigate("/dashboard");
+  }
   return (
     <div id='landing-container'>
       <Header user={user} />
