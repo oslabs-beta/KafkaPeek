@@ -67,9 +67,15 @@ const App = () => {
     <div id='app-container'>
       <Routes>
         <Route
-          path='/dashboard'
+          path='/h_dashboard'
           element={
-            <Dashboard active={active} setActive={setActive} user={user}/>
+            <Health_Dashboard active={active} setActive={setActive} user={user}/>
+          }
+        />
+        <Route
+          path='/p_dashboard'
+          element={
+            <Perf_Dashboard active={active} setActive={setActive} user={user}/>
           }
         />
         <Route
