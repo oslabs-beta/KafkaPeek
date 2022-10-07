@@ -4,8 +4,9 @@ import RealTimeChart from '../components/RealTimeChart';
 import RealTimeChart2 from '../components/RealTimeChart2';
 import RealTimeChart3 from '../components/RealTimeChart3';
 import StaticMetricDisplay from '../components/StaticMetricDisplay';
-
 import { io } from "socket.io-client";
+import axios from 'axios'
+// const URL_PARAMS = new URLSearchParams(window.location.search);
 
 const socket = io('http://localhost:4000', {
   autoConnect: false
@@ -28,7 +29,7 @@ const stopFunc = () => {
   socket.emit('stop');
 }
 
-const Dashboard = ({ active, setActive }) => {
+const Dashboard = ({ active, setActive, user, setUser }) => {
   let startMetric = useRef(false);
   let socketDisconnect = useRef(false);
   const [buttonText, setButtonText] = useState('Get Metrics');
@@ -65,7 +66,6 @@ const Dashboard = ({ active, setActive }) => {
   },[socketDisconnect.current]);
 
   
-
   useEffect(() => {
     socket.on('health', (data) => {
       setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])
@@ -85,6 +85,7 @@ const Dashboard = ({ active, setActive }) => {
 
  
   return (
+
     <div id='dashboard-container'>
       <Sidebar active={active} setActive={setActive} socketDisconnect={socketDisconnect}/>
       <div id='dashboard-charts'>
