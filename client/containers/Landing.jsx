@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 const Landing = ({ user }) => {
   const navigate = useNavigate();
   if (user.name !== '' || user.name !== null){
+    console.log('LANDING USER',user)
+    window.history.replaceState({}, document.title, "/");
     navigate("/dashboard");
   }
   return (
