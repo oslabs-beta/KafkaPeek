@@ -105,21 +105,20 @@ const Sidebar = (props) => {
       <div id='bottom-sidebar'>
         <div
             className={
-              active == 'home'
+              active == 'logout'
                 ? 'sidebar-button active-button'
                 : 'sidebar-button'
             }
             onClick={toggleSocket}
           >
       
-              <a id='bottom-logout' href='http://localhost:4000/auth/logout'>
-                <div>
-                  <Logout />
-                </div>
-                <div>
-                  Logout
-                </div>
-              </a>
+              
+          <div>
+            <Logout />
+          </div>
+          <Link to='http://localhost:4000/auth/logout'>Logout</Link>
+                
+              
         </div>
       </div>
     </div>

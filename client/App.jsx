@@ -12,7 +12,7 @@ const URL_PARAMS = new URLSearchParams(window.location.search);
 const accessToken = URL_PARAMS.get('token');
 const App = () => {
   // const navigate = useNavigate();
-  const [active, setActive] = useState('charts');
+  const [active, setActive] = useState('health');
   const [user, setUser] = useState({
     name: '',
     id: '',

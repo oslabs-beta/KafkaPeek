@@ -97,12 +97,13 @@
     border-top: 1px solid rgba(211, 211, 211, 0.25);
     border-bottom: 1px solid rgba(211, 211, 211, 0.25);
     .sidebar-button {
+      height: 100%;
+      width: 100%;
       display: flex;
       flex-direction: row;
       border-radius: 1rem;
       padding: 1rem;
       margin: 0.5rem;
-
       &:hover {
         background-color: $secondaryColor;
       }
@@ -111,18 +112,19 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: flex-start;
+        align-items: center;
         width: 30%;
         height: 100%;
       }
 
       a {
-        width: 100%;
+        width: 70%;
         height: 100%;
         display: flex;
-        justify-content: space-between;
+        justify-content: left;
         align-items: center;
         color: white;
+        padding: 5px;
         font-family: $secondaryFont;
         font-weight: 500; 
       }
