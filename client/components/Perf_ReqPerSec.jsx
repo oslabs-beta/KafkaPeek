@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-class Perf_ReqTotalTime extends React.Component {
+
+
+
+class Perf_ReqPerSec extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      series: [{
-        name: 'Mean', 
-        data: props.series
-      },{ 
-        name: '99th Percentile',
-        data: props.series
-      },{ 
-        name: '75th Percentile',
-        data: props.series
-      }],
+      series: [{ data: props.series }],
       options: {
         chart: {
           id: 'realtime',
@@ -43,12 +37,8 @@ class Perf_ReqTotalTime extends React.Component {
           curve: 'smooth',
         },
         title: {
-          text: 'Request Total Time',
+          text: 'Requests Per Second',
           align: 'left',
-        },
-
-        noData: {
-          text: "Loading data...",
         },
         
         markers: {
@@ -60,11 +50,11 @@ class Perf_ReqTotalTime extends React.Component {
         
         xaxis: {
           type: 'datetime',
-          range: 600000,
+          range: 600000, 
         },
         yaxis: {
           min: 0,
-          max: 10,
+          max: 300,
           decimalsInFloat: 2,
           opposite: true,
           labels: {
@@ -89,7 +79,7 @@ class Perf_ReqTotalTime extends React.Component {
 
   render() {
     return (
-      <div id='chart-container'>
+      <div id='metric-container-2'>
         <ReactApexChart
           options={this.state.options}
           series={this.props.series}
@@ -102,4 +92,4 @@ class Perf_ReqTotalTime extends React.Component {
   }
 }
 
-export default Perf_ReqTotalTime;
+export default Perf_ReqPerSec;
