@@ -54,7 +54,7 @@ class Perf_ResQueueTime extends React.Component {
         },
         yaxis: {
           min: 0.0001,
-          max: 1,
+          max: 4,
           decimalsInFloat: 2,
           opposite: true,
           labels: {

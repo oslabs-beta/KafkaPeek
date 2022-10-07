@@ -45,7 +45,7 @@ class RealTimeChart extends React.Component {
         },
 
         noData: {
-          text: "Loading data...",
+          text: "CLICK TO GET METRICS...",
         },
         
         markers: {

@@ -48,7 +48,7 @@ class Perf_ReqTotalTime extends React.Component {
         },
 
         noData: {
-          text: "Loading data...",
+          text: "CLICK TO GET METRICS...",
         },
         
         markers: {
@@ -64,7 +64,7 @@ class Perf_ReqTotalTime extends React.Component {
         },
         yaxis: {
           min: 0,
-          max: 10,
+          max: 4,
           decimalsInFloat: 2,
           opposite: true,
           labels: {
