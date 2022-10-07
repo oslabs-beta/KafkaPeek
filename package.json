@@ -9,7 +9,7 @@
     "start": "NODE_ENV=production node server/server.js",
     "start:consumer": "node ./consumer/index.js",
     "start:producer": "node ./producer/index.js",
-    "test": "jest --verbose"
+    "test": "jest --verbose --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "jest": "^29.1.2",
     "node-sass": "^7.0.3",
     "nodemon": "^2.0.20",
+    "regenerator-runtime": "^0.13.9",
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
     "supertest": "^6.3.0",
