@@ -8,7 +8,7 @@ const Landing = ({ user }) => {
   const navigate = useNavigate();
   if (user.name !== '' || user.name !== null){
     console.log('LANDING USER',user)
-    window.history.replaceState({}, document.title, "/");
+    window.history.replaceState({}, document.title, "/" + `${user.name}`);
     navigate("/dashboard");
   }
   return (

@@ -39,7 +39,6 @@ async function getAccessToken(code) {
         scope: ['user:email'],
       })
       .then(function (response) {
-        console.log('can you see response inside axios', response)
         return response.data;
       })
       .catch(function (error) {
