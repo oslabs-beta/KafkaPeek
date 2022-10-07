@@ -110,15 +110,11 @@ const Sidebar = (props) => {
                 : 'sidebar-button'
             }
             onClick={toggleSocket}
-          >
-      
-              
+          >   
           <div>
             <Logout />
           </div>
-          <Link to='http://localhost:4000/auth/logout'>Logout</Link>
-                
-              
+          <Link to='http://localhost:4000/auth/logout'>Logout</Link>   
         </div>
       </div>
     </div>
