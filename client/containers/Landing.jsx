@@ -9,7 +9,7 @@ const Landing = ({ user }) => {
   if (user.name !== '' || user.name !== null){
     console.log('LANDING USER',user)
     window.history.replaceState({}, document.title, "/" + `${user.login}`);
-    navigate("/dashboard");
+    navigate("/h_dashboard");
   }
   return (
     <div id='landing-container'>
@@ -31,7 +31,7 @@ const Landing = ({ user }) => {
           Zurau helps engineering teams of all sizes quickly and easily stay up
           to date on the status of their Kafka environments.
         </p>
-        <Link to='/dashboard'>
+        <Link to='/h_dashboard'>
           <button>Try It Out {'>'}</button>
         </Link>
       </div>

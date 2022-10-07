@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './Sidebar';
+// import LineChart from '../components/LineChart';
+// import TimeSeriesChart from '../components/TimeSeriesChart';
 import RealTimeChart from '../components/RealTimeChart';
 import RealTimeChart2 from '../components/RealTimeChart2';
 import RealTimeChart3 from '../components/RealTimeChart3';
 import StaticMetricDisplay from '../components/StaticMetricDisplay';
-import { io } from "socket.io-client";
 
+import { io } from "socket.io-client";
 
 const socket = io('http://localhost:4000', {
   autoConnect: false
@@ -28,7 +30,7 @@ const stopFunc = () => {
   socket.emit('stop');
 }
 
-const Dashboard = ({ active, setActive, user, setUser }) => {
+const Dashboard = ({ active, setActive }) => {
   let startMetric = useRef(false);
   let socketDisconnect = useRef(false);
   const [buttonText, setButtonText] = useState('Get Metrics');
@@ -65,6 +67,7 @@ const Dashboard = ({ active, setActive, user, setUser }) => {
   },[socketDisconnect.current]);
 
   
+
   useEffect(() => {
     socket.on('health', (data) => {
       setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])
@@ -79,12 +82,11 @@ const Dashboard = ({ active, setActive, user, setUser }) => {
   }, []);
 
      
-        
+  // console.log([{name: 'Bytes In Per Sec', data: bytesIn},{name: 'Bytes Out Per Sec', data: bytesOut}])  
 
 
  
   return (
-
     <div id='dashboard-container'>
       <Sidebar active={active} setActive={setActive} socketDisconnect={socketDisconnect}/>
       <div id='dashboard-charts'>
