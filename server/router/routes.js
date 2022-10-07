@@ -1,14 +1,11 @@
 const express = require('express');
-// const passport = require('passport');
 const router = express.Router();
 const dotenv = require('dotenv');
 dotenv.config();
 const axios = require('axios');
 const cookieSession = require('cookie-session');
 const oauthController = require('../controllers/oauthController.js')
-// import { Navigate } from 'react-router-dom';
 
-// const cookie_secret = process.env.COOKIE_SECRET;
 
 router.use(
   cookieSession({

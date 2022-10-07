@@ -5,12 +5,10 @@ import Signup from './containers/Signup';
 import Dashboard from './containers/Dashboard';
 import Landing from './containers/Landing';
 import axios from 'axios';
-// import { useNavigate } from "react-router-dom";
 
 const URL_PARAMS = new URLSearchParams(window.location.search);
 const accessToken = URL_PARAMS.get('token');
 const App = () => {
-  // const navigate = useNavigate();
   const [active, setActive] = useState('charts');
   const [user, setUser] = useState({
     name: '',
@@ -20,8 +18,6 @@ const App = () => {
   });
 
   useEffect(() => {
-    console.log('ACCESS TOKEN', accessToken);
-    console.log(window.location)
     const getGithubUser = async (access_token) => {
       const res = await axios.get('https://api.github.com/user', {
         headers: {
@@ -35,32 +31,12 @@ const App = () => {
         login: res.data.login,
         email: res.data.emil
       };
-      console.log('hi', userObj, user)
       await setUser(userObj);    
-      console.log('hi again',user)
     };
-
     if (accessToken) {
       getGithubUser(accessToken);
     }
-    console.log(user, '<---- logging new State hopefully');
   }, [accessToken]);
-
-  // useEffect(() => {
-  //   console.log('hi')
-  //   const getGithubUser = async () => {
-  //     const res = await axios.get('/auth/data', {
-  //       headers: {
-  //         Authorization: `bearer ${access_token}`,
-  //       },
-  //     });
-  //     console.log(res.data)
-  //     await setUser(res.data);   
-  //     return 
-  //   }
-  //   getGithubUser();
-  //   console.log(user, '<---- logging new State hopefully');
-  // }, [user]);
 
   return (
     <div id='app-container'>

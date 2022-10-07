@@ -22,9 +22,6 @@ const Sidebar = (props) => {
         <div id="sidebar-title">Zurau</div> 
       </div>
       <div id='middle-sidebar'>
-        {/* <div onClick={handleClickHome}>
-        <Link to='/'>Home</Link>
-        </div> */}
 
         <div
           className={

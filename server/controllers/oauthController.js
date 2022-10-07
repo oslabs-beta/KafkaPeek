@@ -2,13 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 dotenv.config();
 const axios = require('axios');
-// const cookieSession = require('cookie-session');
-// // const cookie_secret = process.env.COOKIE_SECRET;
-// router.use(
-//   cookieSession({
-//     secret: 'mainSecret',
-//   })
-// );
+
 const client_id = process.env.GITHUB_CLIENT_ID;
 const client_secret = process.env.GITHUB_CLIENT_SECRET;
 

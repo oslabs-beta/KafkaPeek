@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './Sidebar';
-// import LineChart from '../components/LineChart';
-// import TimeSeriesChart from '../components/TimeSeriesChart';
 import RealTimeChart from '../components/RealTimeChart';
 import RealTimeChart2 from '../components/RealTimeChart2';
 import RealTimeChart3 from '../components/RealTimeChart3';
 import StaticMetricDisplay from '../components/StaticMetricDisplay';
 import { io } from "socket.io-client";
 import axios from 'axios'
-// const URL_PARAMS = new URLSearchParams(window.location.search);
 
 const socket = io('http://localhost:4000', {
   autoConnect: false
@@ -80,39 +77,6 @@ const Dashboard = ({ active, setActive, user, setUser }) => {
       setBrokersRunning(data.brokersRunning);
      }) 
   }, []);
-
-
-  // const accessToken = URL_PARAMS.get('token');
-  
-  // useEffect(() => {
-  //   console.log('ACCESS TOKEN', accessToken);
-  //   console.log(window.location)
-  //   const getGithubUser = async (access_token) => {
-  //     const res = await axios.get('https://api.github.com/user', {
-  //       headers: {
-  //         Authorization: `bearer ${access_token}`,
-  //       },
-  //     });
-      
-  //     const userObj = await {
-  //       name: res.data.name,
-  //       id: res.data.id, 
-  //       login: res.data.login,
-  //       email: res.data.emil
-  //     };
-  //     console.log(userObj,'hi')
-  //     await setUser(userObj);    
-  //     console.log(user,'hi again')
-  //   };
-
-  //   if (accessToken) {
-  //     getGithubUser(accessToken);
-  //     window.history.replaceState(null, `${window.location.origin}/`);
-  //   }
-  //   console.log(user, '<---- logging new State hopefully');
-  // }, [accessToken]);
-
-
  
   return (
 
