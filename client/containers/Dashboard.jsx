@@ -5,8 +5,7 @@ import RealTimeChart2 from '../components/RealTimeChart2';
 import RealTimeChart3 from '../components/RealTimeChart3';
 import StaticMetricDisplay from '../components/StaticMetricDisplay';
 import { io } from "socket.io-client";
-import axios from 'axios'
-// const URL_PARAMS = new URLSearchParams(window.location.search);
+
 
 const socket = io('http://localhost:4000', {
   autoConnect: false
