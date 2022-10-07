@@ -1,6 +1,10 @@
 const request = require('supertest');
 const app = require('../server/server')
 
+afterAll(done => {
+    done()
+});
+
 describe('Route integration', () => {
     
     describe('/', () => {
