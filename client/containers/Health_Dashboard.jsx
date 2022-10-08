@@ -13,17 +13,19 @@ const socket = io('http://localhost:4000', {
   autoConnect: false
 });
 
+export const params = {
+  'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[10m:10s]'],
+  'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate','[10m:10s]'],
+  'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate','[10m:10s]'],
+  'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}','[10m:10s]'],
+  'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
+  'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
+  'offlinePartitions': ['kafka_controller_offlinepartitionscount',''],
+  'brokersRunning': ['count(kafka_server_brokerstate)','']
+}
+
 const emitFunc = () => {
-  socket.emit('health', {
-    'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate','[10m:10s]'],
-    'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate','[10m:10s]'],
-    'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate','[10m:10s]'],
-    'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}','[10m:10s]'],
-    'activeControllerCount': ["sum(kafka_controller_activecontrollercount)",""],
-    'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions',''],
-    'offlinePartitions': ['kafka_controller_offlinepartitionscount',''],
-    'brokersRunning': ['count(kafka_server_brokerstate)','']
-  })
+  socket.emit('health', params)
 }
 
 const stopFunc = () => {
