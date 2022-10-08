@@ -63,7 +63,7 @@ class Perf_ReqTotalTime extends React.Component {
           range: 600000,
         },
         yaxis: {
-          min: 0,
+          min: 2,
           max: 4,
           decimalsInFloat: 2,
           opposite: true,

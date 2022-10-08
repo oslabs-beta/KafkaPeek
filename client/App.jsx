@@ -30,14 +30,14 @@ const App = () => {
         },
       });
       
-      const userObj = await {
+      const userObj = {
         name: res.data.name,
         id: res.data.id, 
         login: res.data.login,
         email: res.data.emil
       };
       console.log('hi', userObj, user)
-      await setUser(userObj);    
+      setUser(userObj);    
       console.log('hi again',user)
     };
 

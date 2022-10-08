@@ -79,7 +79,7 @@ const fetchQuery = async (query, timeFrame) => {
                     return data.data.data.result[0].value[1];
                 case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
                     return data.data.data.result[0].value[1];
-                case ('kafka_network_processor_idle_percent'):
+                case ('kafka_network_processor_idle_percent'): 
                 case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
                     let convertedVal = await multiGraphConvert(data.data.data.result)
                     console.log('logging convertedVal 10min ->', convertedVal);
