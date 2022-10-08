@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Login from './containers/Login';
 import Signup from './containers/Signup';
 import Health_Dashboard from './containers/Health_Dashboard';
+import Dropdown from './containers/Dropdown'
 import Landing from './containers/Landing';
+import Notifications from './containers/Notifications';
 import axios from 'axios';
 // import { useNavigate } from "react-router-dom";
 import Perf_Dashboard from './containers/Perf_Dashboard';
+
 
 const URL_PARAMS = new URLSearchParams(window.location.search);
 const accessToken = URL_PARAMS.get('token');
@@ -56,12 +58,12 @@ const App = () => {
           }
         />
         <Route
-          path='/login'
-          element={<Login active={active} setActive={setActive} />}
+          path='/notifications'
+          element={<Notifications active={active} setActive={setActive} user={user} />}
         />
         <Route
-          path='/signup'
-          element={<Signup active={active} setActive={setActive} />}
+          path='/dropdown'
+          element={<Dropdown/>}
         />
         <Route
           exact

@@ -5,7 +5,7 @@ import RealTimeChart2 from '../components/RealTimeChart2';
 import RealTimeChart3 from '../components/RealTimeChart3';
 import StaticMetricDisplay from '../components/StaticMetricDisplay';
 import { io } from "socket.io-client";
-
+  
 
 const socket = io('http://localhost:4000', {
   autoConnect: false
@@ -105,3 +105,59 @@ const Dashboard = ({ active, setActive, user, setUser }) => {
 };
 
 export default Dashboard;
+
+
+// {
+// 	"blocks": [
+// 		{
+// 			"type": "section",
+// 			"text": {
+// 				"type": "plain_text",
+// 				"emoji": true,
+// 				"text": "Looks like you have a conflict with these metrics:"
+// 			}
+// 		},
+// 		{
+// 			"type": "divider"
+// 		},
+// 		{
+// 			"type": "section",
+// 			"text": {
+// 				"type": "mrkdwn",
+// 				"text": "*cluster-demo / kafka-broker*\n BytesInPerSec Rate: 1900\n*cluster-demo / kafka-broker*\nBytesOutPerSec Rate: 1780"
+// 			},
+// 			"accessory": {
+// 				"type": "image",
+// 				"image_url": "https://freesvg.org/img/1538316074.png",
+// 				"alt_text": "alert icon"
+// 			}
+// 		},
+// 		{
+// 			"type": "divider"
+// 		},
+// 		{
+// 			"type": "context",
+// 			"elements": [
+// 				{
+// 					"type": "image",
+// 					"image_url": "https://api.slack.com/img/blocks/bkb_template_images/notificationsWarningIcon.png",
+// 					"alt_text": "notifications warning icon"
+// 				},
+// 				{
+// 					"type": "mrkdwn",
+// 					"text": "*Conflicts with metrics going over threshold: 1600*"
+// 				}
+// 			]
+// 		},
+// 		{
+// 			"type": "context",
+// 			"elements": [
+// 				{
+// 					"type": "plain_text",
+// 					"text": "Assigned By: Luis Navarro",
+// 					"emoji": true
+// 				}
+// 			]
+// 		}
+// 	]
+// }

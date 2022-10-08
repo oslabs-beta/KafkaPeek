@@ -75,7 +75,7 @@ const Sidebar = (props) => {
           <div>
             <CogIcon />
           </div>
-          <Link to='#'>Settings</Link>
+          <Link to='/notifications'>Settings</Link>
         </div>
       </div>
       <div id='bottom-sidebar'>
