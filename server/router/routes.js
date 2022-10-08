@@ -54,7 +54,73 @@ router.get('/logout', (req, res) => {
 
 router.post('/form-submit', (req,res,next)=>{
   console.log('can you check this',req.body)
-  return res.send(req.body)
+  const time = new Date().toUTCString().slice(5,-4)
+   axios.post('https://hooks.slack.com/services/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',{
+    "blocks": [
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": " :wave: You have a new request:\n\n*A new metric has been set for notifications* \n *Your contact channel will be subcribed for the following:*"
+        }
+      },
+      {
+        "type": "section",
+        "fields": [
+          {
+            "type": "mrkdwn",
+            "text": `*Metric:*\n ${req.body.label}`
+          },
+          {
+            "type": "mrkdwn",
+            "text": `*Subscribed :*\nSubmitted ${time}`
+          },
+          {
+            "type": "mrkdwn",
+            "text": "*Threshold:*\n1800"
+          },
+          {
+            "type": "mrkdwn",
+            "text": `*Assigned By:*\n - ${req.body.name}`
+          }
+        ]
+      },
+      {
+        "type": "actions",
+        "elements": [
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "emoji": true,
+              "text": "Approve"
+            },
+            "style": "primary",
+            "value": "click_me_123"
+          },
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "emoji": true,
+              "text": "Deny"
+            },
+            "style": "danger",
+            "value": "click_me_123"
+          }
+        ]
+      }
+    ]
+  })
+  .then(()=>{
+    res.send('Form submitted successfully!')
+  })
+  .catch((error)=>{
+    console.log(error)
+    res.send('Form submission failed!')
+  });
+  return
+})
 
   // axios.post('https://hooks.slack.com/services/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', {
   //   "blocks": [
@@ -116,7 +182,7 @@ router.post('/form-submit', (req,res,next)=>{
   // .catch(()=>{
   //   res.send('Form submission failed!')
   // });
-})
+
 
 
 
