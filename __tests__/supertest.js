@@ -1,6 +1,6 @@
 const { io } = require('socket.io-client');
 const request = require('supertest');
-const app = require('../server/server');
+const {app} = require('../server/server');
 
 
 

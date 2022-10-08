@@ -9,7 +9,7 @@
     "start": "NODE_ENV=production node server/server.js",
     "start:consumer": "node ./consumer/index.js",
     "start:producer": "node ./producer/index.js",
-    "test": "jest --detectOpenHandles --forceExit"
+    "test": "jest --detectOpenHandles"
   },
   "repository": {
     "type": "git",

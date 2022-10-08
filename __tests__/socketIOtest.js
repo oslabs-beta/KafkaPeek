@@ -1,8 +1,9 @@
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const Client = require("socket.io-client");
-
-describe("my awesome project", () => {
+const { httpServer } = require('../server/server');
+const { fetchQuery, resetCounter } = require('../server/queries');
+describe("Testing Zurau websocket", () => {
   let io, serverSocket, clientSocket;
 
   beforeAll((done) => {
@@ -24,19 +25,19 @@ describe("my awesome project", () => {
   });
 
   test("should work", (done) => {
-    clientSocket.on("hello", (arg) => {
+    clientSocket.on("health", (arg) => {
       expect(arg).toBe("world");
       done();
     });
-    serverSocket.emit("hello", "world");
+    serverSocket.emit("health", "world");
   });
 
   test("should work (with ack)", (done) => {
     serverSocket.on("hi", (cb) => {
-      cb("hola");
+      cb("hello");
     });
     clientSocket.emit("hi", (arg) => {
-      expect(arg).toBe("hola");
+      expect(arg).toBe("hello");
       done();
     });
   });
