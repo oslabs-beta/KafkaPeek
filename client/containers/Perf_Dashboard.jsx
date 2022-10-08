@@ -69,6 +69,7 @@ const Dashboard = ({ active, setActive }) => {
       const [ mean, ninetyNinth, seventyFifth ] = data.requestTotalTime;
       // console.log('mean', mean);
       // console.log('ninetyNinth', ninetyNinth)
+      console.log(data.processorIdlePercent)
       setReqTTMean(currentData => [...currentData, ...mean]);
       setReqTTNinetyNinth(currentData => [...currentData, ...ninetyNinth]);
       setReqTTSeventyFifth(currentData => [...currentData, ...seventyFifth]);
