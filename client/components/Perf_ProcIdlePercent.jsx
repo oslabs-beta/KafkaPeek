@@ -9,7 +9,15 @@ class Perf_ProcIdlePercent extends React.Component {
     super(props);
 
     this.state = {
-      series: [71, 63],
+    //   series: [
+    //     {name: '1', data: props.series}, 
+    //   {name: '2', data: props.series}, 
+    //   {name: '3', data: props.series}, 
+    //   {name: '4', data: props.series}, 
+    //   {name: '5', data: props.series}, 
+    //   {name: '6', data: props.series}
+    // ],
+      series: [1, 1, 1, 1, 1, 1],
       chart: {
         type: 'radialBar',
         height: 320,
@@ -43,9 +51,6 @@ class Perf_ProcIdlePercent extends React.Component {
         position: 'left',
         offsetX: -30,
         offsetY: 10,
-        formatter: function (val, opts) {
-          return val + " - " + opts.w.globals.series[opts.seriesIndex] + '%'
-        }
       },
       fill: {
         type: 'gradient',
@@ -64,7 +69,7 @@ class Perf_ProcIdlePercent extends React.Component {
 
   render() {
     return (
-      <div id='metric-container-1'>
+      <div id='metric-container-2'>
         <ReactApexChart
           options={this.state.options}
           series={this.props.series}

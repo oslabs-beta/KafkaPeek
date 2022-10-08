@@ -105,14 +105,13 @@ const Dashboard = ({ active, setActive }) => {
       <Sidebar active={active} setActive={setActive} socketDisconnect={socketDisconnect}/>
       <div id='dashboard-charts'>
         <StaticMetricDisplay metric={reqPerSec} title={"Requests Per Second"} container={1}/>
-        <StaticMetricDisplay container={2}/>
+        {/* <StaticMetricDisplay container={2}/> */}
         <StaticMetricDisplay container={3}/>
         <StaticMetricDisplay container={4}/>
-        {/* <Perf_ReqPerSec series={[{name: 'Requests Per Second', data: reqPerSec}]} />  */}
         <Perf_ReqTotalTime series={[{name: 'Mean', data: reqTTMean},{name: '99th Percentile', data: reqTTNinetyNinth}, {name: '75th Percentile', data: reqTTSeventyFifth}]} /> 
         <Perf_ResQueueTime series={[{name: 'Response Queue Time', data: resQueueTime}]} />
         <Perf_ResSendTime series={[{name: 'Response Send Time', data: resSendTime}]} />
-        <Perf_ProcIdlePercent />
+        <Perf_ProcIdlePercent series={[{name: '1', data: netPIPFirst}, {name: '2', data: netPIPSecond}, {name: '3', data: netPIPThird}, {name: '4', data: netPIPFourth}, {name: '5', data: netPIPFifth}, {name: '6', data: netPIPSixth}]}/>
         <button onClick={handleClick}>
           {buttonText}
         </button>
