@@ -3,12 +3,20 @@ import Sidebar from './Sidebar';
 import Select from 'react-select'
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios'
+import BytesInPer from '../components/notificationComponents/BytesInPer.jsx';
+
+
 
 const Notifications = ({ active, setActive, user}) => {
+  const [bytesInPerInterval, setbytesInPerInterval] = useState(0);
+  function bytesInFunc(interval){
+    setbytesInPerInterval(interval)
+  }
   const metrics = [
-    { value: "bytesInPerSec", label: "BytesInPerSec" },
+    { value: "bytesInPerSec", label: "BytesInPerSec", },
     { value: "bytesOutPerSec", label: "BytesOutPerSec" },
-    { value: "offlinePartitions", label: "Offline Partitions" }
+    { value: "offlinePartitions", label: "Offline Partitions" },
+    { value: "underRepPartitions", label: "Under Replicated Partitions" }
   ];
   const [metric, setMetric] = useState(metrics[0]);
 
@@ -44,9 +52,11 @@ const Notifications = ({ active, setActive, user}) => {
           </div>
         </div>
       </div>
+
+{/*----------------------break---------------------------------------------------*/}
       <div>
-          <h1 style={{paddingRight: '750px', position:'relative'}}></h1>
-        </div>
+        <BytesInPer metrics = {metrics} metric ={metric} bytesFunc={bytesInFunc} bytesInPerInterval={bytesInPerInterval}/>
+      </div>
     </div>
   </div>
   );
