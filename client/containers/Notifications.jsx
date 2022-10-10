@@ -4,26 +4,46 @@ import Select from 'react-select'
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios'
 import BytesInPer from '../components/notificationComponents/BytesInPer.jsx';
-
-
+import BytesOutPer from '../components/notificationComponents/BytesOutPer.jsx'
+import OfflinePart from '../components/notificationComponents/Offlinepart.jsx';
 
 const Notifications = ({ active, setActive, user}) => {
-  const [bytesInPerInterval, setbytesInPerInterval] = useState(0);
+  // ------------ BYTES IN (STATE, FUNC) 
+  const [bytesInPerInterval, setbytesInPerInterval] = useState();
   function bytesInFunc(interval){
     setbytesInPerInterval(interval)
   }
+
+  // ------------ BYTES OUT (STATE, FUNC) 
+  const [bytesOutPerInterval, setbytesOutPerInterval] = useState();
+
+  function bytesOutFunc(interval){
+    setbytesOutPerInterval(interval)
+  }
+
+  // --------------------------------- final render component that will be displayed
+  const [displayedComponent, setdisplayedComponent] = useState()
+  // --------------------------------- bank of different component options
+  const subComponents = {
+    bytesInPerSec:[<BytesInPer bytesInFunc={bytesInFunc} bytesInPerInterval={bytesInPerInterval}/>],
+    bytesOutPerSec: [<BytesOutPer bytesOutFunc={bytesOutFunc} bytesOutPerInterval={bytesOutPerInterval}/>],
+    offlinePartitions: [<OfflinePart />]
+  }
   const metrics = [
-    { value: "bytesInPerSec", label: "BytesInPerSec", },
-    { value: "bytesOutPerSec", label: "BytesOutPerSec" },
+    { value: "bytesInPerSec", label: "BytesIn PerSec", },
+    { value: "bytesOutPerSec", label: "BytesOut PerSec" },
     { value: "offlinePartitions", label: "Offline Partitions" },
     { value: "underRepPartitions", label: "Under Replicated Partitions" }
   ];
-  const [metric, setMetric] = useState(metrics[0]);
-
+  // displayed metric for left (main) component
+  const [metric, setMetric] = useState();
   const onChange = async selectedOption => {
     await setMetric(selectedOption);
+    const currentNode = subComponents[selectedOption.value]
+    await setdisplayedComponent(currentNode)
   };
 
+  //------ final function to send message to slack ---------------------
   const trackMetrics = async () => {
     const sendingObj = Object.assign(metric, {name: user.name})
     await axios.post("http://localhost:4000/auth/form-submit", metric)
@@ -38,8 +58,8 @@ const Notifications = ({ active, setActive, user}) => {
   return (
   <div id='dashboard-container'>
     <Sidebar active={active} setActive={setActive}/>
-    <div id='dashboard-charts' style={{ display:'flex', justifyContent:'space-evenly', alignItems:'flex-start'}}>
-      <div className="metricsContainer" style={{position:'relative',width:'100%',maxWidth:'960px',margin:'5px' ,paddingLeft:'90px',boxSizing:'border-box'}}>
+    <div id='dashboard-charts' style={{ display:'flex', justifyContent:'space-around', alignItems:'flex-start'}}>
+      <div className="metricsContainer" style={{position:'relative',width:'100%',maxWidth:'960px',margin:'5px' ,paddingLeft:'10px',boxSizing:'border-box'}}>
         <h2 style={{marginBottom:'15px',fontSize:'3.6rem',lineHeight:'1.25',letterSpacing:'-.1rem',marginTop: '100px'}}>Set up Slack Notifications</h2>
         <div className="subContainer">
           <div className="innerBoxContainer" style={{float:'left',boxSizing:'border-box'}}>
@@ -53,9 +73,9 @@ const Notifications = ({ active, setActive, user}) => {
         </div>
       </div>
 
-{/*----------------------break---------------------------------------------------*/}
+{/*----------------------break--------------------------------------------------------------------------------------*/}
       <div>
-        <BytesInPer metrics = {metrics} metric ={metric} bytesFunc={bytesInFunc} bytesInPerInterval={bytesInPerInterval}/>
+        {displayedComponent}
       </div>
     </div>
   </div>
