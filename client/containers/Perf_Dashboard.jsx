@@ -49,13 +49,13 @@ const Dashboard = ({ active, setActive }) => {
 
   const handleClick = () => {
     if(!startMetric.current) {
-      socket.connect()
+      socket.connect();
       emitFunc();
-      setButtonText('Pause')
+      setButtonText('Pause');
       startMetric.current = !startMetric.current;
     } else {
       stopFunc();
-      setButtonText('Get Metrics')
+      setButtonText('Get Metrics');
       startMetric.current = !startMetric.current;
     }
   }
