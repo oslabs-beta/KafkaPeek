@@ -55,6 +55,7 @@ router.get('/logout', (req, res, next) => {
 
 router.post('/form-submit',
   slackController.initialNote,
+  slackController.checkingMetric,
   (req,res,next)=>{
   return res.status(200).send('good')
 })

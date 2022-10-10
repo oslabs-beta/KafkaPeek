@@ -59,6 +59,10 @@ app.get('/dist/bundle.js', (req, res, next) => {
 
 //--------initialize socket.io connection to front end-----------------------------------
 var fetchIntervalID;
+const metricsObject = {
+  bytesInPerSec: 'null',
+  bytesOutPerSec: 'null'
+}
 io.on('connection', (socket) => {
   console.log('a new user connected');
   //emit fetch request every 5 seconds
@@ -67,7 +71,7 @@ io.on('connection', (socket) => {
     fetchIntervalID = setInterval(async () => {
       const fetchObj = {};
       for (const [k, v] of Object.entries(args)) {
-        fetchObj[k] = await fetchQuery(v[0], v[1]);
+        fetchObj[k] = await fetchQuery(v[0], v[1], k, metricsObject);
       }
 
       socket.emit('health', fetchObj);
@@ -79,7 +83,7 @@ io.on('connection', (socket) => {
     fetchIntervalID = setInterval(async () => {
       const fetchObj = {};
       for (const [k, v] of Object.entries(args)) {
-        fetchObj[k] = await fetchQuery(v[0], v[1]);
+        fetchObj[k] = await fetchQuery(v[0], v[1], k);
       }
 
       socket.emit('performance', fetchObj);
@@ -101,6 +105,7 @@ io.on('connection', (socket) => {
 });
 
 //--------------- other paths --------------------------------------------------------
+
 app.use('/auth', authRouter);
 
 
@@ -127,4 +132,5 @@ httpServer.listen(PORT, () =>
   console.log(`Server listening on port: ${PORT}...`)
 );
 
-module.exports = app;
+module.exports = {app, metricsObject}
+

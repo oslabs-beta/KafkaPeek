@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios');
-
+const metricsObject  = require('../server.js')
 
 
 module.exports = {
@@ -44,6 +44,12 @@ async initialNote (req,res,next){
             .then(()=>{
                 console.log('Form submitted successfully!')
             })
+            .then(() => {
+              res.locals.newMetric = {
+                label: req.body.label,
+                threshold: req.bdy.threshold
+                }
+            })
             .catch((error)=>{
                 console.log(error)
             });
@@ -51,6 +57,11 @@ async initialNote (req,res,next){
     }catch(error){
         return next({error, message: 'something went wrong sending Slack message', log: 'middleware error in the initialNote function'});
     }
+  },
+
+  async checkingMetric(req,res,next){
+    metricsObject[res.locals.newMetric.label] = res.locals.newMetric.threshold
+    return next()
   }
 }
 
