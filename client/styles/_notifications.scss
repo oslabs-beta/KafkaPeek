@@ -1,0 +1,25 @@
+
+#dashboard-container{
+    .fade {
+        margin-top: 15px;
+        padding: 20px;
+        font-size: 24px;
+        border-radius: 4px;
+        font-weight: bold;
+        background-color: #123d57;
+        color: #fff;
+        transition: background-color 1s;
+      }
+      
+      .fade:hover {
+        background-color: #166492;
+      }
+      
+      .fade:focus,
+      .fade:active {
+        background-color: black;
+        transition: none;
+      }
+
+}
+      

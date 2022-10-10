@@ -53,13 +53,6 @@ router.get('/logout', (req, res, next) => {
 // ------------------------------------------------- notifications -------------------------------------
 
 
-router.post('/slack',(req,res,next)=>{
-  console.log('hi')
-  console.log('user clicked the approve button', req.body)
-  return res.sendStatus(200)
-})
-
-
 router.post('/form-submit',
   slackController.initialNote,
   (req,res,next)=>{

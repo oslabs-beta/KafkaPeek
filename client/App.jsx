@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Signup from './containers/Signup';
 import Health_Dashboard from './containers/Health_Dashboard';
-import Dropdown from './containers/Dropdown'
 import Landing from './containers/Landing';
 import Notifications from './containers/Notifications';
 import axios from 'axios';
@@ -60,10 +59,6 @@ const App = () => {
         <Route
           path='/notifications'
           element={<Notifications active={active} setActive={setActive} user={user} />}
-        />
-        <Route
-          path='/dropdown'
-          element={<Dropdown/>}
         />
         <Route
           exact

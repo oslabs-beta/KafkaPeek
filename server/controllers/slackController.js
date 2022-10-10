@@ -8,13 +8,14 @@ module.exports = {
 async initialNote (req,res,next){
     try{
         const time = new Date().toUTCString().slice(5,-4)
-        axios.post('https://hooks.slack.com/services/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',{
+        console.log('logging body inside', req.body)
+        axios.post('https://hooks.slack.com/services/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',{
             "blocks": [
               {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": " :wave: You have a new alert:\n\n*A new metric has been set for notifications* \n *Your contact channel will be subcribed for the following:*"
+                  "text": " :wave: *You have a new alert:*\n\n You will begin to receive notifictions for the following:"
                 }
               },
               {
@@ -30,7 +31,7 @@ async initialNote (req,res,next){
                   },
                   {
                     "type": "mrkdwn",
-                    "text": "*Threshold:*\n1800"
+                    "text": `*Threshold:*\n > ${req.body.threshold}`
                   },
                   {
                     "type": "mrkdwn",

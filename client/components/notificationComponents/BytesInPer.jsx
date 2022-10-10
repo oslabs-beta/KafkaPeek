@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select'
 
 
-const BytesInPer = ({bytesInFunc, bytesInPerInterval}) => { 
+const BytesInPer = ({bytesInFunc}) => { 
 
   const intervals = [
     { value: {thresholdNumber: "1600", thresholdLabel: "BytesIn PerSec"}, label: "> 1600" },
@@ -23,7 +23,7 @@ const BytesInPer = ({bytesInFunc, bytesInPerInterval}) => {
 </h2>
       <div className="subContainer">
         <div className="innerBoxContainer" style={{float:'left',boxSizing:'border-box'}}>
-          <Select width='50px' menuColor='red' onChange={bytesInFunc} options={intervals} value={bytesInPerInterval} />
+          <Select width='50px' menuColor='red' onChange={bytesInFunc} options={intervals}  />
         </div>
     </div>
   </div>
