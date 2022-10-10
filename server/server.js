@@ -132,5 +132,5 @@ httpServer.listen(PORT, () =>
   console.log(`Server listening on port: ${PORT}...`)
 );
 
-module.exports = {app, metricsObject}
+module.exports = {app, httpServer, metricsObject}
 
