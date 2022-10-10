@@ -1,11 +1,9 @@
 const axios = require('axios')
-const  {metricsObject} = require('./server.js')
-
-console.log("console log metricsObject in queries.js", metricsObject)
+const  metricsObject = require('./controllers/utils.js')
 
 const slackPostFunc = (label, currentThreshold, currentValue) => {
-    console.log('axios call')
-    axios.post('https://hooks.slack.com/services/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',{
+    console.log('axios call', label, currentThreshold, currentValue)
+    axios.post('https://hooks.slack.com/services/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',{
         "blocks": [
             {
                 "type": "section",
@@ -34,17 +32,19 @@ const slackPostFunc = (label, currentThreshold, currentValue) => {
     return
 };
 
-const timeConvert = (arr, label, metricsObjectNested)=> {
+const timeConvert = (arr, label)=> {
     const newArr = []
     arr.forEach(data => {
-        // console.log('insideTIMECONVERT--->',label, metricsObject[label], data[1])
-        // if(metricsObjectNested[label] === 'number') {
-        //     if(data[1] > metricsObjectNested[label]){
-        //         slackPostFunc(label, metricsObjectNested[label], data[1])
-        //         metricsObjectNested[label] = null  
-        //     }
-        // }
-        // console.log('logginglabel inside TIMECONVERT', label)
+        console.log('testing', metricsObject[label])
+        if(metricsObject[label]) {
+            console.log('logging inside FOREACH',label)
+            const thresholdNumber = Number(metricsObject[label])
+            if(data[1] > thresholdNumber){
+                slackPostFunc(label, metricsObject[label], parseInt(data[1]))
+                metricsObject[label] = null  
+            }
+        }
+        // console.log('logginglabel inside TIMECONVERT', label) ->>>>its not logging the console log on line 39
         newArr.push([((data[0] - 14400) * 1000), data[1]]);
     });
     return newArr
@@ -99,10 +99,10 @@ const multiGraphConvert = (arr) => {
 
 let counter = 0;
 
-const fetchQuery = async (query, timeFrame, label, metricsObject) => {
+const fetchQuery = async (query, timeFrame, label) => {
     //send a fetch request to prometheus using axios
     if(counter < 4) {
-        // console.log(`sending PAST 10m of cluster query on params: ${query}, ${timeFrame}, ${label}`)
+        console.log(`sending PAST 10m of cluster query on params: ${query}, ${timeFrame}, ${label}`)
         // console.log(`${typeof label}`)
         try {
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}${timeFrame}`)
@@ -128,7 +128,7 @@ const fetchQuery = async (query, timeFrame, label, metricsObject) => {
                     return convertedVal;
                 default:
                     let preConvert = data.data.data.result[0].values
-                    let output = timeConvert(preConvert,label, metricsObject)
+                    let output = timeConvert(preConvert,label)
                     // console.log(`${query}`, output)
                     return output
             }
@@ -138,7 +138,7 @@ const fetchQuery = async (query, timeFrame, label, metricsObject) => {
     } else {
         try {
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}`)
-            // console.log(`sending CURRENT ONLY cluster query on params: ${query}`)
+            console.log(`sending CURRENT ONLY cluster query on params: ${query}`)
             switch(query) {
                 case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
                     let jvmPre = [data.data.data.result[0].value]
@@ -161,7 +161,7 @@ const fetchQuery = async (query, timeFrame, label, metricsObject) => {
                     return convertedVal;
                 default:
                     let preConvert = [data.data.data.result[0].value]
-                    let output = timeConvert(preConvert,label, metricsObject)
+                    let output = timeConvert(preConvert,label)
                     // console.log(`${query}`, output)
                     return output
             }

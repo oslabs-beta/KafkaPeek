@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios');
-// const metricsObject  = require('../server.js')
+const metricsObject  = require('./utils.js')
 
 
 module.exports = {
@@ -8,8 +8,7 @@ module.exports = {
 async initialNote (req,res,next){
     try{
         const time = new Date().toUTCString().slice(5,-4)
-        console.log('logging body inside', req.body)
-        axios.post('https://hooks.slack.com/services/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',{
+        axios.post('https://hooks.slack.com/services/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',{
             "blocks": [
               {
                 "type": "section",
@@ -42,25 +41,20 @@ async initialNote (req,res,next){
             ]
           })
             .then(()=>{
-                console.log('Form submitted successfully!')
-            })
-            .then(() => {
-              res.locals.newMetric = {
-                label: req.body.label,
-                threshold: req.bdy.threshold
-                }
+                console.log('Form submitted successfully!');
             })
             .catch((error)=>{
-                console.log(error)
+                console.log('error inside axios')
             });
-        return next()
+            return next()
     }catch(error){
         return next({error, message: 'something went wrong sending Slack message', log: 'middleware error in the initialNote function'});
-    }
+    } 
   },
 
   async checkingMetric(req,res,next){
-    // metricsObject[res.locals.newMetric.label] = res.locals.newMetric.threshold
+    console.log('REQ>BODY',req.body.value, req.body.threshold)
+    metricsObject[req.body.value] = req.body.threshold
     return next()
   }
 }
