@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { Link } from 'react-router-dom';
+
 import GraphIcon from '../assets/GraphIcon.jsx';
 import CogIcon from '../assets/CogIcon.jsx';
 import UserIcon from '../assets/UserIcon.jsx';
@@ -11,20 +13,17 @@ const Sidebar = (props) => {
   const { active, setActive, socketDisconnect } = props;
 
   const toggleSocket = () => {
-    socketDisconnect.current = !socketDisconnect.current
+    socketDisconnect.current = !socketDisconnect.current;
   }
 
   return (
     <div id='sidebar-container'>
       <div id='top-sidebar'>
         <ZurauLogo />
-        <div className="spacer"/>
-        <div id="sidebar-title">Zurau</div> 
+        <div className="spacer" />
+        <div id="sidebar-title">Zurau</div>
       </div>
       <div id='middle-sidebar'>
-        {/* <div onClick={toggleSocket}>
-        <Link to='/'>Home</Link>
-        </div> */}
 
         <div
           className={
@@ -37,7 +36,7 @@ const Sidebar = (props) => {
           <div>
             <HomeIcon />
           </div>
-            <Link to='/'>Home</Link>
+          <Link to='/'>Home</Link>
         </div>
 
         <div
@@ -46,7 +45,7 @@ const Sidebar = (props) => {
               ? 'sidebar-button active-button'
               : 'sidebar-button'
           }
-          
+
           onClick={() => {
             setActive('health');
             toggleSocket;
@@ -87,7 +86,7 @@ const Sidebar = (props) => {
             <UserIcon />
           </div>
           <Link to='#'>Account</Link>
-          </div>
+        </div>
         <div
           className={
             active == 'settings'
@@ -104,17 +103,17 @@ const Sidebar = (props) => {
       </div>
       <div id='bottom-sidebar'>
         <div
-            className={
-              active == 'logout'
-                ? 'sidebar-button active-button'
-                : 'sidebar-button'
-            }
-            onClick={toggleSocket}
-          >   
+          className={
+            active == 'logout'
+              ? 'sidebar-button active-button'
+              : 'sidebar-button'
+          }
+          onClick={toggleSocket}
+        >
           <div>
             <Logout />
           </div>
-          <Link to='http://localhost:4000/auth/logout'>Logout</Link>   
+          <Link to='http://localhost:4000/auth/logout'>Logout</Link>
         </div>
       </div>
     </div>

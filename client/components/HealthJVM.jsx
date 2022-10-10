@@ -1,21 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 import ReactApexChart from 'react-apexcharts';
 
-class Perf_ReqTotalTime extends React.Component {
+class HealthJVM extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      series: [{
-        name: 'Mean', 
-        data: props.series
-      },{ 
-        name: '99th Percentile',
-        data: props.series
-      },{ 
-        name: '75th Percentile',
-        data: props.series
-      }],
+      series: [{ data: props.series }],
       options: {
         chart: {
           id: 'realtime',
@@ -43,28 +35,24 @@ class Perf_ReqTotalTime extends React.Component {
           curve: 'smooth',
         },
         title: {
-          text: 'Request Total Time',
+          text: 'JVM Heap Usage MB',
           align: 'left',
         },
 
-        noData: {
-          text: "CLICK TO GET METRICS...",
-        },
-        
         markers: {
           size: 0,
           hover: {
             size: 0
           }
         },
-        
+
         xaxis: {
           type: 'datetime',
           range: 600000,
         },
         yaxis: {
-          min: 2,
-          max: 4,
+          min: 0,
+          max: 1500,
           decimalsInFloat: 2,
           opposite: true,
           labels: {
@@ -82,14 +70,14 @@ class Perf_ReqTotalTime extends React.Component {
           offsetY: -20,
           offsetX: 300
         },
-        
+
       },
     };
   }
 
   render() {
     return (
-      <div id='chart-container'>
+      <div id='chart-container-3'>
         <ReactApexChart
           options={this.state.options}
           series={this.props.series}
@@ -102,4 +90,4 @@ class Perf_ReqTotalTime extends React.Component {
   }
 }
 
-export default Perf_ReqTotalTime;
+export default HealthJVM;

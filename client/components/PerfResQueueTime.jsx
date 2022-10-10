@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 import ReactApexChart from 'react-apexcharts';
-
-
-
-
-class Perf_ReqPerSec extends React.Component {
+class PerfResQueueTime extends React.Component {
   constructor(props) {
     super(props);
 
@@ -37,24 +34,24 @@ class Perf_ReqPerSec extends React.Component {
           curve: 'smooth',
         },
         title: {
-          text: 'Requests Per Second',
+          text: 'Response Queue Time (ms)',
           align: 'left',
         },
-        
+
         markers: {
           size: 0,
           hover: {
             size: 0
           }
         },
-        
+
         xaxis: {
           type: 'datetime',
-          range: 600000, 
+          range: 600000,
         },
         yaxis: {
-          min: 0,
-          max: 300,
+          min: 0.0001,
+          max: 4,
           decimalsInFloat: 2,
           opposite: true,
           labels: {
@@ -72,14 +69,14 @@ class Perf_ReqPerSec extends React.Component {
           offsetY: -20,
           offsetX: 300
         },
-        
+
       },
     };
   }
 
   render() {
     return (
-      <div id='metric-container-2'>
+      <div id='chart-container-2'>
         <ReactApexChart
           options={this.state.options}
           series={this.props.series}
@@ -92,4 +89,4 @@ class Perf_ReqPerSec extends React.Component {
   }
 }
 
-export default Perf_ReqPerSec;
+export default PerfResQueueTime;

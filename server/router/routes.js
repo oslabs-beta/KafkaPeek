@@ -1,14 +1,10 @@
 const express = require('express');
-// const passport = require('passport');
 const router = express.Router();
 const dotenv = require('dotenv');
 dotenv.config();
 const axios = require('axios');
 const cookieSession = require('cookie-session');
 const oauthController = require('../controllers/oauthController.js')
-// import { Navigate } from 'react-router-dom';
-
-// const cookie_secret = process.env.COOKIE_SECRET;
 
 router.use(
   cookieSession({
@@ -27,17 +23,17 @@ router.get('/github', (req, res, next) => {
 });
 
 router.get('/github/callback',
-oauthController.githubData,
-async (req, res) => {
-  req.session.name = res.locals.github.name;
-  req.session.id = res.locals.github.id;
-  req.session.login = res.locals.github.login;
-  req.session.email = res.locals.github.email;
-  req.session.token = res.locals.token
-  return res.redirect(`http://localhost:8080/?token=${req.session.token}`) 
-});
+  oauthController.githubData,
+  async (req, res) => {
+    req.session.name = res.locals.github.name;
+    req.session.id = res.locals.github.id;
+    req.session.login = res.locals.github.login;
+    req.session.email = res.locals.github.email;
+    req.session.token = res.locals.token
+    return res.redirect(`http://localhost:8080/?token=${req.session.token}`)
+  });
 
-router.get('/data',(req,res)=>{
+router.get('/data', (req, res) => {
   return res.status(200).send({
     name: req.session.name,
     id: req.session.id,

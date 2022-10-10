@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import App from './App';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
-import './styles/application.scss';
+
 import { HashRouter } from 'react-router-dom';
+
+import App from './App';
+import './styles/application.scss';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
