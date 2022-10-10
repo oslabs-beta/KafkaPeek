@@ -1,8 +1,50 @@
 const axios = require('axios')
+const  metricsObject = require('./controllers/utils.js')
 
-const timeConvert = (arr)=> {
+const slackPostFunc = (label, currentThreshold, currentValue) => {
+    console.log('axios call', label, currentThreshold, currentValue)
+    axios.post('https://hooks.slack.com/services/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',{
+        "blocks": [
+            {
+                "type": "section",
+                "text": {
+                    "type": "plain_text",
+                    "text": `${label}: ${currentValue}`,
+                    "emoji": true
+                }
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "plain_text",
+                    "text": `:Warning: ${label} has gone over the threshold: ${currentThreshold}, please check your kafka cluster for more details`,
+                    "emoji": true
+                }
+            }
+        ]
+    })
+    .then(()=>{
+        console.log('Message Sent Succesfully!')
+    })
+    .catch((error)=>{
+        console.log(error)
+    });
+    return
+};
+
+const timeConvert = (arr, label)=> {
     const newArr = []
     arr.forEach(data => {
+        console.log('testing', metricsObject[label])
+        if(metricsObject[label]) {
+            console.log('logging inside FOREACH',label)
+            const thresholdNumber = Number(metricsObject[label])
+            if(data[1] > thresholdNumber){
+                slackPostFunc(label, metricsObject[label], parseInt(data[1]))
+                metricsObject[label] = null  
+            }
+        }
+        // console.log('logginglabel inside TIMECONVERT', label) ->>>>its not logging the console log on line 39
         newArr.push([((data[0] - 14400) * 1000), data[1]]);
     });
     return newArr
@@ -57,11 +99,11 @@ const multiGraphConvert = (arr) => {
 
 let counter = 0;
 
-const fetchQuery = async (query, timeFrame) => {
+const fetchQuery = async (query, timeFrame, label) => {
     //send a fetch request to prometheus using axios
-
     if(counter < 4) {
-        console.log(`sending PAST 10m of cluster query on params: ${query}`)
+        console.log(`sending PAST 10m of cluster query on params: ${query}, ${timeFrame}, ${label}`)
+        // console.log(`${typeof label}`)
         try {
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}${timeFrame}`)
             counter++
@@ -86,8 +128,8 @@ const fetchQuery = async (query, timeFrame) => {
                     return convertedVal;
                 default:
                     let preConvert = data.data.data.result[0].values
-                    let output = timeConvert(preConvert)
-                    console.log(`${query}`, output)
+                    let output = timeConvert(preConvert,label)
+                    // console.log(`${query}`, output)
                     return output
             }
         } catch (err) {
@@ -119,8 +161,8 @@ const fetchQuery = async (query, timeFrame) => {
                     return convertedVal;
                 default:
                     let preConvert = [data.data.data.result[0].value]
-                    let output = timeConvert(preConvert)
-                    console.log(`${query}`, output)
+                    let output = timeConvert(preConvert,label)
+                    // console.log(`${query}`, output)
                     return output
             }
         } catch (err) {

@@ -22,9 +22,6 @@ const Sidebar = (props) => {
         <div id="sidebar-title">Zurau</div> 
       </div>
       <div id='middle-sidebar'>
-        {/* <div onClick={handleClickHome}>
-        <Link to='/'>Home</Link>
-        </div> */}
 
         <div
           className={
@@ -78,7 +75,7 @@ const Sidebar = (props) => {
           <div>
             <CogIcon />
           </div>
-          <Link to='#'>Settings</Link>
+          <Link to='/notifications'>Settings</Link>
         </div>
       </div>
       <div id='bottom-sidebar'>

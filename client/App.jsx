@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Login from './containers/Login';
 import Signup from './containers/Signup';
 import Health_Dashboard from './containers/Health_Dashboard';
 import Landing from './containers/Landing';
+import Notifications from './containers/Notifications';
 import axios from 'axios';
 // import { useNavigate } from "react-router-dom";
 import Perf_Dashboard from './containers/Perf_Dashboard';
 
+
 const URL_PARAMS = new URLSearchParams(window.location.search);
 const accessToken = URL_PARAMS.get('token');
 const App = () => {
-  // const navigate = useNavigate();
+  const [ongoingGate, setongoingGate] = useState(false)
+  const [ongoingList, setongoingList] = useState([])
   const [active, setActive] = useState('charts');
   const [user, setUser] = useState({
     name: '',
@@ -21,8 +23,6 @@ const App = () => {
   });
 
   useEffect(() => {
-    console.log('ACCESS TOKEN', accessToken);
-    console.log(window.location)
     const getGithubUser = async (access_token) => {
       const res = await axios.get('https://api.github.com/user', {
         headers: {
@@ -36,32 +36,12 @@ const App = () => {
         login: res.data.login,
         email: res.data.emil
       };
-      console.log('hi', userObj, user)
       await setUser(userObj);    
-      console.log('hi again',user)
     };
-
     if (accessToken) {
       getGithubUser(accessToken);
     }
-    console.log(user, '<---- logging new State hopefully');
   }, [accessToken]);
-
-  // useEffect(() => {
-  //   console.log('hi')
-  //   const getGithubUser = async () => {
-  //     const res = await axios.get('/auth/data', {
-  //       headers: {
-  //         Authorization: `bearer ${access_token}`,
-  //       },
-  //     });
-  //     console.log(res.data)
-  //     await setUser(res.data);   
-  //     return 
-  //   }
-  //   getGithubUser();
-  //   console.log(user, '<---- logging new State hopefully');
-  // }, [user]);
 
   return (
     <div id='app-container'>
@@ -79,12 +59,8 @@ const App = () => {
           }
         />
         <Route
-          path='/login'
-          element={<Login active={active} setActive={setActive} />}
-        />
-        <Route
-          path='/signup'
-          element={<Signup active={active} setActive={setActive} />}
+          path='/notifications'
+          element={<Notifications ongoingList={ongoingList}setongoingList={setongoingList}ongoingGate={ongoingGate} setongoingGate={setongoingGate} active={active} setActive={setActive} user={user} />}
         />
         <Route
           exact
