@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios');
-const metricsObject  = require('../server.js')
+// const metricsObject  = require('../server.js')
 
 
 module.exports = {
@@ -60,7 +60,7 @@ async initialNote (req,res,next){
   },
 
   async checkingMetric(req,res,next){
-    metricsObject[res.locals.newMetric.label] = res.locals.newMetric.threshold
+    // metricsObject[res.locals.newMetric.label] = res.locals.newMetric.threshold
     return next()
   }
 }

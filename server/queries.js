@@ -1,5 +1,6 @@
 const axios = require('axios')
-const  metricsObject  = require('./server.js')
+const  {metricsObject} = require('./server.js')
+
 console.log("console log metricsObject in queries.js", metricsObject)
 
 const slackPostFunc = (label, currentThreshold, currentValue) => {

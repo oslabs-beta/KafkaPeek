@@ -63,6 +63,12 @@ const metricsObject = {
   bytesInPerSec: 'null',
   bytesOutPerSec: 'null'
 }
+
+function helperMetrics(newValue){
+  console.log(metricsObject)
+  return
+}
+
 io.on('connection', (socket) => {
   console.log('a new user connected');
   //emit fetch request every 5 seconds
