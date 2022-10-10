@@ -13,17 +13,17 @@
   #top-sidebar {
     width: 100%;
     height: 25%;
-    display: flex; 
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    .spacer { 
-      width: 100%; 
+    .spacer {
+      width: 100%;
       height: 15%;
     }
 
-    #sidebar-title { 
+    #sidebar-title {
       font-family: $titleFont;
       font-size: 2rem;
       font-weight: 800;
@@ -72,7 +72,8 @@
         color: white;
         padding: 5px;
         font-family: $secondaryFont;
-        font-weight: 500; 
+        font-weight: 500;
+        font-size: 85%;
       }
     }
 
@@ -96,16 +97,16 @@
     padding: 15%;
     border-top: 1px solid rgba(211, 211, 211, 0.25);
     border-bottom: 1px solid rgba(211, 211, 211, 0.25);
+
     .sidebar-button {
-      height: 100%;
+      height: 50%;
       width: 100%;
       display: flex;
+      padding: .5rem;
       flex-direction: row;
       border-radius: 1rem;
-      padding: 1rem;
-      margin: 0.5rem;
       &:hover {
-        background-color: $secondaryColor;
+        background-color: $zurauOrange
       }
 
       div {
@@ -126,9 +127,9 @@
         color: white;
         padding: 5px;
         font-family: $secondaryFont;
-        font-weight: 500; 
+        font-weight: 500;
+        font-size: 100%;
       }
     }
-
   }
 }
