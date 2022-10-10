@@ -3,6 +3,7 @@ const axios = require('axios')
 const timeConvert = (arr)=> {
     const newArr = []
     arr.forEach(data => {
+        console.log('checking inside timeCONVERT -->',data[1])
         newArr.push([((data[0] - 14400) * 1000), data[1]]);
     });
     return newArr
@@ -59,7 +60,6 @@ let counter = 0;
 
 const fetchQuery = async (query, timeFrame) => {
     //send a fetch request to prometheus using axios
-
     if(counter < 4) {
         console.log(`sending PAST 10m of cluster query on params: ${query}`)
         try {
