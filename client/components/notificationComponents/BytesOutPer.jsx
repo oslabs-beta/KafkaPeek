@@ -1,11 +1,12 @@
 import React from 'react';
 import Select from 'react-select'
 const BytesOutPer = ({bytesOutFunc, bytesOutPerInterval}) => { 
+
   const intervals = [
-    { value: "1600", label: "> 1600" },
-    { value: "1900", label: "> 1900" },
-    { value: "2200", label: "> 2200" },
-    { value: "2600", label: "> 2600" }
+    { value: {thresholdNumber: "1600", thresholdLabel: "BytesOut PerSec"}, label: "> 1600" },
+    { value: {thresholdNumber: "1900", thresholdLabel: "BytesOut PerSec"}, label: "> 1900" },
+    { value: {thresholdNumber: "2200", thresholdLabel: "BytesOut PerSec"}, label: "> 2200" },
+    { value: {thresholdNumber: "2600", thresholdLabel: "BytesOut PerSec"}, label: "> 2600" }
   ];
 
   const onChange = async selectedOption => {
@@ -13,8 +14,7 @@ const BytesOutPer = ({bytesOutFunc, bytesOutPerInterval}) => {
   };
 
   return (
-    <div className="metricsContainer" style={{position:'relative',width:'100%',maxWidth:'960px',margin:'5px' ,paddingLeft:'90px',boxSizing:'border-box'}}>
-    <h2 style={{marginBottom:'15px',fontSize:'3.6rem',lineHeight:'1.25',letterSpacing:'-.1rem',marginTop: '100px'}}>BytesOut</h2>
+    <div className="metricsContainer" style={{position:'relative',width:'100%',maxWidth:'960px',margin:'5px' ,marginLeft:'10px', paddingRight: '90px',boxSizing:'border-box'}}>    <h2 style={{marginBottom:'15px',fontSize:'3.6rem',lineHeight:'1.25',letterSpacing:'-.1rem',marginTop: '100px'}}>BytesOut</h2>
     <h2 style={{color:'#555',textAlign:'left',fontSize:'11px',fontWeight:'600',lineHeight:'38px',letterSpacing:'.1rem'}}>
         The BytesOut metric shows the mean rate and one minute rate of outgoing bytes per second from each topic. 
         This metric will increase as the volume and frequency of messages being sent to and consumed from the topic increases. 
