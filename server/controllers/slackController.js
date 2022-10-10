@@ -9,7 +9,7 @@ async initialNote (req,res,next){
     try{
         const time = new Date().toUTCString().slice(5,-4)
         console.log('logging body inside', req.body)
-        axios.post('https://hooks.slack.com/services/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',{
+        axios.post('https://hooks.slack.com/services/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',{
             "blocks": [
               {
                 "type": "section",

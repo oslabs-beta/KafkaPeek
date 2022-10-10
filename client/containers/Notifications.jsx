@@ -7,7 +7,7 @@ import BytesInPer from '../components/notificationComponents/BytesInPer.jsx';
 import BytesOutPer from '../components/notificationComponents/BytesOutPer.jsx'
 import OfflinePart from '../components/notificationComponents/Offlinepart.jsx';
 import UnderRep from '../components/notificationComponents/UnderRep';
-
+import OngoingMetrics from '../components/notificationComponents/OngoingMetrics.jsx';
 
 
 const Notifications = ({ active, setActive, user}) => {
@@ -92,8 +92,9 @@ const Notifications = ({ active, setActive, user}) => {
     await setdisplayedComponent(currentNode)
   };
 
-  
+  const trackButtonDisplayed = [<button className='fade' onClick={trackMetrics}>Track Metric</button>]
   //------ final function to send message to slack ---------------------
+
   const trackMetrics = async () => {
     console.log('logging-->',gate)
     if(gate){
@@ -108,6 +109,7 @@ const Notifications = ({ active, setActive, user}) => {
       });
       return
     }else{
+      alert('Please choose a threshold to track')
       return
     }
    
@@ -123,13 +125,15 @@ const Notifications = ({ active, setActive, user}) => {
           <div className="innerBoxContainer" style={{float:'left',boxSizing:'border-box'}}>
             <Select width='50px' menuColor='red' options={metrics} onChange={onChange} value={metric} />
             <br/>
-            <h2 style={{color:'#555',textAlign:'left',fontSize:'11px',fontWeight:'600',lineHeight:'38px',letterSpacing:'.1rem'}}>Once you click 'Track Metric' you will receive a slack notification confirming that you have selected a new metric to monitor to recieve notifications for. </h2>
+            <h2 style={{color:'#555',textAlign:'left',fontSize:'11px',fontWeight:'600',lineHeight:'38px',letterSpacing:'.1rem'}}>Here, you can choose optional notificaiton in which you will receive a slack message confirming that you have selected a new metric to monitor and recieve notifications for. </h2>
             <fieldset>
               {displayedMetric}
             </fieldset>
-            <button className='fade' onClick={trackMetrics}>
-            Track Metric
-          </button>
+            {/* {gate ? trackButtonDisplayed : null} */}
+            <section style={{display:'flex', justifyContent:'space-around'}}>
+            <button className='fade' onClick={trackMetrics}>Track Metric</button>
+            <OngoingMetrics/>
+            </section>
           </div>
         </div>
       </div>
