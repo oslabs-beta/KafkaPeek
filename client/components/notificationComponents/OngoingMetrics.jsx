@@ -2,11 +2,16 @@ import React from 'react';
 import Select from 'react-select'
 
 
-const OngoingMetrics = () => { 
+const OngoingMetrics = ({ongoingList}) => { 
 
   return (
-    <div className="metricsContainer" style={{marginTop:'10px'}}>
-        <h2 style={{fontSize:'1.9rem',lineHeight:'1.25',letterSpacing:'.4rem'}}>ONGOING METRICS</h2>
+    <div className="stop-button-container" style={{marginTop:'10px'}}>
+        <h2 style={{fontSize:'1.8rem',lineHeight:'1.95',letterSpacing:'.2rem'}}>ONGOING METRICS</h2>
+        <section>
+          <ul >
+            {ongoingList}
+          </ul>
+        </section>
   </div>
   );
 }

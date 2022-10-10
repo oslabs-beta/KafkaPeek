@@ -12,6 +12,8 @@ import Perf_Dashboard from './containers/Perf_Dashboard';
 const URL_PARAMS = new URLSearchParams(window.location.search);
 const accessToken = URL_PARAMS.get('token');
 const App = () => {
+  const [ongoingGate, setongoingGate] = useState(false)
+  const [ongoingList, setongoingList] = useState([])
   const [active, setActive] = useState('charts');
   const [user, setUser] = useState({
     name: '',
@@ -58,7 +60,7 @@ const App = () => {
         />
         <Route
           path='/notifications'
-          element={<Notifications active={active} setActive={setActive} user={user} />}
+          element={<Notifications ongoingList={ongoingList}setongoingList={setongoingList}ongoingGate={ongoingGate} setongoingGate={setongoingGate} active={active} setActive={setActive} user={user} />}
         />
         <Route
           exact

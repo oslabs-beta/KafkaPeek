@@ -10,10 +10,19 @@ import UnderRep from '../components/notificationComponents/UnderRep';
 import OngoingMetrics from '../components/notificationComponents/OngoingMetrics.jsx';
 
 
-const Notifications = ({ active, setActive, user}) => {
+const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, ongoingList, setongoingList}) => {
   // ------ gate that allows axios POST request --------------
   const [gate, setGate] = useState(false)
+  // const [ongoingGate, setongoingGate] = useState(false)
+  // ------ ongoing notifications --------------
+  const [ongoingMetrics, setongoingMetrics] = useState({
+    bytesInPerSec: false,
+    bytesOutPerSec: false,
+    offlinePartitions: false,
+    underRepPartitions: false
+  })
 
+  // const [ongoingList, setongoingList] = useState([])
   // ------------ BYTES IN (STATE, FUNC) 
   const [bytesInterval, setbytesInterval] = useState();
   function bytesInFunc(interval){
@@ -98,16 +107,27 @@ const Notifications = ({ active, setActive, user}) => {
   const trackMetrics = async () => {
     console.log('logging-->',gate)
     if(gate){
-      const objectToSend = Object.assign({}, metric, {name: user.name}, {threshold: bytesInterval} )
-      console.log('logging inside button', objectToSend, metric)
-      await axios.post("http://localhost:4000/auth/form-submit", objectToSend)
-      .then(({ data }) => {
-        console.log('loggin data from frontend',data)
-      })
-      .catch(err => {
-        console.error(err.toJSON());
-      });
-      return
+      const compared = metric.value;
+      if (!ongoingMetrics[compared]){
+        const objectToSend = Object.assign({}, metric, {name: user.name}, {threshold: bytesInterval} )
+        console.log('logging inside button', objectToSend, metric)
+        await axios.post("http://localhost:4000/auth/form-submit", objectToSend)
+        .then(({ data }) => {
+          console.log('loggin data from frontend',data)
+        })
+        .catch(err => {
+          console.error(err.toJSON());
+        });
+        const newOngoing = [...ongoingList]
+        newOngoing.push(<li style={{marginTop:'5px', display:'flex', justifyContent:'space-between',backgroundColor:'greenyellow', alignItems:'center', borderRadius:'8px'}}><h2>{`${metric.label}`} {' > '} {`${bytesInterval}`}</h2><button id="stop-button">STOP</button></li>)
+        setongoingList(newOngoing)
+        ongoingMetrics[compared] = true
+        setongoingGate(true)
+        return
+      }else{
+        alert('You already have that metric')
+        return
+      }
     }else{
       alert('Please choose a threshold to track')
       return
@@ -132,7 +152,7 @@ const Notifications = ({ active, setActive, user}) => {
             {/* {gate ? trackButtonDisplayed : null} */}
             <section style={{display:'flex', justifyContent:'space-around'}}>
             <button className='fade' onClick={trackMetrics}>Track Metric</button>
-            <OngoingMetrics/>
+            {ongoingGate ? <OngoingMetrics ongoingList ={ongoingList}/> : null}
             </section>
           </div>
         </div>
