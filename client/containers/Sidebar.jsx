@@ -16,9 +16,12 @@ const Sidebar = (props) => {
   };
 
   const handleHomeDisconnect = () => {
-    console.log(document.get)
-    handleHealthDisconnect();
-    handlePerfDisconnect();
+    if(active === 'health') {
+      handleHealthDisconnect()
+    }
+    if(active === 'performance') {
+      handlePerfDisconnect();
+    }
   }
 
   return (
