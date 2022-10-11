@@ -65,7 +65,7 @@ class PerfReqTotalTime extends React.Component {
         },
         yaxis: {
           min: 2,
-          max: 4,
+          max: 6,
           decimalsInFloat: 2,
           opposite: true,
           labels: {

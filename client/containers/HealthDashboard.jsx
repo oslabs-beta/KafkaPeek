@@ -31,9 +31,8 @@ const stopFunc = () => {
   socket.emit('stop');
 }
 
-const HealthDashboard = ({ active, setActive }) => {
+const HealthDashboard = ({ active, setActive}) => {
   let startMetric = useRef(false);
-  let socketDisconnect = useRef(false);
   const [buttonText, setButtonText] = useState('Get Metrics');
   //Dynamic Metrics
   const [bytesIn, setBytesIn] = useState([]);
@@ -57,15 +56,11 @@ const HealthDashboard = ({ active, setActive }) => {
       setButtonText('Get Metrics')
       startMetric.current = !startMetric.current;
     }
-  }
+  };
 
-  useEffect(() => {
-    if (!socketDisconnect.current) {
-      stopFunc()
-      socket.disconnect();
-      socketDisconnect.current = !socketDisconnect.current
-    }
-  }, [socketDisconnect.current]);
+  const handleHealthDisconnect = () => {
+    socket.disconnect()
+  }
 
   useEffect(() => {
     socket.on('health', (data) => {
@@ -82,7 +77,7 @@ const HealthDashboard = ({ active, setActive }) => {
 
   return (
     <div id='dashboard-container'>
-      <Sidebar active={active} setActive={setActive} socketDisconnect={socketDisconnect} />
+      <Sidebar active={active} setActive={setActive} handleHealthDisconnect={handleHealthDisconnect}/>
       <div id='dashboard-charts'>
         <button onClick={handleClick}>
           {buttonText}

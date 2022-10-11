@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import GraphIcon from '../assets/GraphIcon.jsx';
@@ -9,16 +8,26 @@ import ZurauLogo from '../assets/ZurauLogo.jsx';
 import Logout from '../assets/Logout.jsx';
 
 const Sidebar = (props) => {
-  const { active, setActive, socketDisconnect } = props;
+  const { active, setActive, handleHealthDisconnect, handlePerfDisconnect } = props;
 
-  const toggleSocket = () => {
-    socketDisconnect.current = !socketDisconnect.current;
-  };
+  // const toggleSocket = () => {
+  //   console.log('insidetogglesocket')
+  //   socketDisconnect.current = !socketDisconnect.current;
+  // };
+
+  const handleAllDisconnect = () => {
+    if(active === 'health') {
+      handleHealthDisconnect()
+    }
+    if(active === 'performance') {
+      handlePerfDisconnect();
+    }
+  }
 
   return (
     <div id='sidebar-container'>
       <div id='top-sidebar'>
-        <Link to='/'>
+        <Link to='/' onClick={handleAllDisconnect} >
           <ZurauLogo />
         </Link>
         <div className='spacer' />
@@ -33,13 +42,12 @@ const Sidebar = (props) => {
           }
           onClick={() => {
             setActive('health');
-            toggleSocket;
           }}
         >
           <div>
             <GraphIcon />
           </div>
-          <Link to='/h_dashboard'>Health Metrics</Link>
+          <Link to='/h_dashboard' onClick={handlePerfDisconnect}>Health Metrics</Link>
         </div>
 
         <div
@@ -50,13 +58,12 @@ const Sidebar = (props) => {
           }
           onClick={() => {
             setActive('performance');
-            toggleSocket;
           }}
         >
           <div>
             <GraphIcon />
           </div>
-          <Link to='/p_dashboard'>Performance Metrics</Link>
+          <Link to='/p_dashboard' onClick={handleHealthDisconnect}>Performance Metrics</Link>
         </div>
 
         <div
@@ -70,7 +77,7 @@ const Sidebar = (props) => {
           <div>
             <CogIcon />
           </div>
-          <Link to='/notifications'>Settings</Link>
+          <Link to='/notifications' onClick={handleAllDisconnect}>Settings</Link>
         </div>
 
       </div>
@@ -81,12 +88,11 @@ const Sidebar = (props) => {
               ? 'sidebar-button active-button'
               : 'sidebar-button'
           }
-          onClick={toggleSocket}
         >
           <div>
             <Logout />
           </div>
-          <a href='http://localhost:4000/auth/logout'>Logout</a>
+          <a href='http://localhost:4000/auth/logout' onClick={handleAllDisconnect}>Logout</a>
         </div>
       </div>
     </div>
