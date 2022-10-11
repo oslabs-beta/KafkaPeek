@@ -6,7 +6,6 @@ import GraphIcon from '../assets/GraphIcon.jsx';
 import CogIcon from '../assets/CogIcon.jsx';
 import UserIcon from '../assets/UserIcon.jsx';
 import ZurauLogo from '../assets/ZurauLogo.jsx';
-import HomeIcon from '../assets/HomeIcon.jsx';
 import Logout from '../assets/Logout.jsx';
 
 const Sidebar = (props) => {
@@ -42,6 +41,7 @@ const Sidebar = (props) => {
           </div>
           <Link to='/h_dashboard'>Health Metrics</Link>
         </div>
+
         <div
           className={
             active == 'performance'
@@ -58,6 +58,7 @@ const Sidebar = (props) => {
           </div>
           <Link to='/p_dashboard'>Performance Metrics</Link>
         </div>
+
         <div
           className={
             active == 'profile'
@@ -67,23 +68,11 @@ const Sidebar = (props) => {
           onClick={() => setActive('profile')}
         >
           <div>
-            <UserIcon />
-          </div>
-          <Link to='#'>Account</Link>
-        </div>
-        <div
-          className={
-            active == 'settings'
-              ? 'sidebar-button active-button'
-              : 'sidebar-button'
-          }
-          onClick={() => setActive('settings')}
-        >
-          <div>
             <CogIcon />
           </div>
           <Link to='/notifications'>Settings</Link>
         </div>
+
       </div>
       <div id='bottom-sidebar'>
         <div
