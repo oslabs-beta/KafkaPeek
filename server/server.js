@@ -28,7 +28,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/assets')));
 
-// serving html to localhost:4000
 app.get('/', (req, res, next) => {
   res.status(200).sendFile(path.join(__dirname, '/../client/index.html'));
 });
@@ -37,7 +36,7 @@ app.get('/dist/bundle.js', (req, res, next) => {
   res.status(200).sendFile(path.join(__dirname, '../dist/bundle.js'));
 });
 
-//--------define parameters to query on websocket---------------------------
+//--------parameters used for websocket queries---------
 
 // const params = {
 //   bytesInPerSec: ['kafka_server_broker_topic_metrics_bytesinpersec_rate',''],
@@ -62,8 +61,8 @@ var fetchIntervalID;
 
 io.on('connection', (socket) => {
   console.log('a new user connected');
-  //emit fetch request every 5 seconds
 
+  //emit fetch request every 5 seconds
   socket.on('health', (args) => {
     fetchIntervalID = setInterval(async () => {
       const fetchObj = {};
@@ -85,7 +84,6 @@ io.on('connection', (socket) => {
 
       socket.emit('performance', fetchObj);
     }, 1000);
-    console.log('Sending new metrics!');
   });
 
   socket.on('stop', () => {
@@ -121,7 +119,6 @@ app.use((err, req, res, next) => {
     message: { err: 'An error occurred' },
   };
   const errorObj = Object.assign({}, defaultErr, err);
-  console.log(errorObj.log);
   return res.status(errorObj.status).json(errorObj.message);
 });
 
@@ -129,5 +126,4 @@ httpServer.listen(PORT, () =>
   console.log(`Server listening on port: ${PORT}...`)
 );
 
-module.exports = {app, httpServer}
-
+module.exports = { app, httpServer };

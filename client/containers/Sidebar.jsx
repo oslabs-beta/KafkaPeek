@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { Link } from 'react-router-dom';
+
 import GraphIcon from '../assets/GraphIcon.jsx';
 import CogIcon from '../assets/CogIcon.jsx';
 import UserIcon from '../assets/UserIcon.jsx';
@@ -10,16 +12,16 @@ import Logout from '../assets/Logout.jsx'
 const Sidebar = (props) => {
   const { active, setActive, socketDisconnect } = props;
 
-  const handleClickHome = () => {
-    socketDisconnect.current = !socketDisconnect.current
+  const toggleSocket = () => {
+    socketDisconnect.current = !socketDisconnect.current;
   }
 
   return (
     <div id='sidebar-container'>
       <div id='top-sidebar'>
         <ZurauLogo />
-        <div className="spacer"/>
-        <div id="sidebar-title">Zurau</div> 
+        <div className="spacer" />
+        <div id="sidebar-title">Zurau</div>
       </div>
       <div id='middle-sidebar'>
 
@@ -29,27 +31,48 @@ const Sidebar = (props) => {
               ? 'sidebar-button active-button'
               : 'sidebar-button'
           }
-          onClick={handleClickHome}
+          onClick={toggleSocket}
         >
           <div>
             <HomeIcon />
           </div>
-            <Link to='/'>Home</Link>
+          <Link to='/'>Home</Link>
         </div>
 
         <div
           className={
-            active == 'charts'
+            active == 'health'
               ? 'sidebar-button active-button'
               : 'sidebar-button'
           }
-          onClick={() => setActive('charts')}
+
+          onClick={() => {
+            setActive('health');
+            toggleSocket;
+          }}
         >
-          
           <div>
             <GraphIcon />
           </div>
-          <Link to='/h_dashboard'>Analytics</Link>
+          <Link to='/h_dashboard'>Health Metrics</Link>
+
+        </div>
+        <div
+          className={
+            active == 'performance'
+              ? 'sidebar-button active-button'
+              : 'sidebar-button'
+          }
+          onClick={() => {
+            setActive('performance');
+            toggleSocket;
+          }}
+        >
+          <div>
+            <GraphIcon />
+          </div>
+          <Link to='/p_dashboard'>Performance Metrics</Link>
+
         </div>
         <div
           className={
@@ -63,7 +86,7 @@ const Sidebar = (props) => {
             <UserIcon />
           </div>
           <Link to='#'>Account</Link>
-          </div>
+        </div>
         <div
           className={
             active == 'settings'
@@ -80,22 +103,17 @@ const Sidebar = (props) => {
       </div>
       <div id='bottom-sidebar'>
         <div
-            className={
-              active == 'home'
-                ? 'sidebar-button active-button'
-                : 'sidebar-button'
-            }
-            onClick={handleClickHome}
-          >
-      
-              <a id='bottom-logout' href='http://localhost:4000/auth/logout'>
-                <div>
-                  <Logout />
-                </div>
-                <div>
-                  Logout
-                </div>
-              </a>
+          className={
+            active == 'logout'
+              ? 'sidebar-button active-button'
+              : 'sidebar-button'
+          }
+          onClick={toggleSocket}
+        >
+          <div>
+            <Logout />
+          </div>
+          <a href='http://localhost:4000/auth/logout'>Logout</a>
         </div>
       </div>
     </div>

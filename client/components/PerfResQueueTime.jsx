@@ -1,21 +1,12 @@
-import React, { useState } from 'react';
-import ReactApexChart from 'react-apexcharts';
+import React from 'react';
 
-class Perf_ReqTotalTime extends React.Component {
+import ReactApexChart from 'react-apexcharts';
+class PerfResQueueTime extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      series: [{
-        name: 'Mean', 
-        data: props.series
-      },{ 
-        name: '99th Percentile',
-        data: props.series
-      },{ 
-        name: '75th Percentile',
-        data: props.series
-      }],
+      series: [{ data: props.series }],
       options: {
         chart: {
           id: 'realtime',
@@ -43,27 +34,23 @@ class Perf_ReqTotalTime extends React.Component {
           curve: 'smooth',
         },
         title: {
-          text: 'Request Total Time',
+          text: 'Response Queue Time (ms)',
           align: 'left',
         },
 
-        noData: {
-          text: "CLICK TO GET METRICS...",
-        },
-        
         markers: {
           size: 0,
           hover: {
             size: 0
           }
         },
-        
+
         xaxis: {
           type: 'datetime',
           range: 600000,
         },
         yaxis: {
-          min: 0,
+          min: 0.0001,
           max: 4,
           decimalsInFloat: 2,
           opposite: true,
@@ -82,14 +69,14 @@ class Perf_ReqTotalTime extends React.Component {
           offsetY: -20,
           offsetX: 300
         },
-        
+
       },
     };
   }
 
   render() {
     return (
-      <div id='chart-container'>
+      <div id='chart-container-2'>
         <ReactApexChart
           options={this.state.options}
           series={this.props.series}
@@ -102,4 +89,4 @@ class Perf_ReqTotalTime extends React.Component {
   }
 }
 
-export default Perf_ReqTotalTime;
+export default PerfResQueueTime;

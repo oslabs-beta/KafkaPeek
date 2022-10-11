@@ -24,17 +24,17 @@ router.get('/github', (req, res, next) => {
 });
 
 router.get('/github/callback',
-oauthController.githubData,
-async (req, res) => {
-  req.session.name = res.locals.github.name;
-  req.session.id = res.locals.github.id;
-  req.session.login = res.locals.github.login;
-  req.session.email = res.locals.github.email;
-  req.session.token = res.locals.token
-  return res.redirect(`http://localhost:8080/?token=${req.session.token}`) 
-});
+  oauthController.githubData,
+  async (req, res) => {
+    req.session.name = res.locals.github.name;
+    req.session.id = res.locals.github.id;
+    req.session.login = res.locals.github.login;
+    req.session.email = res.locals.github.email;
+    req.session.token = res.locals.token
+    return res.redirect(`http://localhost:8080/?token=${req.session.token}`)
+  });
 
-router.get('/data',(req,res)=>{
+router.get('/data', (req, res) => {
   return res.status(200).send({
     name: req.session.name,
     id: req.session.id,
@@ -56,9 +56,9 @@ router.get('/logout', (req, res, next) => {
 router.post('/form-submit',
   slackController.initialNote,
   slackController.checkingMetric,
-  (req,res,next)=>{
-  return res.status(200).send('good')
-})
+  (req, res, next) => {
+    return res.status(200).send('good')
+  })
 
 
 

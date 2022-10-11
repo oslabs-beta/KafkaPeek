@@ -1,9 +1,8 @@
 const axios = require('axios')
-const  metricsObject = require('./controllers/utils.js')
+const metricsObject = require('./controllers/utils.js')
 
 const slackPostFunc = (label, currentThreshold, currentValue) => {
-    console.log('axios call', label, currentThreshold, currentValue)
-    axios.post('https://hooks.slack.com/services/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',{
+    axios.post('https://hooks.slack.com/services/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', {
         "blocks": [
             {
                 "type": "section",
@@ -23,37 +22,35 @@ const slackPostFunc = (label, currentThreshold, currentValue) => {
             }
         ]
     })
-    .then(()=>{
-        console.log('Message Sent Succesfully!')
-    })
-    .catch((error)=>{
-        console.log(error)
-    });
+        .then(() => {
+            console.log('Message Sent Succesfully!')
+        })
+        .catch((error) => {
+            console.log(error)
+        });
     return
 };
 
-const timeConvert = (arr, label)=> {
+const timeConvert = (arr, label) => {
     const newArr = []
     arr.forEach(data => {
-        console.log('testing', metricsObject[label])
-        if(metricsObject[label]) {
-            console.log('logging inside FOREACH',label)
+        if (metricsObject[label]) {
             const thresholdNumber = Number(metricsObject[label])
-            if(data[1] > thresholdNumber){
+            if (data[1] > thresholdNumber) {
                 slackPostFunc(label, metricsObject[label], parseInt(data[1]))
-                metricsObject[label] = null  
+                metricsObject[label] = null
             }
         }
-        // console.log('logginglabel inside TIMECONVERT', label) ->>>>its not logging the console log on line 39
+
         newArr.push([((data[0] - 14400) * 1000), data[1]]);
     });
     return newArr
 }
 
-const jvmConvert = (arr)=> {
+const jvmConvert = (arr) => {
     const newArr = []
     arr.forEach(data => {
-        newArr.push([((data[0] - 14400) * 1000), parseInt(data[1])/1000000]);
+        newArr.push([((data[0] - 14400) * 1000), parseInt(data[1]) / 1000000]);
     });
     return newArr
 }
@@ -64,31 +61,24 @@ const reqTTConvert = (arr) => {
     })
     return newArr;
 }
-// data.result[0].values --> 75thPercentile
-// data.result[1].values --> 99thPercentile
-// data.result[2].values --> Mean
+
 const multiGraphConvert = (arr) => {
     const newArr = [];
+
     arr.forEach(mainObj => {
-        // const subArr = [];
         console.log('Metric Name', mainObj.metric.__name__)
-        if(mainObj.metric.__name__ === 'kafka_network_request_metrics_time_ms') {
-            if(mainObj.values) {
-                // console.log('logging multiGraphConvert->',mainObj.values)
+        if (mainObj.metric.__name__ === 'kafka_network_request_metrics_time_ms') {
+            if (mainObj.values) {
                 newArr.push(reqTTConvert(mainObj.values));
             }
-            if(mainObj.value) {
-                // console.log('logging multiGraphConvert->',mainObj.value)
+            if (mainObj.value) {
                 newArr.push(reqTTConvert([mainObj.value]));
             }
         } else {
-            if(mainObj.values) {
-                // console.log('logging multiGraphConvert->',mainObj.values)
+            if (mainObj.values) {
                 newArr.push(timeConvert(mainObj.values));
             }
-            if(mainObj.value) {
-                // console.log('logging multiGraphConvert->',mainObj.value)
-                // subArr.push(...timeConvert([mainObj.value]));
+            if (mainObj.value) {
                 newArr.push(timeConvert([mainObj.value]));
             }
         }
@@ -101,34 +91,33 @@ let counter = 0;
 
 const fetchQuery = async (query, timeFrame, label) => {
     //send a fetch request to prometheus using axios
-    if(counter < 4) {
+    if (counter < 4) {
         console.log(`sending PAST 10m of cluster query on params: ${query}, ${timeFrame}, ${label}`)
         // console.log(`${typeof label}`)
         try {
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}${timeFrame}`)
             counter++
-            switch(query) {
+            switch (query) {
                 case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
                     let jvmPre = data.data.data.result[0].values
-                    return jvmConvert(jvmPre); 
+                    return jvmConvert(jvmPre);
                 case ('kafka_server_replica_manager_underreplicatedpartitions'):
-                    return data.data.data.result[0].value[1];     
+                    return data.data.data.result[0].value[1];
                 case ('kafka_controller_offlinepartitionscount'):
-                    return data.data.data.result[0].value[1];     
+                    return data.data.data.result[0].value[1];
                 case ('sum(kafka_controller_activecontrollercount)'):
-                    return data.data.data.result[0].value[1];            
+                    return data.data.data.result[0].value[1];
                 case ('count(kafka_server_brokerstate)'):
                     return data.data.data.result[0].value[1];
                 case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
                     return data.data.data.result[0].value[1];
-                case ('kafka_network_processor_idle_percent'):
                 case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
                     let convertedVal = await multiGraphConvert(data.data.data.result)
                     console.log('logging convertedVal 10min ->', convertedVal);
                     return convertedVal;
                 default:
                     let preConvert = data.data.data.result[0].values
-                    let output = timeConvert(preConvert,label)
+                    let output = timeConvert(preConvert, label)
                     // console.log(`${query}`, output)
                     return output
             }
@@ -138,22 +127,20 @@ const fetchQuery = async (query, timeFrame, label) => {
     } else {
         try {
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}`)
-            console.log(`sending CURRENT ONLY cluster query on params: ${query}`)
-            switch(query) {
+            switch (query) {
                 case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
                     let jvmPre = [data.data.data.result[0].value]
-                    return jvmConvert(jvmPre);  
+                    return jvmConvert(jvmPre);
                 case ('kafka_server_replica_manager_underreplicatedpartitions'):
-                    return data.data.data.result[0].value[1];     
+                    return data.data.data.result[0].value[1];
                 case ('kafka_controller_offlinepartitionscount'):
-                    return data.data.data.result[0].value[1];     
+                    return data.data.data.result[0].value[1];
                 case ('sum(kafka_controller_activecontrollercount)'):
-                    return data.data.data.result[0].value[1];            
+                    return data.data.data.result[0].value[1];
                 case ('count(kafka_server_brokerstate)'):
                     return data.data.data.result[0].value[1];
                 case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
                     return data.data.data.result[0].value[1];
-                // case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
                 case ('kafka_network_processor_idle_percent'):
                 case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
                     let convertedVal = await multiGraphConvert(data.data.data.result)
@@ -161,7 +148,7 @@ const fetchQuery = async (query, timeFrame, label) => {
                     return convertedVal;
                 default:
                     let preConvert = [data.data.data.result[0].value]
-                    let output = timeConvert(preConvert,label)
+                    let output = timeConvert(preConvert, label)
                     // console.log(`${query}`, output)
                     return output
             }

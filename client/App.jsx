@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import Signup from './containers/Signup';
-import Health_Dashboard from './containers/Health_Dashboard';
+import { Routes, Route } from 'react-router-dom';
+
+import axios from 'axios';
 import Landing from './containers/Landing';
 import Notifications from './containers/Notifications';
-import axios from 'axios';
-// import { useNavigate } from "react-router-dom";
-import Perf_Dashboard from './containers/Perf_Dashboard';
+import PerfDashboard from './containers/PerfDashboard';
+import HealthDashboard from './containers/HealthDashboard';
 
 
 const URL_PARAMS = new URLSearchParams(window.location.search);
 const accessToken = URL_PARAMS.get('token');
+
 const App = () => {
   const [ongoingGate, setongoingGate] = useState(false)
   const [ongoingList, setongoingList] = useState([])
-  const [active, setActive] = useState('charts');
+  const [active, setActive] = useState('health');
   const [user, setUser] = useState({
     name: '',
     id: '',
@@ -29,19 +29,21 @@ const App = () => {
           Authorization: `bearer ${access_token}`,
         },
       });
-      
-      const userObj = await {
+
+      const userObj = {
         name: res.data.name,
-        id: res.data.id, 
+        id: res.data.id,
         login: res.data.login,
         email: res.data.emil
       };
-      await setUser(userObj);    
+
+      setUser(userObj);
     };
     if (accessToken) {
       getGithubUser(accessToken);
     }
   }, [accessToken]);
+
 
   return (
     <div id='app-container'>
@@ -49,18 +51,18 @@ const App = () => {
         <Route
           path='/h_dashboard'
           element={
-            <Health_Dashboard active={active} setActive={setActive} user={user}/>
+            <HealthDashboard active={active} setActive={setActive} user={user} />
           }
         />
         <Route
           path='/p_dashboard'
           element={
-            <Perf_Dashboard active={active} setActive={setActive} user={user}/>
+            <PerfDashboard active={active} setActive={setActive} user={user} />
           }
         />
         <Route
           path='/notifications'
-          element={<Notifications ongoingList={ongoingList}setongoingList={setongoingList}ongoingGate={ongoingGate} setongoingGate={setongoingGate} active={active} setActive={setActive} user={user} />}
+          element={<Notifications ongoingList={ongoingList} setongoingList={setongoingList} ongoingGate={ongoingGate} setongoingGate={setongoingGate} active={active} setActive={setActive} user={user} />}
         />
         <Route
           exact

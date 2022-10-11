@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 import ReactApexChart from 'react-apexcharts';
 
-
-
-
-class RealTimeChart3 extends React.Component {
+class HealthJVM extends React.Component {
   constructor(props) {
     super(props);
 
@@ -40,17 +38,17 @@ class RealTimeChart3 extends React.Component {
           text: 'JVM Heap Usage MB',
           align: 'left',
         },
-        
+
         markers: {
           size: 0,
           hover: {
             size: 0
           }
         },
-        
+
         xaxis: {
           type: 'datetime',
-          range: 600000, 
+          range: 600000,
         },
         yaxis: {
           min: 0,
@@ -72,7 +70,7 @@ class RealTimeChart3 extends React.Component {
           offsetY: -20,
           offsetX: 300
         },
-        
+
       },
     };
   }
@@ -92,4 +90,4 @@ class RealTimeChart3 extends React.Component {
   }
 }
 
-export default RealTimeChart3;
+export default HealthJVM;
