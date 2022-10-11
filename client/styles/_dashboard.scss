@@ -27,18 +27,18 @@
       'metric metric-2 metric-3 metric-4'
       'chart chart chart chart'
       'chart-2 chart-2 chart-3 chart-3';
-    // background-color: rgb(197, 166, 108);
- 
+
     #metric-container-1 {
       width: 100%;
       height: 100%;
       grid-area: metric;
-      background-color: white;  
+      background-color: white;
       box-shadow: 0 0 5px $secondaryColor;
       border-radius: 1rem;
       padding: 10px;
-      &:hover { 
-        background-color:aliceblue
+
+      &:hover {
+        background-color: aliceblue
       }
     }
 
@@ -46,7 +46,7 @@
       width: 100%;
       height: 100%;
       grid-area: metric-2;
-      background-color: white; 
+      background-color: white;
       box-shadow: 0 0 5px $secondaryColor;
       border-radius: 1rem;
       padding: 10px;
@@ -56,7 +56,7 @@
       width: 100%;
       height: 100%;
       grid-area: metric-3;
-      background-color: white; 
+      background-color: white;
       box-shadow: 0 0 5px $secondaryColor;
       border-radius: 1rem;
       padding: 10px;
@@ -66,7 +66,7 @@
       width: 100%;
       height: 100%;
       grid-area: metric-4;
-      background-color: white; 
+      background-color: white;
       box-shadow: 0 0 5px $secondaryColor;
       border-radius: 1rem;
       padding: 10px;
@@ -86,7 +86,7 @@
       width: 100%;
       height: 100%;
       grid-area: chart-2;
-      background-color: white; 
+      background-color: white;
       box-shadow: 0 0 5px $secondaryColor;
       border-radius: 1rem;
       padding: 10px;
@@ -96,7 +96,7 @@
       width: 100%;
       height: 100%;
       grid-area: chart-3;
-      background-color: white; 
+      background-color: white;
       box-shadow: 0 0 5px $secondaryColor;
       border-radius: 1rem;
       padding: 10px;

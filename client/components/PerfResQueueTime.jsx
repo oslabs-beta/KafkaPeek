@@ -1,18 +1,12 @@
-import React, { useState } from 'react';
-import ReactApexChart from 'react-apexcharts';
+import React from 'react';
 
-class RealTimeChart extends React.Component {
+import ReactApexChart from 'react-apexcharts';
+class PerfResQueueTime extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      series: [{ 
-        name: 'Bytes In/sec',
-        data: props.series 
-      }, {
-        name: 'Bytes Out/sec',
-        data: props.series
-      }],
+      series: [{ data: props.series }],
       options: {
         chart: {
           id: 'realtime',
@@ -23,7 +17,7 @@ class RealTimeChart extends React.Component {
             enabled: true,
             easing: 'linear',
             dynamicAnimation: {
-              speed: 1000,
+              speed: 300,
             },
           },
           toolbar: {
@@ -40,28 +34,24 @@ class RealTimeChart extends React.Component {
           curve: 'smooth',
         },
         title: {
-          text: 'Bytes In/sec & Bytes Out/sec',
+          text: 'Response Queue Time (ms)',
           align: 'left',
         },
 
-        noData: {
-          text: "Loading data...",
-        },
-        
         markers: {
           size: 0,
           hover: {
             size: 0
           }
         },
-        
+
         xaxis: {
           type: 'datetime',
-          range: 300000,
+          range: 600000,
         },
         yaxis: {
-          min: 0,
-          max: 2500,
+          min: 0.0001,
+          max: 4,
           decimalsInFloat: 2,
           opposite: true,
           labels: {
@@ -79,29 +69,14 @@ class RealTimeChart extends React.Component {
           offsetY: -20,
           offsetX: 300
         },
-        
+
       },
     };
   }
 
-  // componentDidUpdate() {
-  //   // window.setInterval(() => {
-  //   //   getNewSeries(lastDate, {
-  //   //     min: 10,
-  //   //     max: 90,
-  //   //   }); // socket.io data
-
-  //   ApexCharts.exec('realtime', 'updateSeries', [
-  //     {
-  //       data: props.series,
-  //     },
-  //   ]);
-  //   // }, 1000);
-  // }
-
   render() {
     return (
-      <div id='chart-container'>
+      <div id='chart-container-2'>
         <ReactApexChart
           options={this.state.options}
           series={this.props.series}
@@ -114,4 +89,4 @@ class RealTimeChart extends React.Component {
   }
 }
 
-export default RealTimeChart;
+export default PerfResQueueTime;

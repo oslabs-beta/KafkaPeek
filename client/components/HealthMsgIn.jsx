@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 import ReactApexChart from 'react-apexcharts';
 
-
-
-
-class RealTimeChart2 extends React.Component {
+class HealthMsgIn extends React.Component {
   constructor(props) {
     super(props);
 
@@ -20,7 +18,7 @@ class RealTimeChart2 extends React.Component {
             enabled: true,
             easing: 'linear',
             dynamicAnimation: {
-              speed: 1000,
+              speed: 300,
             },
           },
           toolbar: {
@@ -40,21 +38,21 @@ class RealTimeChart2 extends React.Component {
           text: 'Messages In Per Second',
           align: 'left',
         },
-        
+
         markers: {
           size: 0,
           hover: {
             size: 0
           }
         },
-        
+
         xaxis: {
           type: 'datetime',
-          range: 300000, 
+          range: 600000,
         },
         yaxis: {
           min: 0,
-          max: 500,
+          max: 300,
           decimalsInFloat: 2,
           opposite: true,
           labels: {
@@ -72,7 +70,7 @@ class RealTimeChart2 extends React.Component {
           offsetY: -20,
           offsetX: 300
         },
-        
+
       },
     };
   }
@@ -92,4 +90,4 @@ class RealTimeChart2 extends React.Component {
   }
 }
 
-export default RealTimeChart2;
+export default HealthMsgIn;
