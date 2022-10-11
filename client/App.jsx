@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-
-import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
 
+import axios from 'axios';
 import Landing from './containers/Landing';
+import Notifications from './containers/Notifications';
 import PerfDashboard from './containers/PerfDashboard';
 import HealthDashboard from './containers/HealthDashboard';
+
 
 const URL_PARAMS = new URLSearchParams(window.location.search);
 const accessToken = URL_PARAMS.get('token');
 
 const App = () => {
+  const [ongoingGate, setongoingGate] = useState(false)
+  const [ongoingList, setongoingList] = useState([])
   const [active, setActive] = useState('health');
   const [user, setUser] = useState({
     name: '',
@@ -36,7 +39,6 @@ const App = () => {
 
       setUser(userObj);
     };
-
     if (accessToken) {
       getGithubUser(accessToken);
     }
@@ -57,6 +59,10 @@ const App = () => {
           element={
             <PerfDashboard active={active} setActive={setActive} user={user} />
           }
+        />
+        <Route
+          path='/notifications'
+          element={<Notifications ongoingList={ongoingList} setongoingList={setongoingList} ongoingGate={ongoingGate} setongoingGate={setongoingGate} active={active} setActive={setActive} user={user} />}
         />
         <Route
           exact
