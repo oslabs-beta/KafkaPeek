@@ -21,6 +21,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, ioConfig);
 
 const { fetchQuery, resetCounter } = require('./queries');
+const { default: axios } = require('axios');
 
 app.use(cors());
 app.use(express.json());
@@ -55,8 +56,9 @@ app.get('/dist/bundle.js', (req, res, next) => {
 // responseSendTime : ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseSend',env='cluster-demo', aggregate='Mean'}","[10m:10s]"]
 // processorIdlePercent : ["kafka_network_processor_idle_percent","[10m:10s]"]
 
-//--------initialize socket.io connection to front end-------
+//--------initialize socket.io connection to front end-----------------------------------
 var fetchIntervalID;
+
 io.on('connection', (socket) => {
   console.log('a new user connected');
 
@@ -65,7 +67,7 @@ io.on('connection', (socket) => {
     fetchIntervalID = setInterval(async () => {
       const fetchObj = {};
       for (const [k, v] of Object.entries(args)) {
-        fetchObj[k] = await fetchQuery(v[0], v[1]);
+        fetchObj[k] = await fetchQuery(v[0], v[1], k);
       }
 
       socket.emit('health', fetchObj);
@@ -77,7 +79,7 @@ io.on('connection', (socket) => {
     fetchIntervalID = setInterval(async () => {
       const fetchObj = {};
       for (const [k, v] of Object.entries(args)) {
-        fetchObj[k] = await fetchQuery(v[0], v[1]);
+        fetchObj[k] = await fetchQuery(v[0], v[1], k);
       }
 
       socket.emit('performance', fetchObj);
@@ -97,8 +99,12 @@ io.on('connection', (socket) => {
   });
 });
 
-//--------------- oauth paths ----------------------------
+//--------------- other paths --------------------------------------------------------
+
 app.use('/auth', authRouter);
+
+
+
 
 // catch all handler for all unknown routes
 app.use((req, res) => {

@@ -1,0 +1,19 @@
+
+.stop-button-container{
+    #stop-button {
+        border-radius: 4px;
+        background-color: #123d57;
+        color: #fff;
+        transition: background-color .4s;
+      }
+      
+    #stop-button:hover {
+        background-color: #c62026;
+      }
+      
+    //   .fade:focus,
+    //   .fade:active {
+    //     background-color: black;
+    //     transition: none;
+    //   }
+}

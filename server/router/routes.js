@@ -5,6 +5,7 @@ dotenv.config();
 const axios = require('axios');
 const cookieSession = require('cookie-session');
 const oauthController = require('../controllers/oauthController.js')
+const slackController = require('../controllers/slackController.js')
 
 router.use(
   cookieSession({
@@ -43,11 +44,22 @@ router.get('/data', (req, res) => {
 })
 
 //http://localhost/4000/auth/logout/
-router.get('/logout', (req, res) => {
+router.get('/logout', (req, res, next) => {
   req.session = null;
   console.log(req.session);
   return res.redirect('http://localhost:8080');
 });
+
+// ------------------------------------------------- notifications -------------------------------------
+
+
+router.post('/form-submit',
+  slackController.initialNote,
+  slackController.checkingMetric,
+  (req, res, next) => {
+    return res.status(200).send('good')
+  })
+
 
 
 

@@ -70,7 +70,7 @@ const Sidebar = (props) => {
           <div>
             <CogIcon />
           </div>
-          <Link to='#'>Notifications</Link>
+          <Link to='/notifications'>Settings</Link>
         </div>
 
       </div>
@@ -86,7 +86,7 @@ const Sidebar = (props) => {
           <div>
             <Logout />
           </div>
-          <Link to='http://localhost:4000/auth/logout'>Logout</Link>
+          <a href='http://localhost:4000/auth/logout'>Logout</a>
         </div>
       </div>
     </div>
