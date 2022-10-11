@@ -126,6 +126,7 @@ const fetchQuery = async (query, timeFrame, label) => {
         }
     } else {
         try {
+            console.log(`sending CURRENT DATA of cluster query on params: ${query}, ${label}`)
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}`)
             switch (query) {
                 case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):

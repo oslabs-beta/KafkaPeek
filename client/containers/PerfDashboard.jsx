@@ -27,9 +27,9 @@ const stopFunc = () => {
   socket.emit('stop');
 }
 
-const PerfDashboard = ({ active, setActive }) => {
+const PerfDashboard = ({ active, setActive}) => {
   let startMetric = useRef(false);
-  let socketDisconnect = useRef(false);
+
   const [buttonText, setButtonText] = useState('Get Metrics');
   //Dynamic Metrics
   const [resQueueTime, setResQueueTime] = useState([]);
@@ -53,13 +53,9 @@ const PerfDashboard = ({ active, setActive }) => {
     }
   }
 
-  useEffect(() => {
-    if (!socketDisconnect.current) {
-      stopFunc()
-      socket.disconnect();
-      socketDisconnect.current = !socketDisconnect.current
-    }
-  }, [socketDisconnect.current]);
+  const handlePerfDisconnect = () => {
+    socket.disconnect()
+  }
 
   useEffect(() => {
     socket.on('performance', (data) => {
@@ -79,7 +75,7 @@ const PerfDashboard = ({ active, setActive }) => {
 
   return (
     <div id='dashboard-container'>
-      <Sidebar active={active} setActive={setActive} socketDisconnect={socketDisconnect} />
+      <Sidebar active={active} setActive={setActive} handlePerfDisconnect={handlePerfDisconnect}/>
       <div id='dashboard-charts'>
         <StaticMetricDisplay metric={reqPerSec} title={"Requests Per Second"} container={1} />
         <StaticMetricDisplay container={2} />

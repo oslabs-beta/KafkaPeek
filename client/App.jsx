@@ -22,6 +22,7 @@ const App = () => {
     email: '',
   });
 
+
   useEffect(() => {
     const getGithubUser = async (access_token) => {
       const res = await axios.get('https://api.github.com/user', {
@@ -51,7 +52,7 @@ const App = () => {
         <Route
           path='/h_dashboard'
           element={
-            <HealthDashboard active={active} setActive={setActive} user={user} />
+            <HealthDashboard active={active} setActive={setActive} user={user}/>
           }
         />
         <Route

@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import GraphIcon from '../assets/GraphIcon.jsx';
@@ -9,16 +8,23 @@ import ZurauLogo from '../assets/ZurauLogo.jsx';
 import Logout from '../assets/Logout.jsx';
 
 const Sidebar = (props) => {
-  const { active, setActive, socketDisconnect } = props;
+  const { active, setActive, handleHealthDisconnect, handlePerfDisconnect } = props;
 
   const toggleSocket = () => {
+    console.log('insidetogglesocket')
     socketDisconnect.current = !socketDisconnect.current;
   };
+
+  const handleHomeDisconnect = () => {
+    console.log(document.get)
+    handleHealthDisconnect();
+    handlePerfDisconnect();
+  }
 
   return (
     <div id='sidebar-container'>
       <div id='top-sidebar'>
-        <Link to='/'>
+        <Link to='/' onClick={handleHomeDisconnect} >
           <ZurauLogo />
         </Link>
         <div className='spacer' />
@@ -32,14 +38,14 @@ const Sidebar = (props) => {
               : 'sidebar-button'
           }
           onClick={() => {
-            setActive('health');
             toggleSocket;
+            setActive('health');
           }}
         >
           <div>
             <GraphIcon />
           </div>
-          <Link to='/h_dashboard'>Health Metrics</Link>
+          <Link to='/h_dashboard' onClick={handlePerfDisconnect}>Health Metrics</Link>
         </div>
 
         <div
@@ -49,14 +55,14 @@ const Sidebar = (props) => {
               : 'sidebar-button'
           }
           onClick={() => {
-            setActive('performance');
             toggleSocket;
+            setActive('performance');
           }}
         >
           <div>
             <GraphIcon />
           </div>
-          <Link to='/p_dashboard'>Performance Metrics</Link>
+          <Link to='/p_dashboard' onClick={handleHealthDisconnect}>Performance Metrics</Link>
         </div>
 
         <div
