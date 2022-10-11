@@ -1,10 +1,51 @@
 <!doctype html>
 <html>
+
 <head>
-<title>Zurau</title>
-<meta name="zurau" content="zurau kafla monitoring and visualizer">
+  <title>Zurau</title>
+  <meta name="zurau" content="kafka monitoring and notification app">
 </head>
+
 <body>
-  <div>Hello world!</div>
+  <div id='landing-container'>
+
+    <div id='header-container'>
+      <div id='header-left'>
+        <ZurauLogo />
+      </div>
+      <div id='header-mid'>
+        <div id='header-mid-left'>
+          <a href='' target='_blank'>
+            Documentation
+          </a>
+        </div>
+        <div id='header-mid-right'>
+          <a href='https://github.com/oslabs-beta/zurau' target='_blank'>
+            Github
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div className='gradient-container'>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div className='copy-container'>
+      <h1>
+        Keep a keen eye on your
+        <br />
+        Kafka clusters
+      </h1>
+      <p>
+        {' '}
+        Zurau helps engineering teams of all sizes quickly and easily stay up
+        to date on the status of their Kafka environments.
+      </p>
+    </div>
+  </div>
 </body>
+
 </html>
