@@ -120,6 +120,7 @@ const fetchQuery = async (query, timeFrame, label) => {
                     return convertedVal;
                 default:
                     let preConvert = data.data.data.result[0].values
+                    console.log(label)
                     let output = timeConvert(preConvert, label)
                     return output
             }
