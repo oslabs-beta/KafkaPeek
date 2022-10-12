@@ -1,14 +1,17 @@
 const express = require('express');
+
 const app = express();
 const path = require('path');
+
 const PORT = 4000;
-const authRouter = require('./router/routes.js');
 
 // socket.io variables
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const { response } = require('express');
 const cors = require('cors');
+const authRouter = require('./router/routes.js');
+
 const ioConfig = {
   cors: {
     origin: ['http://localhost:8080'],
@@ -36,20 +39,17 @@ app.get('/dist/bundle.js', (req, res, next) => {
   res.status(200).sendFile(path.join(__dirname, '../dist/bundle.js'));
 });
 
-
 // initializing socket.io connection
-var fetchIntervalID;
+let fetchIntervalID;
 io.on('connection', (socket) => {
   console.log('a new websocket connection');
 
-  // listening for 'health' socket messages 
+  // listening for 'health' socket messages
   socket.on('health', (args) => {
-
     // interval set every second
     fetchIntervalID = setInterval(async () => {
       const fetchObj = {};
       for (const [k, v] of Object.entries(args)) {
-
         // assigns readable metrics
         fetchObj[k] = await fetchQuery(v[0], v[1], k);
       }
@@ -60,14 +60,12 @@ io.on('connection', (socket) => {
     console.log('Sending new metrics!');
   });
 
-  // listening for 'performance' socket messages 
+  // listening for 'performance' socket messages
   socket.on('performance', (args) => {
-
     // interval set every second
     fetchIntervalID = setInterval(async () => {
       const fetchObj = {};
       for (const [k, v] of Object.entries(args)) {
-
         // assigns readable metrics
         fetchObj[k] = await fetchQuery(v[0], v[1], k);
       }
@@ -106,13 +104,11 @@ app.use((err, req, res, next) => {
     status: 400,
     message: { err: 'An error occurred' },
   };
-  const errorObj = Object.assign({}, defaultErr, err);
+  const errorObj = { ...defaultErr, ...err };
   return res.status(errorObj.status).json(errorObj.message);
 });
 
 // listening on current port value
-httpServer.listen(PORT, () =>
-  console.log(`Server listening on port: ${PORT}...`)
-);
+httpServer.listen(PORT, () => console.log(`Server listening on port: ${PORT}...`));
 
 module.exports = { app, httpServer };

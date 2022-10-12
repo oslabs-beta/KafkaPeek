@@ -9,10 +9,10 @@ class HealthBinBout extends React.Component {
     this.state = {
       series: [{
         name: 'Bytes In/sec',
-        data: props.series
+        data: props.series,
       }, {
         name: 'Bytes Out/sec',
-        data: props.series
+        data: props.series,
       }],
       options: {
         chart: {
@@ -46,14 +46,14 @@ class HealthBinBout extends React.Component {
         },
 
         noData: {
-          text: "CLICK TO GET METRICS...",
+          text: 'CLICK TO GET METRICS...',
         },
 
         markers: {
           size: 0,
           hover: {
-            size: 0
-          }
+            size: 0,
+          },
         },
 
         xaxis: {
@@ -66,19 +66,19 @@ class HealthBinBout extends React.Component {
           decimalsInFloat: 2,
           opposite: true,
           labels: {
-            offsetX: -10
-          }
+            offsetX: -10,
+          },
         },
         legend: {
           show: true,
           floating: true,
           horizontalAlign: 'left',
           onItemClick: {
-            toggleDataSeries: false
+            toggleDataSeries: false,
           },
           position: 'top',
           offsetY: -20,
-          offsetX: 300
+          offsetX: 300,
         },
 
       },
@@ -87,13 +87,13 @@ class HealthBinBout extends React.Component {
 
   render() {
     return (
-      <div id='chart-container'>
+      <div id="chart-container">
         <ReactApexChart
           options={this.state.options}
           series={this.props.series}
-          type='line'
-          height={'100%'}
-          width={'100%'}
+          type="line"
+          height="100%"
+          width="100%"
         />
       </div>
     );

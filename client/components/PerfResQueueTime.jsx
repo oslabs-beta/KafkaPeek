@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ReactApexChart from 'react-apexcharts';
+
 class PerfResQueueTime extends React.Component {
   constructor(props) {
     super(props);
@@ -41,8 +42,8 @@ class PerfResQueueTime extends React.Component {
         markers: {
           size: 0,
           hover: {
-            size: 0
-          }
+            size: 0,
+          },
         },
 
         xaxis: {
@@ -55,19 +56,19 @@ class PerfResQueueTime extends React.Component {
           decimalsInFloat: 2,
           opposite: true,
           labels: {
-            offsetX: -10
-          }
+            offsetX: -10,
+          },
         },
         legend: {
           show: true,
           floating: true,
           horizontalAlign: 'left',
           onItemClick: {
-            toggleDataSeries: false
+            toggleDataSeries: false,
           },
           position: 'top',
           offsetY: -20,
-          offsetX: 300
+          offsetX: 300,
         },
 
       },
@@ -76,13 +77,13 @@ class PerfResQueueTime extends React.Component {
 
   render() {
     return (
-      <div id='chart-container-2'>
+      <div id="chart-container-2">
         <ReactApexChart
           options={this.state.options}
           series={this.props.series}
-          type='line'
-          height={'100%'}
-          width={'100%'}
+          type="line"
+          height="100%"
+          width="100%"
         />
       </div>
     );

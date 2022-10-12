@@ -41,8 +41,8 @@ class PerfResSendTime extends React.Component {
         markers: {
           size: 0,
           hover: {
-            size: 0
-          }
+            size: 0,
+          },
         },
 
         xaxis: {
@@ -55,19 +55,19 @@ class PerfResSendTime extends React.Component {
           decimalsInFloat: 2,
           opposite: true,
           labels: {
-            offsetX: -10
-          }
+            offsetX: -10,
+          },
         },
         legend: {
           show: true,
           floating: true,
           horizontalAlign: 'left',
           onItemClick: {
-            toggleDataSeries: false
+            toggleDataSeries: false,
           },
           position: 'top',
           offsetY: -20,
-          offsetX: 300
+          offsetX: 300,
         },
 
       },
@@ -76,13 +76,13 @@ class PerfResSendTime extends React.Component {
 
   render() {
     return (
-      <div id='chart-container-3'>
+      <div id="chart-container-3">
         <ReactApexChart
           options={this.state.options}
           series={this.props.series}
-          type='line'
-          height={'100%'}
-          width={'100%'}
+          type="line"
+          height="100%"
+          width="100%"
         />
       </div>
     );

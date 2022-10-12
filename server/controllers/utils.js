@@ -1,13 +1,13 @@
 // initializes object to keep status of ongoing notifications
 const metricsObject = {
-    bytesInPerSec: null,
-    bytesOutPerSec: null,
-    messagesInPerSec: null,
-    offlinePartitions: null,
-    underRepPartitions: null
-  }
-  
-  module.exports = metricsObject;
+  bytesInPerSec: null,
+  bytesOutPerSec: null,
+  messagesInPerSec: null,
+  offlinePartitions: null,
+  underRepPartitions: null,
+};
+
+module.exports = metricsObject;
 
 // health metrics references ------------------------------------------------------------------
 // bytesInPerSec: ['kafka_server_broker_topic_metrics_bytesinpersec_rate','']

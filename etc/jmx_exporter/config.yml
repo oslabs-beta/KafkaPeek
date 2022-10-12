@@ -11,8 +11,8 @@ whitelistObjectNames:
   - kafka.server:type=KafkaServer,name=BrokerState
   - kafka.server:type=KafkaRequestHandlerPool,*
   - kafka.server:type=BrokerTopicMetrics,*
-#  - kafka.server:type=DelayedFetchMetrics,*
-#  - kafka.server:type=DelayedOperationPurgatory,*
+  #  - kafka.server:type=DelayedFetchMetrics,*
+  #  - kafka.server:type=DelayedOperationPurgatory,*
   - kafka.server:type=FetcherLagMetrics,*
   - kafka.server:type=FetcherStats,*
   - kafka.server:type=Request,*
@@ -27,11 +27,11 @@ whitelistObjectNames:
   - kafka.network:type=Processor,*
   - kafka.network:type=SocketServer,*
   - kafka.network:type=RequestMetrics,*
-#  - kafka.network:type=RequestMetrics,name=*,request=OffsetCommit,version=*
-#  - kafka.network:type=RequestMetrics,name=*,request=FetchConsumer,version=*
-#  - kafka.network:type=RequestMetrics,name=*,request=FetchFollower,version=*
-#  - kafka.network:type=RequestMetrics,name=*,request=Produce,version=*
-#  - kafka.network:type=RequestMetrics,name=*,request=Metadata,version=*
+  #  - kafka.network:type=RequestMetrics,name=*,request=OffsetCommit,version=*
+  #  - kafka.network:type=RequestMetrics,name=*,request=FetchConsumer,version=*
+  #  - kafka.network:type=RequestMetrics,name=*,request=FetchFollower,version=*
+  #  - kafka.network:type=RequestMetrics,name=*,request=Produce,version=*
+  #  - kafka.network:type=RequestMetrics,name=*,request=Metadata,version=*
   - kafka.coordinator.group:*
 blacklistObjectNames:
   - java.lang:type=ClassLoading,*
@@ -399,14 +399,14 @@ rules:
   #-------------------------------------------------------------------------------------------------------
   # JVM GarbageCollector
   #
-  - pattern: 'java.lang<type=GarbageCollector, name=(.*)><>CollectionCount'
+  - pattern: "java.lang<type=GarbageCollector, name=(.*)><>CollectionCount"
     name: kafka_jvm_gc_collection_count
     labels:
       name: $1
       service: kafka-broker
       env: cluster-demo
 
-  - pattern: 'java.lang<type=GarbageCollector, name=(.*)><>CollectionTime'
+  - pattern: "java.lang<type=GarbageCollector, name=(.*)><>CollectionTime"
     name: kafka_jvm_gc_collection_time
     labels:
       name: $1

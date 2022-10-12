@@ -2,27 +2,26 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from './Header';
 
-const Landing = ({ user }) => {
+function Landing({ user }) {
   const navigate = useNavigate();
 
   // checks if oauth login was successfull
   if (user.name !== '' || user.name !== null) {
-    
     // replaces url params with current user's github id
-    window.history.replaceState({}, document.title, "/" + `${user.login}`);
-    navigate("/h_dashboard");
+    window.history.replaceState({}, document.title, '/' + `${user.login}`);
+    navigate('/h_dashboard');
   }
 
   return (
-    <div id='landing-container'>
+    <div id="landing-container">
       <Header user={user} />
-      <div className='gradient-container'>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+      <div className="gradient-container">
+        <span />
+        <span />
+        <span />
+        <span />
       </div>
-      <div className='copy-container'>
+      <div className="copy-container">
         <h1>
           Keep a keen eye on your
           <br />
@@ -33,12 +32,15 @@ const Landing = ({ user }) => {
           Zurau helps engineering teams of all sizes quickly and easily stay up
           to date on the status of their Kafka environments.
         </p>
-        <Link to='/h_dashboard'>
-          <button>Try It Out {'>'}</button>
+        <Link to="/h_dashboard">
+          <button>
+            Try It Out
+            {'>'}
+          </button>
         </Link>
       </div>
     </div>
   );
-};
+}
 
 export default Landing;
