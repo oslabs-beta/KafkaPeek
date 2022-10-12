@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import GraphIcon from '../assets/GraphIcon.jsx';
 import CogIcon from '../assets/CogIcon.jsx';
 import UserIcon from '../assets/UserIcon.jsx';
 import ZurauLogo from '../assets/ZurauLogo.jsx';
 import Logout from '../assets/Logout.jsx';
 
-const Sidebar = (props) => {
-  const { active, setActive, handleHealthDisconnect, handlePerfDisconnect } = props;
-
-  // const toggleSocket = () => {
-  //   console.log('insidetogglesocket')
-  //   socketDisconnect.current = !socketDisconnect.current;
-  // };
+const Sidebar = ({active, setActive, handleHealthDisconnect, handlePerfDisconnect}) => {
 
   const handleAllDisconnect = () => {
     if(active === 'health') {

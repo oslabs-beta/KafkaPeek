@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-
 import { io } from "socket.io-client";
-
 import Sidebar from './Sidebar';
 import HealthBinBout from '../components/HealthBinBout';
 import HealthJVM from '../components/HealthJVM';
@@ -34,12 +32,14 @@ const stopFunc = () => {
 const HealthDashboard = ({ active, setActive}) => {
   let startMetric = useRef(false);
   const [buttonText, setButtonText] = useState('Get Metrics');
-  //Dynamic Metrics
+
+  // dynamic metrics
   const [bytesIn, setBytesIn] = useState([]);
   const [bytesOut, setBytesOut] = useState([]);
   const [msgsIn, setMsgsIn] = useState([]);
   const [jvmUsage, setJvmUsage] = useState([]);
-  //Static Metrics
+  
+  // static metrics
   const [activeControllerCount, setActiveControllerCount] = useState(0);
   const [offlinePartitions, setOfflinePartitions] = useState(0);
   const [underReplicatedPartitions, setUnderReplicatedPartitions] = useState(0);

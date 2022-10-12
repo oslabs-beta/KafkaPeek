@@ -84,7 +84,7 @@ Now you have a fully functioning Kafka broker with one demo producer and consume
 
 ## Demo
 
-Insert gif or link to demo
+![Zurau Demo](./client/assets/images/zurau-demo.png "Zurau Demo")
 
 
 ## Running Tests
