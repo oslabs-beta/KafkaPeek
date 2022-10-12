@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-
 import { io } from 'socket.io-client';
-
 import Sidebar from './Sidebar';
 import StaticMetricDisplay from '../components/StaticMetricDisplay';
 import PerfReqTotalTime from '../components/PerfReqTotalTime';
@@ -27,17 +25,19 @@ const stopFunc = () => {
   socket.emit('stop');
 }
 
-const PerfDashboard = ({ active, setActive }) => {
+const PerfDashboard = ({ active, setActive}) => {
   let startMetric = useRef(false);
-  let socketDisconnect = useRef(false);
+
   const [buttonText, setButtonText] = useState('Get Metrics');
-  //Dynamic Metrics
+
+  // dynamic metrics
   const [resQueueTime, setResQueueTime] = useState([]);
   const [resSendTime, setResSendTime] = useState([]);
   const [reqTTMean, setReqTTMean] = useState([]);
   const [reqTTSeventyFifth, setReqTTSeventyFifth] = useState([]);
   const [reqTTNinetyNinth, setReqTTNinetyNinth] = useState([]);
-  //Static Metrics
+  
+  // static metrics
   const [reqPerSec, setReqPerSec] = useState(0)
 
   const handleClick = () => {
@@ -53,22 +53,16 @@ const PerfDashboard = ({ active, setActive }) => {
     }
   }
 
-  useEffect(() => {
-    if (!socketDisconnect.current) {
-      stopFunc()
-      socket.disconnect();
-      socketDisconnect.current = !socketDisconnect.current
-    }
-  }, [socketDisconnect.current]);
+  const handlePerfDisconnect = () => {
+    socket.disconnect()
+  }
 
   useEffect(() => {
     socket.on('performance', (data) => {
       if (data.requestsPerSec) {
         setReqPerSec(parseFloat(data.requestsPerSec[0][1]).toFixed(3));
       }
-
       const [mean, ninetyNinth, seventyFifth] = data.requestTotalTime;
-
       setReqTTMean(currentData => [...currentData, ...mean]);
       setReqTTNinetyNinth(currentData => [...currentData, ...ninetyNinth]);
       setReqTTSeventyFifth(currentData => [...currentData, ...seventyFifth]);
@@ -79,7 +73,7 @@ const PerfDashboard = ({ active, setActive }) => {
 
   return (
     <div id='dashboard-container'>
-      <Sidebar active={active} setActive={setActive} socketDisconnect={socketDisconnect} />
+      <Sidebar active={active} setActive={setActive} handlePerfDisconnect={handlePerfDisconnect}/>
       <div id='dashboard-charts'>
         <StaticMetricDisplay metric={reqPerSec} title={"Requests Per Second"} container={1} />
         <StaticMetricDisplay container={2} />

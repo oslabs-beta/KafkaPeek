@@ -2,28 +2,20 @@ const axios = require('axios')
 const metricsObject = require('./controllers/utils.js')
 
 const slackPostFunc = (label, currentThreshold, currentValue) => {
-    axios.post('https://hooks.slack.com/services/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', {
+    axios.post('https://hooks.slack.com/services/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', {
         "blocks": [
             {
                 "type": "section",
                 "text": {
                     "type": "plain_text",
-                    "text": `${label}: ${currentValue}`,
-                    "emoji": true
-                }
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "plain_text",
-                    "text": `:Warning: ${label} has gone over the threshold: ${currentThreshold}, please check your kafka cluster for more details`,
+                    "text": `:Warning: ${label} has gone over the threshold: ${currentThreshold}, please check your kafka cluster for more details.\nCurrent value: ${currentValue}`,
                     "emoji": true
                 }
             }
         ]
     })
         .then(() => {
-            console.log('Message Sent Succesfully!')
+            console.log('Alert Sent Succesfully!')
         })
         .catch((error) => {
             console.log(error)
@@ -90,10 +82,9 @@ const multiGraphConvert = (arr) => {
 let counter = 0;
 
 const fetchQuery = async (query, timeFrame, label) => {
-    //send a fetch request to prometheus using axios
+    // sending a fetch request to prometheus using axios
     if (counter < 4) {
         console.log(`sending PAST 10m of cluster query on params: ${query}, ${timeFrame}, ${label}`)
-        // console.log(`${typeof label}`)
         try {
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}${timeFrame}`)
             counter++
@@ -118,7 +109,6 @@ const fetchQuery = async (query, timeFrame, label) => {
                 default:
                     let preConvert = data.data.data.result[0].values
                     let output = timeConvert(preConvert, label)
-                    // console.log(`${query}`, output)
                     return output
             }
         } catch (err) {
@@ -126,6 +116,7 @@ const fetchQuery = async (query, timeFrame, label) => {
         }
     } else {
         try {
+            console.log(`sending CURRENT DATA of cluster query on params: ${query}, ${label}`)
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}`)
             switch (query) {
                 case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
@@ -144,12 +135,10 @@ const fetchQuery = async (query, timeFrame, label) => {
                 case ('kafka_network_processor_idle_percent'):
                 case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
                     let convertedVal = await multiGraphConvert(data.data.data.result)
-                    console.log('logging convertedVal2 ->', convertedVal);
                     return convertedVal;
                 default:
                     let preConvert = [data.data.data.result[0].value]
                     let output = timeConvert(preConvert, label)
-                    // console.log(`${query}`, output)
                     return output
             }
         } catch (err) {
