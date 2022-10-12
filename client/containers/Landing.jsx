@@ -1,9 +1,7 @@
 import React from 'react';
-
 import { Link, useNavigate } from 'react-router-dom';
-
 import Header from './Header';
-///http://localhost:4000/auth/logout <-------- use this to logout user
+
 const Landing = ({ user }) => {
   const navigate = useNavigate();
 

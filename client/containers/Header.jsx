@@ -4,7 +4,6 @@ import ZurauLogo from '../assets/ZurauLogo';
 
 const Header = ({ user }) => {
   const { id } = user;
-  console.log('HEADER', user);
 
   const signinButton = (
     <button>
@@ -24,11 +23,11 @@ const Header = ({ user }) => {
     <div id='header-container'>
       <div id='header-left'>
         <ZurauLogo />
-        <Link to='/'>Zurau</Link>
+        <a href='https://zurau.app' target={'_blank'}>Zurau</a>
       </div>
       <div id='header-mid'>
         <div id='header-mid-left'>
-          <a href='' target='_blank'>
+          <a href='https://zurau.app' target='_blank'>
             Documentation
           </a>
         </div>

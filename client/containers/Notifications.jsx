@@ -11,10 +11,19 @@ import OngoingMetrics from '../components/notificationComponents/OngoingMetrics.
 
 
 const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, ongoingList, setongoingList }) => {
-  // ------ gate that allows axios POST request --------------
+  // axios gate
   const [gate, setGate] = useState(false)
-  // const [ongoingGate, setongoingGate] = useState(false)
-  // ------ ongoing notifications --------------
+
+  // renders user selections
+  const [displayedMetric, setdisplayedMetric] = useState()
+  
+  // final render component that will be displayed
+  const [displayedComponent, setdisplayedComponent] = useState()
+
+  // displayed value metric
+  const [metric, setMetric] = useState();
+
+  // ongoing notifications
   const [ongoingMetrics, setongoingMetrics] = useState({
     bytesInPerSec: false,
     bytesOutPerSec: false,
@@ -22,8 +31,7 @@ const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, o
     underRepPartitions: false
   })
 
-  // const [ongoingList, setongoingList] = useState([])
-  // ------------ BYTES IN (STATE, FUNC) 
+  // bytesIn (state, func)
   const [bytesInterval, setbytesInterval] = useState();
   function bytesInFunc(interval) {
     setGate(true)
@@ -37,9 +45,7 @@ const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, o
       </div>])
   }
 
-  // ------------ BYTES OUT (STATE, FUNC) 
-  // const [bytesOutPerInterval, setbytesOutPerInterval] = useState();
-
+  // bytesOut (state, func) 
   function bytesOutFunc(interval) {
     setGate(true)
     setbytesInterval(interval.value.thresholdNumber)
@@ -52,9 +58,6 @@ const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, o
       </div>])
   }
 
-  // --------------------------------- final render component that will be displayed
-  const [displayedComponent, setdisplayedComponent] = useState()
-  // --------------------------------- bank of different component options
   const subComponents = {
     bytesInPerSec: [<BytesInPer bytesInFunc={bytesInFunc} />],
     bytesOutPerSec: [<BytesOutPer bytesOutFunc={bytesOutFunc} />],
@@ -62,18 +65,15 @@ const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, o
     underRepPartitions: [<UnderRep />]
   }
 
-  const [displayedMetric, setdisplayedMetric] = useState()
-  //------------------ Select-React Options -------------------
+  // select-react
   const metrics = [
     { value: "bytesInPerSec", label: "BytesIn PerSec", },
     { value: "bytesOutPerSec", label: "BytesOut PerSec" },
     { value: "offlinePartitions", label: "Offline Partitions" },
     { value: "underRepPartitions", label: "Under Replicated Partitions" }
   ];
-  // displayed metric for left (main) component
-  const [metric, setMetric] = useState();
+
   const onChange = async selectedOption => {
-    console.log(selectedOption)
     await setMetric(selectedOption);
     const currentNode = subComponents[selectedOption.value]
     const currentMetric = selectedOption.label
@@ -101,19 +101,15 @@ const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, o
     await setdisplayedComponent(currentNode)
   };
 
-  const trackButtonDisplayed = [<button className='fade' onClick={trackMetrics}>Track Metric</button>]
-  //------ final function to send message to slack ---------------------
-
+  // sends message to slack
   const trackMetrics = async () => {
-    console.log('logging-->', gate)
     if (gate) {
       const compared = metric.value;
       if (!ongoingMetrics[compared]) {
         const objectToSend = Object.assign({}, metric, { name: user.name }, { threshold: bytesInterval })
-        console.log('logging inside button', objectToSend, metric)
         await axios.post("http://localhost:4000/auth/form-submit", objectToSend)
           .then(({ data }) => {
-            console.log('loggin data from frontend', data)
+            console.log(data)
           })
           .catch(err => {
             console.error(err.toJSON());
@@ -132,7 +128,6 @@ const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, o
       alert('Please choose a threshold to track')
       return
     }
-
   }
 
   return (
@@ -149,16 +144,15 @@ const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, o
               <fieldset>
                 {displayedMetric}
               </fieldset>
-              {/* {gate ? trackButtonDisplayed : null} */}
               <section style={{ display: 'flex', justifyContent: 'space-around' }}>
-                <button className='fade' onClick={trackMetrics}>Track Metric</button>
+                <button className='fade' onClick={trackMetrics}>
+                  Track Metric
+                </button>
                 {ongoingGate ? <OngoingMetrics ongoingList={ongoingList} /> : null}
               </section>
             </div>
           </div>
         </div>
-
-        {/*----------------------break--------------------------------------------------------------------------------------*/}
         <div>
           {displayedComponent}
         </div>

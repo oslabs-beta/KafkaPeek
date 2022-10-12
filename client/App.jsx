@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-
 import axios from 'axios';
 import Landing from './containers/Landing';
 import Notifications from './containers/Notifications';
 import PerfDashboard from './containers/PerfDashboard';
 import HealthDashboard from './containers/HealthDashboard';
-
-
 const URL_PARAMS = new URLSearchParams(window.location.search);
 const accessToken = URL_PARAMS.get('token');
 
@@ -22,7 +19,6 @@ const App = () => {
     email: '',
   });
 
-
   useEffect(() => {
     const getGithubUser = async (access_token) => {
       const res = await axios.get('https://api.github.com/user', {
@@ -30,21 +26,18 @@ const App = () => {
           Authorization: `bearer ${access_token}`,
         },
       });
-
       const userObj = {
         name: res.data.name,
         id: res.data.id,
         login: res.data.login,
         email: res.data.emil
       };
-
       setUser(userObj);
     };
     if (accessToken) {
       getGithubUser(accessToken);
     }
   }, [accessToken]);
-
 
   return (
     <div id='app-container'>

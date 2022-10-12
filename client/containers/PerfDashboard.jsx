@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-
 import { io } from 'socket.io-client';
-
 import Sidebar from './Sidebar';
 import StaticMetricDisplay from '../components/StaticMetricDisplay';
 import PerfReqTotalTime from '../components/PerfReqTotalTime';
@@ -31,13 +29,15 @@ const PerfDashboard = ({ active, setActive}) => {
   let startMetric = useRef(false);
 
   const [buttonText, setButtonText] = useState('Get Metrics');
-  //Dynamic Metrics
+
+  // dynamic metrics
   const [resQueueTime, setResQueueTime] = useState([]);
   const [resSendTime, setResSendTime] = useState([]);
   const [reqTTMean, setReqTTMean] = useState([]);
   const [reqTTSeventyFifth, setReqTTSeventyFifth] = useState([]);
   const [reqTTNinetyNinth, setReqTTNinetyNinth] = useState([]);
-  //Static Metrics
+  
+  // static metrics
   const [reqPerSec, setReqPerSec] = useState(0)
 
   const handleClick = () => {
@@ -62,9 +62,7 @@ const PerfDashboard = ({ active, setActive}) => {
       if (data.requestsPerSec) {
         setReqPerSec(parseFloat(data.requestsPerSec[0][1]).toFixed(3));
       }
-
       const [mean, ninetyNinth, seventyFifth] = data.requestTotalTime;
-
       setReqTTMean(currentData => [...currentData, ...mean]);
       setReqTTNinetyNinth(currentData => [...currentData, ...ninetyNinth]);
       setReqTTSeventyFifth(currentData => [...currentData, ...seventyFifth]);
