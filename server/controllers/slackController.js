@@ -11,7 +11,7 @@ module.exports = {
       const time = new Date().toUTCString().slice(5, -4)
 
       // sends initial message to a designated slack-contact-channel using a webhook of your choice
-      axios.post('https://hooks.slack.com/services/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', {
+      axios.post('/* developer can place designated slack webhook here */', {
         "blocks": [
           {
             "type": "section",

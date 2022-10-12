@@ -89,6 +89,10 @@ then
 ```
 Now you have a fully functioning Kafka broker with one demo producer and consumer.
 
+<h3>Slack Notifications</h3>
+
+Place your designated slack api webhook inside the axios POST request in the  ```slackController.js``` file and the ```queries.js``` file. There you will see placeholder text where you can insert your webhook.
+
 ## Demo
 
 <h3>Main Dashboard</h3>

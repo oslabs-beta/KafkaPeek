@@ -3,7 +3,7 @@ const metricsObject = require('./controllers/utils.js')
 
 // sends confirmation message to slack when a metric has gone over a designated threshold 
 const slackPostFunc = (label, currentThreshold, currentValue) => {
-    axios.post('https://hooks.slack.com/services/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', {
+    axios.post('/* developer can place designated slack webhook here */', {
         "blocks": [
             {
                 "type": "section",
