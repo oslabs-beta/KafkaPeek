@@ -8,7 +8,7 @@ module.exports = {
   async initialNote(req, res, next) {
     try {
       const time = new Date().toUTCString().slice(5, -4)
-      axios.post('https://hooks.slack.com/services/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', {
+      axios.post('https://hooks.slack.com/services/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', {
         "blocks": [
           {
             "type": "section",

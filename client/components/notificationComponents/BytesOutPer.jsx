@@ -3,7 +3,7 @@ import Select from 'react-select'
 const BytesOutPer = ({bytesOutFunc}) => { 
 
   const intervals = [
-    { value: {thresholdNumber: "1600", thresholdLabel: "BytesOut PerSec"}, label: "> 1600" },
+    { value: {thresholdNumber: "1500", thresholdLabel: "BytesOut PerSec"}, label: "> 1500" },
     { value: {thresholdNumber: "1900", thresholdLabel: "BytesOut PerSec"}, label: "> 1900" },
     { value: {thresholdNumber: "2200", thresholdLabel: "BytesOut PerSec"}, label: "> 2200" },
     { value: {thresholdNumber: "2600", thresholdLabel: "BytesOut PerSec"}, label: "> 2600" }
