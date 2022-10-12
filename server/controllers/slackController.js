@@ -5,10 +5,13 @@ const metricsObject = require('./utils.js')
 
 module.exports = {
 
+  // first middleware function when tracking a new metric
   async initialNote(req, res, next) {
     try {
       const time = new Date().toUTCString().slice(5, -4)
-      axios.post('https://hooks.slack.com/services/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', {
+
+      // sends initial message to a designated slack-contact-channel using a webhook of your choice
+      axios.post('https://hooks.slack.com/services/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', {
         "blocks": [
           {
             "type": "section",
@@ -41,6 +44,7 @@ module.exports = {
         ]
       })
         .then(() => {
+
           console.log('Form submitted successfully!');
         })
         .catch((error) => {
@@ -52,6 +56,7 @@ module.exports = {
     }
   },
 
+  // middleware function used to update the reference object with threshold values
   async checkingMetric(req, res, next) {
     metricsObject[req.body.value] = req.body.threshold
     return next()

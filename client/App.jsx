@@ -5,11 +5,17 @@ import Landing from './containers/Landing';
 import Notifications from './containers/Notifications';
 import PerfDashboard from './containers/PerfDashboard';
 import HealthDashboard from './containers/HealthDashboard';
+
+// allows us to search inside url params
 const URL_PARAMS = new URLSearchParams(window.location.search);
 const accessToken = URL_PARAMS.get('token');
 
 const App = () => {
+
+  // gate used to display ongoingmetrics component if metrics are being tracked
   const [ongoingGate, setongoingGate] = useState(false)
+
+  // stores total components of ongoing notifications
   const [ongoingList, setongoingList] = useState([])
   const [active, setActive] = useState('health');
   const [user, setUser] = useState({
@@ -19,6 +25,7 @@ const App = () => {
     email: '',
   });
 
+  // triggers when app renders with a token key in params
   useEffect(() => {
     const getGithubUser = async (access_token) => {
       const res = await axios.get('https://api.github.com/user', {

@@ -5,7 +5,10 @@ import Header from './Header';
 const Landing = ({ user }) => {
   const navigate = useNavigate();
 
+  // checks if oauth login was successfull
   if (user.name !== '' || user.name !== null) {
+    
+    // replaces url params with current user's github id
     window.history.replaceState({}, document.title, "/" + `${user.login}`);
     navigate("/h_dashboard");
   }

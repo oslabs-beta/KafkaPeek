@@ -6,10 +6,12 @@ import HealthJVM from '../components/HealthJVM';
 import HealthMsgIn from '../components/HealthMsgIn';
 import StaticMetricDisplay from '../components/StaticMetricDisplay';
 
+// front-end socket
 const socket = io('http://localhost:4000', {
   autoConnect: false
 });
 
+// health metrics mbean args
 export const params = {
   'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate', '[10m:10s]'],
   'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate', '[10m:10s]'],
@@ -21,16 +23,20 @@ export const params = {
   'brokersRunning': ['count(kafka_server_brokerstate)', '']
 }
 
+// socket.io function sends mbean args to back-end promql request
 const emitFunc = () => {
   socket.emit('health', params)
 }
 
+// socket.io function sends 'stop' to back-end to stop interval
 const stopFunc = () => {
   socket.emit('stop');
 }
 
 const HealthDashboard = ({ active, setActive}) => {
   let startMetric = useRef(false);
+
+    // text to be displayed inside button
   const [buttonText, setButtonText] = useState('Get Metrics');
 
   // dynamic metrics
@@ -45,6 +51,7 @@ const HealthDashboard = ({ active, setActive}) => {
   const [underReplicatedPartitions, setUnderReplicatedPartitions] = useState(0);
   const [brokersRunning, setBrokersRunning] = useState(0);
 
+  // displays and pauses metrics to graphs
   const handleClick = () => {
     if (!startMetric.current) {
       socket.connect()
@@ -58,10 +65,12 @@ const HealthDashboard = ({ active, setActive}) => {
     }
   };
 
+  // stops incoming metrics from back-end
   const handleHealthDisconnect = () => {
     socket.disconnect()
   }
 
+  // listens to incoming metrics from back-end socket.io 'health' socket
   useEffect(() => {
     socket.on('health', (data) => {
       setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])

@@ -11,7 +11,7 @@ import OngoingMetrics from '../components/notificationComponents/OngoingMetrics.
 
 
 const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, ongoingList, setongoingList }) => {
-  // axios gate
+  // axios post request gate
   const [gate, setGate] = useState(false)
 
   // renders user selections
@@ -23,7 +23,7 @@ const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, o
   // displayed value metric
   const [metric, setMetric] = useState();
 
-  // ongoing notifications
+  // keeps status of which metrics are being tracked
   const [ongoingMetrics, setongoingMetrics] = useState({
     bytesInPerSec: false,
     bytesOutPerSec: false,
@@ -65,7 +65,7 @@ const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, o
     underRepPartitions: [<UnderRep />]
   }
 
-  // select-react
+  // select-react drop down options
   const metrics = [
     { value: "bytesInPerSec", label: "BytesIn PerSec", },
     { value: "bytesOutPerSec", label: "BytesOut PerSec" },
@@ -73,6 +73,7 @@ const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, o
     { value: "underRepPartitions", label: "Under Replicated Partitions" }
   ];
 
+  // updates different states based on user selection
   const onChange = async selectedOption => {
     await setMetric(selectedOption);
     const currentNode = subComponents[selectedOption.value]
@@ -101,9 +102,11 @@ const Notifications = ({ active, setActive, user, ongoingGate, setongoingGate, o
     await setdisplayedComponent(currentNode)
   };
 
-  // sends message to slack
+  // sends message to slack if gate is truthy
   const trackMetrics = async () => {
     if (gate) {
+      
+      // metric string
       const compared = metric.value;
       if (!ongoingMetrics[compared]) {
         const objectToSend = Object.assign({}, metric, { name: user.name }, { threshold: bytesInterval })

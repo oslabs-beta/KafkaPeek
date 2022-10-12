@@ -1,4 +1,4 @@
-// initializing notification object used as a reference
+// initializes object to keep status of ongoing notifications
 const metricsObject = {
     bytesInPerSec: null,
     bytesOutPerSec: null,

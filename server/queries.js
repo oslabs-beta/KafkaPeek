@@ -1,8 +1,9 @@
 const axios = require('axios')
 const metricsObject = require('./controllers/utils.js')
 
+// sends confirmation message to slack when a metric has gone over a designated threshold 
 const slackPostFunc = (label, currentThreshold, currentValue) => {
-    axios.post('https://hooks.slack.com/services/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', {
+    axios.post('https://hooks.slack.com/services/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', {
         "blocks": [
             {
                 "type": "section",
@@ -23,12 +24,19 @@ const slackPostFunc = (label, currentThreshold, currentValue) => {
     return
 };
 
+// parses time value in the back-end for readabilty in front-end
 const timeConvert = (arr, label) => {
     const newArr = []
     arr.forEach(data => {
+
+        // checking to see if any metric has received a designated threshold
         if (metricsObject[label]) {
             const thresholdNumber = Number(metricsObject[label])
+
+            // checking to see if current metric value is over designated threshold
             if (data[1] > thresholdNumber) {
+
+                // invokes slack notification function
                 slackPostFunc(label, metricsObject[label], parseInt(data[1]))
                 metricsObject[label] = null
             }
@@ -39,26 +47,33 @@ const timeConvert = (arr, label) => {
     return newArr
 }
 
+// parses multiple time values for jvm mbean metrics
 const jvmConvert = (arr) => {
     const newArr = []
     arr.forEach(data => {
         newArr.push([((data[0] - 14400) * 1000), parseInt(data[1]) / 1000000]);
     });
     return newArr
-}
+};
+
+// parses multiple time time values for kafka_network_request_metrics_time_ms mbean metrics
 const reqTTConvert = (arr) => {
     const newArr = [];
     arr.forEach(data => {
         newArr.push([((data[0] - 14400) * 1000), parseInt(data[1]) / 1000])
     })
     return newArr;
-}
+};
 
+
+// used for prometheus data that includes in array of objects for multi-line graphs
 const multiGraphConvert = (arr) => {
+
+    // will store parsed data 
     const newArr = [];
 
+    // iterates over each object found in argument and routes it to it's designated time conversion function
     arr.forEach(mainObj => {
-        console.log('Metric Name', mainObj.metric.__name__)
         if (mainObj.metric.__name__ === 'kafka_network_request_metrics_time_ms') {
             if (mainObj.values) {
                 newArr.push(reqTTConvert(mainObj.values));
@@ -74,20 +89,27 @@ const multiGraphConvert = (arr) => {
                 newArr.push(timeConvert([mainObj.value]));
             }
         }
+    });
 
-    })
+    // returns multigraph readable data
     return newArr;
-}
+};
 
+// initilazed at every new socket.io connection, used to reference one second
 let counter = 0;
 
 const fetchQuery = async (query, timeFrame, label) => {
-    // sending a fetch request to prometheus using axios
+    
+    // checks if counter has reached 4 seconds
     if (counter < 4) {
         console.log(`sending PAST 10m of cluster query on params: ${query}, ${timeFrame}, ${label}`)
         try {
+
+            // retrieves ten minutes worth of data using both query and time arguments from prometheus
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}${timeFrame}`)
             counter++
+
+            // filters appropriate path for current mbean metric
             switch (query) {
                 case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
                     let jvmPre = data.data.data.result[0].values
@@ -114,10 +136,16 @@ const fetchQuery = async (query, timeFrame, label) => {
         } catch (err) {
             console.log(`Error in ${query}, err: ${err}`)
         }
+
+    // if count is over 4 seconds, we send current live data
     } else {
         try {
             console.log(`sending CURRENT DATA of cluster query on params: ${query}, ${label}`)
+
+            // retrieves lives data using only query argument from prometheus
             const data = await axios.get(`http://localhost:9090/api/v1/query?query=${query}`)
+
+            // filters appropriate path for current mbean metric
             switch (query) {
                 case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
                     let jvmPre = [data.data.data.result[0].value]
@@ -147,6 +175,7 @@ const fetchQuery = async (query, timeFrame, label) => {
     }
 }
 
+// used to reset counter when socket.io disconnects in server file
 const resetCounter = () => {
     counter = 0;
 }
