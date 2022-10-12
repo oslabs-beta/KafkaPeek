@@ -2,7 +2,7 @@ const axios = require('axios')
 const metricsObject = require('./controllers/utils.js')
 
 const slackPostFunc = (label, currentThreshold, currentValue) => {
-    axios.post('https://hooks.slack.com/services/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', {
+    axios.post('https://hooks.slack.com/services/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', {
         "blocks": [
             {
                 "type": "section",
@@ -23,14 +23,26 @@ const slackPostFunc = (label, currentThreshold, currentValue) => {
     return
 };
 
+const throttle = (slackPost, time) => {
+    let lastCalled = 0;
+    return function helper (label, metricsObject, data) {
+        const now = Date.now();
+        if((now - lastCalled) >= time) {
+            lastCalled = now;
+            slackPost(label, metricsObject, data)
+        }
+    }
+}
+const throttleSlackPost = throttle(slackPostFunc, 20000)
+
 const timeConvert = (arr, label) => {
     const newArr = []
     arr.forEach(data => {
         if (metricsObject[label]) {
             const thresholdNumber = Number(metricsObject[label])
             if (data[1] > thresholdNumber) {
-                slackPostFunc(label, metricsObject[label], parseInt(data[1]))
-                metricsObject[label] = null
+                throttleSlackPost(label, metricsObject[label], parseInt(data[1]))
+                // metricsObject[label] = null
             }
         }
 
