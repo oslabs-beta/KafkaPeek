@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 import Sidebar from './Sidebar';
