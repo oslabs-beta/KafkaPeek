@@ -21,6 +21,14 @@
         "react"
     ],
     "rules": {
+        "arrow-parens": "off",
+        "consistent-return": "off",
+        "func-names": "off",
+        "no-console": "off",
+        "radix": "off",
+        "react/button-has-type": "off",
+        "react/destructuring-assignment": "off",
+        "react/jsx-filename-extension": "off",
         "indent": ["warn", 2],
         "no-unused-vars": ["off", { "vars": "local" }],
         "prefer-const": "warn",
