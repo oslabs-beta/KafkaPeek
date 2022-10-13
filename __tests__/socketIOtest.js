@@ -1,9 +1,8 @@
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const Client = require('socket.io-client');
-const { httpServer } = require('../server/server');
-const { fetchQuery, resetCounter } = require('../server/queries');
-// const {params} = require('../client/containers/Health_Dashboard')
+const { fetchQuery } = require('../server/queries');
+
 describe('Testing Zurau websocket', () => {
   let io; let serverSocket; let
     clientSocket;
