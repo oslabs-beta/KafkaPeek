@@ -104,27 +104,27 @@ const fetchQuery = async (query, timeFrame, label) => {
 
       // filters appropriate path for current mbean metric
       switch (query) {
-        case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
-          const jvmPre = data.data.data.result[0].values;
-          return jvmConvert(jvmPre);
-        case ('kafka_server_replica_manager_underreplicatedpartitions'):
-          return data.data.data.result[0].value[1];
-        case ('kafka_controller_offlinepartitionscount'):
-          return data.data.data.result[0].value[1];
-        case ('sum(kafka_controller_activecontrollercount)'):
-          return data.data.data.result[0].value[1];
-        case ('count(kafka_server_brokerstate)'):
-          return data.data.data.result[0].value[1];
-        case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
-          return data.data.data.result[0].value[1];
-        case ('kafka_network_request_metrics_time_ms{instance=\'jmx-kafka:5556\', request=\'FetchConsumer\',scope=\'Total\',env=\'cluster-demo\'}'):
-          const convertedVal = await multiGraphConvert(data.data.data.result);
-          console.log('logging convertedVal 10min ->', convertedVal);
-          return convertedVal;
-        default:
-          const preConvert = data.data.data.result[0].values;
-          const output = timeConvert(preConvert, label);
-          return output;
+      case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
+        const jvmPre = data.data.data.result[0].values;
+        return jvmConvert(jvmPre);
+      case ('kafka_server_replica_manager_underreplicatedpartitions'):
+        return data.data.data.result[0].value[1];
+      case ('kafka_controller_offlinepartitionscount'):
+        return data.data.data.result[0].value[1];
+      case ('sum(kafka_controller_activecontrollercount)'):
+        return data.data.data.result[0].value[1];
+      case ('count(kafka_server_brokerstate)'):
+        return data.data.data.result[0].value[1];
+      case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
+        return data.data.data.result[0].value[1];
+      case ('kafka_network_request_metrics_time_ms{instance=\'jmx-kafka:5556\', request=\'FetchConsumer\',scope=\'Total\',env=\'cluster-demo\'}'):
+        const convertedVal = await multiGraphConvert(data.data.data.result);
+        console.log('logging convertedVal 10min ->', convertedVal);
+        return convertedVal;
+      default:
+        const preConvert = data.data.data.result[0].values;
+        const output = timeConvert(preConvert, label);
+        return output;
       }
     } catch (err) {
       console.log(`Error in ${query}, err: ${err}`);
@@ -140,27 +140,27 @@ const fetchQuery = async (query, timeFrame, label) => {
 
       // filters appropriate path for current mbean metric
       switch (query) {
-        case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
-          const jvmPre = [data.data.data.result[0].value];
-          return jvmConvert(jvmPre);
-        case ('kafka_server_replica_manager_underreplicatedpartitions'):
-          return data.data.data.result[0].value[1];
-        case ('kafka_controller_offlinepartitionscount'):
-          return data.data.data.result[0].value[1];
-        case ('sum(kafka_controller_activecontrollercount)'):
-          return data.data.data.result[0].value[1];
-        case ('count(kafka_server_brokerstate)'):
-          return data.data.data.result[0].value[1];
-        case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
-          return data.data.data.result[0].value[1];
-        case ('kafka_network_processor_idle_percent'):
-        case ('kafka_network_request_metrics_time_ms{instance=\'jmx-kafka:5556\', request=\'FetchConsumer\',scope=\'Total\',env=\'cluster-demo\'}'):
-          const convertedVal = await multiGraphConvert(data.data.data.result);
-          return convertedVal;
-        default:
-          const preConvert = [data.data.data.result[0].value];
-          const output = timeConvert(preConvert, label);
-          return output;
+      case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
+        const jvmPre = [data.data.data.result[0].value];
+        return jvmConvert(jvmPre);
+      case ('kafka_server_replica_manager_underreplicatedpartitions'):
+        return data.data.data.result[0].value[1];
+      case ('kafka_controller_offlinepartitionscount'):
+        return data.data.data.result[0].value[1];
+      case ('sum(kafka_controller_activecontrollercount)'):
+        return data.data.data.result[0].value[1];
+      case ('count(kafka_server_brokerstate)'):
+        return data.data.data.result[0].value[1];
+      case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
+        return data.data.data.result[0].value[1];
+      case ('kafka_network_processor_idle_percent'):
+      case ('kafka_network_request_metrics_time_ms{instance=\'jmx-kafka:5556\', request=\'FetchConsumer\',scope=\'Total\',env=\'cluster-demo\'}'):
+        const convertedVal = await multiGraphConvert(data.data.data.result);
+        return convertedVal;
+      default:
+        const preConvert = [data.data.data.result[0].value];
+        const output = timeConvert(preConvert, label);
+        return output;
       }
     } catch (err) {
       console.log(`Error in ${query}, err: ${err}`);

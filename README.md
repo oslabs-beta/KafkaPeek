@@ -6,11 +6,11 @@
 
 <h1 style="text-align: center" style="font-size: 10rem">Zurau</h1>
 
-Zurau is a developer tool that monitors key metrics in your local Kafka cluster. 
+Zurau is a developer tool that monitors key metrics in your local Kafka cluster.
 
 #### Key Health Metrics are:
 
-- Bytes In Per Sec 
+- Bytes In Per Sec
 - Bytes Out Per Sec
 - JVM Heap Usage (MB)
 - Under Replicated Partitions
@@ -24,15 +24,14 @@ Zurau is a developer tool that monitors key metrics in your local Kafka cluster.
 - Request Total Time (s)
 - Request Queue Time (ms)
 - Response Send Time (ms)
+
 ## Tech Stack
 
 **Client:** [React](https://reactjs.org/), [React Router](https://reactrouter.com/en/main), [ApexCharts](https://apexcharts.com), [Socket.io](https://socket.io)
 
 **Server:** [Node](https://nodejs.org/en/), [Express](https://expressjs.com/), [Socket.io](https://socket.io) [KafkaJS](https://kafka.js.org)
 
-
 **DevOps:** [Apache Kafka](https://kafka.apache.org/), [Prometheus](https://prometheus.io/), [JMX Exporter](https://github.com/prometheus/jmx_exporter), [Grafana](https://grafana.com), [Docker](https://www.docker.com), [Git](https://git-scm.com/), [Github](https://github.com/)
-
 
 ## Features
 
@@ -42,7 +41,6 @@ Zurau is a developer tool that monitors key metrics in your local Kafka cluster.
 - Customization of dashboard metrics based on the organizations needs
 - Ability to save graphs in real time
 
-
 ## Installation
 
 Install Zurau with npm to install all dependencies
@@ -50,22 +48,25 @@ Install Zurau with npm to install all dependencies
 ```bash
   npm install
 ```
-    
+
 ## Deployment
 
 To deploy this project run the following commands in the terminal:
 
 1. Deploy your kafka cluster
+
 ```bash
   docker-compose up
 ```
 
 2. In a new terminal window, deploy the producer:
+
 ```bash
   npm run start:producer
 ```
 
 3. In a new terminal window, deploy the consumer:
+
 ```bash
   npm run start:consumer
 ```
@@ -73,6 +74,7 @@ To deploy this project run the following commands in the terminal:
 4. In a new terminal window, deploy the application on:
 
 Deploy application on dev server (localhost:8080)
+
 ```bash
   npm run dev
 ```
@@ -80,31 +82,32 @@ Deploy application on dev server (localhost:8080)
 OR
 
 Deploy application on production server (localhost:4000)
+
 ```bash
   npm run build
 ```
+
 then
+
 ```bash
   npm start
 ```
+
 Now you have a fully functioning Kafka broker with one demo producer and consumer.
 
 <h3>Slack Notifications</h3>
 
-Place your designated slack api webhook inside the axios POST request in the  ```slackController.js``` file and the ```queries.js``` file. There you will see placeholder text where you can insert your webhook.
+Place your designated slack api webhook inside the axios POST request in the `slackController.js` file and the `queries.js` file. There you will see placeholder text where you can insert your webhook.
 
 ## Demo
 
 <h3>Main Dashboard</h3>
 
-
 ![Alt Text](https://media.giphy.com/media/kfKhKpAbezCIxwCW9D/giphy.gif)
 
 <h3>Slack Notifications</h3>
 
-
 ![Alt Text](https://media.giphy.com/media/0ykVFzaLsVZao1XgGR/giphy.gif)
-
 
 ## Running Tests
 
@@ -113,6 +116,7 @@ To run tests, run the following command
 ```bash
   npm run test socketIOtest.js
 ```
+
 ```bash
   npm run test supertest.js
 ```
@@ -120,19 +124,17 @@ To run tests, run the following command
 ## Roadmap
 
 - Web Based Application
-- Customized Developer Options 
+- Customized Developer Options
 - Github OAuth Authentication
 - User Account Information
 - User Settings
 - NoSql Database - Error Logs/Accounts/Archived Metrics
 
-
 ## Acknowledgements
 
- - [Awesome Readme Templates](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
- - [Awesome README](https://github.com/matiassingers/awesome-readme)
- - [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
-
+- [Awesome Readme Templates](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
+- [Awesome README](https://github.com/matiassingers/awesome-readme)
+- [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
 
 ## Authors
 

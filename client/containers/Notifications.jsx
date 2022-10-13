@@ -46,7 +46,8 @@ function Notifications({
           {' '}
           {`Anything over: ${interval.value.thresholdNumber}`}
         </section>
-      </div>]);
+      </div>
+    ]);
   }
 
   // bytesOut (state, func)
@@ -143,7 +144,7 @@ function Notifications({
             {`${bytesInterval}`}
           </h2>
           <button id="stop-button">STOP</button>
-                        </li>);
+        </li>);
         setongoingList(newOngoing);
         ongoingMetrics[compared] = true;
         setongoingGate(true);

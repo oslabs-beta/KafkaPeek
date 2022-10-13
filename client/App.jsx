@@ -10,13 +10,12 @@ import HealthDashboard from './containers/HealthDashboard';
 const URL_PARAMS = new URLSearchParams(window.location.search);
 const accessToken = URL_PARAMS.get('token');
 
-const App = () => {
-
+function App() {
   // gate used to display ongoingmetrics component if metrics are being tracked
-  const [ongoingGate, setongoingGate] = useState(false)
+  const [ongoingGate, setongoingGate] = useState(false);
 
   // stores total components of ongoing notifications
-  const [ongoingList, setongoingList] = useState([])
+  const [ongoingList, setongoingList] = useState([]);
   const [active, setActive] = useState('health');
   const [user, setUser] = useState({
     name: '',
@@ -37,7 +36,7 @@ const App = () => {
         name: res.data.name,
         id: res.data.id,
         login: res.data.login,
-        email: res.data.emil
+        email: res.data.emil,
       };
       setUser(userObj);
     };
@@ -47,27 +46,27 @@ const App = () => {
   }, [accessToken]);
 
   return (
-    <div id='app-container'>
+    <div id="app-container">
       <Routes>
         <Route
-          path='/h_dashboard'
+          path="/h_dashboard"
           element={
-            <HealthDashboard active={active} setActive={setActive} user={user}/>
+            <HealthDashboard active={active} setActive={setActive} user={user} />
           }
         />
         <Route
-          path='/p_dashboard'
+          path="/p_dashboard"
           element={
             <PerfDashboard active={active} setActive={setActive} user={user} />
           }
         />
         <Route
-          path='/notifications'
+          path="/notifications"
           element={<Notifications ongoingList={ongoingList} setongoingList={setongoingList} ongoingGate={ongoingGate} setongoingGate={setongoingGate} active={active} setActive={setActive} user={user} />}
         />
         <Route
           exact
-          path='/'
+          path="/"
           element={
             <Landing active={active} setActive={setActive} user={user} />
           }
@@ -75,6 +74,6 @@ const App = () => {
       </Routes>
     </div>
   );
-};
+}
 
 export default App;
