@@ -1,1 +1,0 @@
-image: docker-compose up
