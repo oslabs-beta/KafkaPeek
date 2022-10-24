@@ -19,7 +19,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, ioConfig);
 
 // imports query functions
-const { fetchQuery, resetCounter } = require('./queries');
+const { fetchQuery, resetCounter, fetchRandom } = require('./queries');
 
 // parses data from front-end
 app.use(cors());
@@ -52,12 +52,12 @@ io.on('connection', (socket) => {
       for (const [k, v] of Object.entries(args)) {
 
         // assigns readable metrics
-        fetchObj[k] = await fetchQuery(v[0], v[1], k);
+        fetchObj[k] = await fetchRandom(v[0], v[1], k);
       }
 
       // sends readable 'health' metrics to front-end
       socket.emit('health', fetchObj);
-    }, 1000);
+    }, 2000);
     console.log('Sending new metrics!');
   });
 
@@ -70,12 +70,12 @@ io.on('connection', (socket) => {
       for (const [k, v] of Object.entries(args)) {
 
         // assigns readable metrics
-        fetchObj[k] = await fetchQuery(v[0], v[1], k);
+        fetchObj[k] = await fetchRandom(v[0], v[1], k);
       }
 
       // sends readable 'performance' metrics to front-end
       socket.emit('performance', fetchObj);
-    }, 1000);
+    }, 2000);
   });
 
   // listens for 'stop' socket message to end interval

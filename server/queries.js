@@ -131,6 +131,7 @@ const fetchQuery = async (query, timeFrame, label) => {
                 default:
                     let preConvert = data.data.data.result[0].values
                     let output = timeConvert(preConvert, label)
+                    console.log(output)
                     return output
             }
         } catch (err) {
@@ -165,9 +166,10 @@ const fetchQuery = async (query, timeFrame, label) => {
                     let convertedVal = await multiGraphConvert(data.data.data.result)
                     return convertedVal;
                 default:
-                    let preConvert = [data.data.data.result[0].value]
-                    let output = timeConvert(preConvert, label)
-                    return output
+                    let preConvert = [data.data.data.result[0].value];
+                    let output = timeConvert(preConvert, label);
+                    console.log(output);
+                    return output;
             }
         } catch (err) {
             console.log(`Error in ${query}, err: ${err}`)
@@ -180,4 +182,58 @@ const resetCounter = () => {
     counter = 0;
 }
 
-module.exports = { fetchQuery, resetCounter }
+const fetchRandom = (query, timeFrame, label) => {
+    const time = Date.now()
+    console.log('query',query)
+    switch (query) {
+        case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
+            const output = Math.floor(Math.random() * (1100 - 1000) + 1000)
+            return [[time, output]]
+        case ('kafka_server_replica_manager_underreplicatedpartitions'):
+            return 0;
+        case ('kafka_controller_offlinepartitionscount'):
+            return 0;
+        case ('sum(kafka_controller_activecontrollercount)'):
+            return 1;
+        case ('count(kafka_server_brokerstate)'):
+            return 1;
+        case ('kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request="Produce"}'):
+            const networkOutput = Math.floor(Math.random() * (650 - 550) + 550)
+            return [[time, networkOutput]];
+        case (`kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}`):
+            const requestTT = Math.floor(Math.random() * (6 - 4) + 4)
+            return ;
+        case (`kafka_server_broker_topic_metrics_bytesinpersec_rate`):
+            const bytesInOutput = Math.floor(Math.random() * (1500 - 1400) + 1400)
+            return [[time, bytesInOutput]];
+        case (`kafka_server_broker_topic_metrics_bytesoutpersec_rate`):
+            const bytesOutOutput = Math.floor(Math.random() * (1100 - 900) + 900)
+            return [[time, bytesOutOutput]];
+        case (`kafka_server_broker_topic_metrics_messagesinpersec_rate`):
+            const messagesInOutput = Math.floor(Math.random() * (250 - 100) + 100)
+            return [[time, messagesInOutput]];
+        case (`kafka_network_request_per_sec{aggregate=~'OneMinuteRate',request='Produce'} FetchRandom`):
+            const reqTotalTime = Math.floor(Math.random() * (5 - 2) + 2)
+            return [[time, reqTotalTime]];         
+        default:
+            const outputDefault = Math.floor(Math.random() * (5 - 2) + 2);
+            return [[time, outputDefault]];
+    }
+
+};
+
+// 'requestTotalTime': ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}", "[10m:10s]"],
+// 'responseQueueTime': ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseQueue',env='cluster-demo', aggregate='99thPercentile'}", "[10m:10s]"],
+// 'responseSendTime': ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='ResponseSend',env='cluster-demo', aggregate='Mean'}", "[10m:10s]"],
+// export const params = {
+//     'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate', '[10m:10s]'],
+//     'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate', '[10m:10s]'],
+//     'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate', '[10m:10s]'],
+//     'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}', '[10m:10s]'],
+//     'activeControllerCount': ["sum(kafka_controller_activecontrollercount)", ""],
+//     'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions', ''],
+//     'offlinePartitions': ['kafka_controller_offlinepartitionscount', ''],
+//     'brokersRunning': ['count(kafka_server_brokerstate)', '']
+//   }
+
+module.exports = { fetchQuery, resetCounter, fetchRandom }

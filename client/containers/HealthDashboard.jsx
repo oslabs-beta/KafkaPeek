@@ -21,7 +21,7 @@ export const params = {
   'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions', ''],
   'offlinePartitions': ['kafka_controller_offlinepartitionscount', ''],
   'brokersRunning': ['count(kafka_server_brokerstate)', '']
-}
+};
 
 // socket.io function sends mbean args to back-end promql request
 const emitFunc = () => {
