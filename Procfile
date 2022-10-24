@@ -1,1 +1,1 @@
-web: docker-compose u
+image: docker-compose up
