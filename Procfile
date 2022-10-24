@@ -1,2 +1,1 @@
-web: docker-compose up
-web: npm start
+web: docker-compose u
