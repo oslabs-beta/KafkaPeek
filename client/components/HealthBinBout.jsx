@@ -18,7 +18,7 @@ class HealthBinBout extends React.Component {
         chart: {
           id: 'realtime',
           height: '100%',
-          width: '10%',
+          width: '100%',
           type: 'line',
           animations: {
             enabled: true,

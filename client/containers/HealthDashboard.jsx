@@ -7,10 +7,9 @@ import HealthMsgIn from '../components/HealthMsgIn';
 import StaticMetricDisplay from '../components/StaticMetricDisplay';
 
 // front-end socket
-const socket = io('http://localhost:4000/', {
+const socket = io('https://zurau.herokuapp.com/', {
   autoConnect: false
 });
-// https://zurau.herokuapp.com/
 // health metrics mbean args
 export const params = {
   'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate', '[10m:10s]'],
