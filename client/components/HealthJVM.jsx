@@ -18,7 +18,7 @@ class HealthJVM extends React.Component {
             enabled: true,
             easing: 'linear',
             dynamicAnimation: {
-              speed: 300,
+              speed: 5000,
             },
           },
           toolbar: {
@@ -33,6 +33,7 @@ class HealthJVM extends React.Component {
         },
         stroke: {
           curve: 'smooth',
+          width: 2,
         },
         title: {
           text: 'JVM Heap Usage MB',

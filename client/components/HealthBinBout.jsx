@@ -18,13 +18,13 @@ class HealthBinBout extends React.Component {
         chart: {
           id: 'realtime',
           height: '100%',
-          width: '100%',
+          width: '10%',
           type: 'line',
           animations: {
             enabled: true,
             easing: 'linear',
             dynamicAnimation: {
-              speed: 300,
+              speed: 5000,
             },
           },
           toolbar: {
@@ -39,6 +39,7 @@ class HealthBinBout extends React.Component {
         },
         stroke: {
           curve: 'smooth',
+          width: 2,
         },
         title: {
           text: 'Bytes In/sec & Bytes Out/sec',
@@ -46,7 +47,7 @@ class HealthBinBout extends React.Component {
         },
 
         noData: {
-          text: "CLICK TO GET METRICS...",
+          text: "CLICK BELOW TO GET METRICS...",
         },
 
         markers: {

@@ -7,10 +7,10 @@ import PerfResQueueTime from '../components/PerfResQueueTime';
 import PerfResSendTime from '../components/PerfResSendTime';
 
 // front-end socket
-const socket = io('http://localhost:4000', {
+const socket = io('https://zurau.herokuapp.com/', {
   autoConnect: false
 });
-
+// https://zurau.herokuapp.com/
 // performance metrics mbean args
 export const params = {
   'requestTotalTime': ["kafka_network_request_metrics_time_ms{instance='jmx-kafka:5556', request='FetchConsumer',scope='Total',env='cluster-demo'}", "[10m:10s]"],

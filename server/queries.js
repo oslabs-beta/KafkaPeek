@@ -181,13 +181,31 @@ const fetchQuery = async (query, timeFrame, label) => {
 const resetCounter = () => {
     counter = 0;
 }
-
+let prevVal = 0;
+let graphCounterUp = 0;
+let graphCounterDown = 0;
+let output = 100;
 const fetchRandom = (query, timeFrame, label) => {
     const time = Date.now()
-    console.log('query',query)
+    console.log('query',query);
     switch (query) {
         case ('kafka_jvm_heap_usage{env="cluster-demo", type="used"}'):
-            const output = Math.floor(Math.random() * (1100 - 1000) + 1000)
+            // const output = Math.floor(Math.random() * (1100 - 1000) + 1000);
+            if(graphCounterUp < 5) {
+                graphCounterUp++;
+            } else if(graphCounterDown < 5) {
+                graphCounterDown++
+            } else if (graphCounterUp >= 5 && graphCounterUp <= 10) {
+                output += 100;
+                graphCounterUp++;
+            } else if (graphCounterDown >= 5 && graphCounterDown <=6) {
+                output = 100;
+                graphCounterDown++;
+            }
+            else {
+                graphCounterDown = 0;
+                graphCounterUp = 0;
+            }
             return [[time, output]]
         case ('kafka_server_replica_manager_underreplicatedpartitions'):
             return 0;
@@ -204,16 +222,16 @@ const fetchRandom = (query, timeFrame, label) => {
             const requestTT = Math.floor(Math.random() * (6 - 4) + 4)
             return ;
         case (`kafka_server_broker_topic_metrics_bytesinpersec_rate`):
-            const bytesInOutput = Math.floor(Math.random() * (1500 - 1400) + 1400)
+           const bytesInOutput = Math.floor(Math.random() * (1500 - 1400) + 1400);
             return [[time, bytesInOutput]];
         case (`kafka_server_broker_topic_metrics_bytesoutpersec_rate`):
             const bytesOutOutput = Math.floor(Math.random() * (1100 - 900) + 900)
             return [[time, bytesOutOutput]];
         case (`kafka_server_broker_topic_metrics_messagesinpersec_rate`):
-            const messagesInOutput = Math.floor(Math.random() * (250 - 100) + 100)
+            const messagesInOutput = Math.floor(Math.random() * (250 - 210) + 210)
             return [[time, messagesInOutput]];
         case (`kafka_network_request_per_sec{aggregate=~'OneMinuteRate',request='Produce'} FetchRandom`):
-            const reqTotalTime = Math.floor(Math.random() * (5 - 2) + 2)
+            const reqTotalTime = Math.floor(Math.random() * (5 - 2) + 2);
             return [[time, reqTotalTime]];         
         default:
             const outputDefault = Math.floor(Math.random() * (5 - 2) + 2);

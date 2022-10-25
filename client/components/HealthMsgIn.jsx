@@ -18,7 +18,7 @@ class HealthMsgIn extends React.Component {
             enabled: true,
             easing: 'linear',
             dynamicAnimation: {
-              speed: 300,
+              speed: 10000,
             },
           },
           toolbar: {
@@ -33,6 +33,7 @@ class HealthMsgIn extends React.Component {
         },
         stroke: {
           curve: 'smooth',
+          width: 2,
         },
         title: {
           text: 'Messages In Per Second',
