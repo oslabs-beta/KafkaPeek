@@ -7,7 +7,7 @@ import HealthMsgIn from '../components/HealthMsgIn';
 import StaticMetricDisplay from '../components/StaticMetricDisplay';
 
 // front-end socket
-const socket = io('http://localhost:4000', {
+const socket = io('https://zurau.herokuapp.com/', {
   autoConnect: false
 });
 
