@@ -57,7 +57,7 @@ io.on('connection', (socket) => {
 
       // sends readable 'health' metrics to front-end
       socket.emit('health', fetchObj);
-    }, 5000);
+    }, 4000);
     console.log('Sending new metrics!');
   });
 
@@ -75,7 +75,7 @@ io.on('connection', (socket) => {
 
       // sends readable 'performance' metrics to front-end
       socket.emit('performance', fetchObj);
-    }, 5000);
+    }, 4000);
   });
 
   // listens for 'stop' socket message to end interval

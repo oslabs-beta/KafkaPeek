@@ -18,7 +18,7 @@ class HealthMsgIn extends React.Component {
             enabled: true,
             easing: 'linear',
             dynamicAnimation: {
-              speed: 10000,
+              speed: 1000,
             },
           },
           toolbar: {
