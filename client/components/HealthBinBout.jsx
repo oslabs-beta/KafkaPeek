@@ -24,7 +24,7 @@ class HealthBinBout extends React.Component {
             enabled: true,
             easing: 'linear',
             dynamicAnimation: {
-              speed: 5000,
+              speed: 1000,
             },
           },
           toolbar: {
