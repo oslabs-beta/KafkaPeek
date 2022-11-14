@@ -8,10 +8,10 @@ class HealthBinBout extends React.Component {
 
     this.state = {
       series: [{
-        name: 'Bytes In/sec',
+        name: 'Bytes In/s',
         data: props.series
       }, {
-        name: 'Bytes Out/sec',
+        name: 'Bytes Out/s',
         data: props.series
       }],
       options: {
@@ -41,12 +41,12 @@ class HealthBinBout extends React.Component {
           curve: 'smooth',
         },
         title: {
-          text: 'Bytes In/sec & Bytes Out/sec',
+          text: 'Bytes In/s & Bytes Out/s',
           align: 'left',
         },
 
         noData: {
-          text: "CLICK TO GET METRICS...",
+          text: "Click button below to load metrics...",
         },
 
         markers: {

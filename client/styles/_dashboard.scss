@@ -1,3 +1,36 @@
+@mixin staticMetricStyle {
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 5px $secondaryColor;
+  border-radius: 1rem;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-weight: 500;
+  font-family: $secondaryFont;
+}
+
+@mixin chartContainerStyle {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  box-shadow: 0 0 5px $secondaryColor;
+  border-radius: 1rem;
+  padding: 10px;
+  font-weight: 500;
+  font-family: $secondaryFont;
+}
+
+.unhealthy { 
+  background-color: rgb(242, 56, 56); 
+}
+
+.healthy { 
+  background-color: lightgreen;
+}
+
 #dashboard-container {
   width: 100%;
   height: 100%;
@@ -21,85 +54,46 @@
     padding: 1rem;
     justify-content: center;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: .5fr 4fr 3fr;
+    grid-template-rows: 0.5fr 4fr 3fr;
     grid-gap: 1rem;
     grid-template-areas:
       'metric metric-2 metric-3 metric-4'
       'chart chart chart chart'
       'chart-2 chart-2 chart-3 chart-3';
 
-    #metric-container-1 {
-      width: 100%;
-      height: 100%;
+    .metric-container-1 {
       grid-area: metric;
-      background-color: white;
-      box-shadow: 0 0 5px $secondaryColor;
-      border-radius: 1rem;
-      padding: 10px;
-
-      &:hover {
-        background-color: aliceblue
-      }
+      @include staticMetricStyle;
     }
 
-    #metric-container-2 {
-      width: 100%;
-      height: 100%;
+    .metric-container-2 {
       grid-area: metric-2;
-      background-color: white;
-      box-shadow: 0 0 5px $secondaryColor;
-      border-radius: 1rem;
-      padding: 10px;
+      @include staticMetricStyle;
     }
 
-    #metric-container-3 {
-      width: 100%;
-      height: 100%;
+    .metric-container-3 {
       grid-area: metric-3;
-      background-color: white;
-      box-shadow: 0 0 5px $secondaryColor;
-      border-radius: 1rem;
-      padding: 10px;
+      @include staticMetricStyle;
     }
 
-    #metric-container-4 {
-      width: 100%;
-      height: 100%;
+    .metric-container-4 {
       grid-area: metric-4;
-      background-color: white;
-      box-shadow: 0 0 5px $secondaryColor;
-      border-radius: 1rem;
-      padding: 10px;
+      @include staticMetricStyle;
     }
 
     #chart-container {
-      width: 100%;
-      height: 100%;
       grid-area: chart;
-      background-color: white;
-      box-shadow: 0 0 5px $secondaryColor;
-      border-radius: 1rem;
-      padding: 10px;
+      @include chartContainerStyle;
     }
 
     #chart-container-2 {
-      width: 100%;
-      height: 100%;
       grid-area: chart-2;
-      background-color: white;
-      box-shadow: 0 0 5px $secondaryColor;
-      border-radius: 1rem;
-      padding: 10px;
+      @include chartContainerStyle;
     }
 
     #chart-container-3 {
-      width: 100%;
-      height: 100%;
       grid-area: chart-3;
-      background-color: white;
-      box-shadow: 0 0 5px $secondaryColor;
-      border-radius: 1rem;
-      padding: 10px;
+      @include chartContainerStyle;
     }
   }
 }

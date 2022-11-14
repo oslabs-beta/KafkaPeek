@@ -17,6 +17,7 @@ $secondaryFont: 'Lato', sans-serif;
 @import 'login.scss';
 @import 'notifications.scss';
 @import 'ongoingMetrics.scss';
+
 //CSS Reset
 * {
   margin: 0;
@@ -26,7 +27,7 @@ $secondaryFont: 'Lato', sans-serif;
   font: inherit;
   vertical-align: baseline;
   box-sizing: border-box;
-  font-family: 'Open Sans', sans-serif;
+  font-family: $secondaryFont;
   // outline: 1px red solid;
 }
 
