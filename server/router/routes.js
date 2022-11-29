@@ -19,7 +19,7 @@ router.use(
 // github oauth variables
 const client_id = process.env.GITHUB_CLIENT_ID;
 const client_secret = process.env.GITHUB_CLIENT_SECRET;
-const callback_url = 'http://localhost:4000/auth/github/callback';
+const callback_url = 'https://zurau.herokuapp.com/auth/github/callback';
 
 // redirects to github oauth authorization page
 router.get('/github', (req, res, next) => {
@@ -40,7 +40,7 @@ router.get('/github/callback',
     req.session.token = res.locals.token
 
     // redirect user back to landing page with github token in params
-    return res.redirect(`http://localhost:8080/?token=${req.session.token}`)
+    return res.redirect(`https://zurau.herokuapp.com/?token=${req.session.token}`)
   });
 
 // removes stored user data from current session
@@ -48,7 +48,7 @@ router.get('/logout', (req, res, next) => {
   req.session = null;
 
   // redirect back to landing page
-  return res.redirect('http://localhost:8080');
+  return res.redirect('https://zurau.herokuapp.com');
 });
 
 // initial slack notification path
