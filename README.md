@@ -1,14 +1,14 @@
 <div style="text-align: center;">
 
-![Zurau Logo](./client/assets/images/zurau-logo.png "Zurau Logo")
+![KafkaPeek Logo](./client/assets/images/zurau-logo.png "KafkaPeek Logo")
 
 </div>
 
-<h1 style="text-align: center" style="font-size: 10rem">Zurau</h1>
+<h1 style="text-align: center" style="font-size: 10rem">Kafka</h1>
 
-Zurau is a developer tool that monitors key metrics in your local Kafka cluster. 
+KafkaPeek is a developer tool that monitors key metrics in your local Kafka cluster. 
 
-#### Key Health Metrics are:
+#### Key Health Metrics
 
 - Bytes In Per Sec 
 - Bytes Out Per Sec
@@ -18,12 +18,13 @@ Zurau is a developer tool that monitors key metrics in your local Kafka cluster.
 - Active Controller Count
 - Brokers Running
 
-#### Key Performance Metrics are:
+#### Key Performance Metrics
 
 - Requests Per Sec
 - Request Total Time (s)
 - Request Queue Time (ms)
 - Response Send Time (ms)
+
 ## Tech Stack
 
 **Client:** [React](https://reactjs.org/), [React Router](https://reactrouter.com/en/main), [ApexCharts](https://apexcharts.com), [Socket.io](https://socket.io)
@@ -45,7 +46,7 @@ Zurau is a developer tool that monitors key metrics in your local Kafka cluster.
 
 ## Installation
 
-Install Zurau with npm to install all dependencies
+Install KafkaPeek with npm to install all dependencies
 
 ```bash
   npm install
@@ -120,15 +121,13 @@ To run tests, run the following command
 - Github OAuth Authentication
 - User Account Information
 - User Settings
-- NoSql Database - Error Logs/Accounts/Archived Metrics
-
+- NoSql Database to store Error Logs/Accounts/Archived Metrics
 
 ## Acknowledgements
 
  - [Awesome Readme Templates](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
  - [Awesome README](https://github.com/matiassingers/awesome-readme)
  - [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
-
 
 ## Authors
 
