@@ -27,8 +27,8 @@ const Landing = ({ user }) => {
         </h1>
         <p>
           {' '}
-          Zurau helps engineering teams of all sizes quickly and easily stay up
-          to date on the status of their Kafka environments.
+          KafkaPeek helps engineering teams of all sizes quickly and easily stay up
+          to date on the status of deployments
         </p>
         <Link to='/h_dashboard'>
           <button>Try It Out {'>'}</button>

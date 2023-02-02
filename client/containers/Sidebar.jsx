@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import GraphIcon from '../assets/GraphIcon.jsx';
 import CogIcon from '../assets/CogIcon.jsx';
 import UserIcon from '../assets/UserIcon.jsx';
-import ZurauLogo from '../assets/ZurauLogo.jsx';
+import KafkaPeekLogo from '../assets/KafkaPeekLogo.jsx';
 import Logout from '../assets/Logout.jsx';
 
 const Sidebar = ({active, setActive, handleHealthDisconnect, handlePerfDisconnect}) => {
@@ -21,10 +21,10 @@ const Sidebar = ({active, setActive, handleHealthDisconnect, handlePerfDisconnec
     <div id='sidebar-container'>
       <div id='top-sidebar'>
         <Link to='/' onClick={handleAllDisconnect} >
-          <ZurauLogo />
+          <KafkaPeekLogo />
         </Link>
         <div className='spacer' />
-        <div id='sidebar-title'>Zurau</div>
+        <div id='sidebar-title'>KafkaPeek</div>
       </div>
       <div id='middle-sidebar'>
         <div
