@@ -6,6 +6,7 @@ const cookieSession = require('cookie-session');
 const oauthController = require('../controllers/oauthController.js')
 const slackController = require('../controllers/slackController.js')
 dotenv.config();
+
 router.use(
   cookieSession({
     secret: 'mainSecret',
@@ -53,7 +54,7 @@ router.post('/form-submit',
   slackController.initialNote,
   slackController.checkingMetric,
   (req, res, next) => {
-    return res.status(200).send(`Zurau now tracking metric ${req.body.label}`)
+    return res.status(200).send(`KafkaPeek now tracking metric ${req.body.label}`)
   })
 
 module.exports = router;

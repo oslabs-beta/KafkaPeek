@@ -64,14 +64,14 @@ const HealthDashboard = ({ active, setActive}) => {
 
   useEffect(() => {
     socket.on('health', (data) => {
-      setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])
-      setBytesOut(currentData => [...currentData, ...data.bytesOutPerSec]);
-      setMsgsIn(currentData => [...currentData, ...data.messagesInPerSec]);
-      setJvmUsage(currentData => [...currentData, ...data.jvmHeapUsage]);
-      setActiveControllerCount(data.activeControllerCount);
-      setOfflinePartitions(data.offlinePartitions);
-      setUnderReplicatedPartitions(data.underRepPartitions);
-      setBrokersRunning(data.brokersRunning);
+      if (data.bytesInPerSec) setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])
+      if (data.bytesOutPerSec) setBytesOut(currentData => [...currentData, ...data.bytesOutPerSec]);
+      if (data.messagesInPerSec) setMsgsIn(currentData => [...currentData, ...data.messagesInPerSec]);
+      if (data.jvmHeapUsage) setJvmUsage(currentData => [...currentData, ...data.jvmHeapUsage]);
+      if (data.activeControllerCount) setActiveControllerCount(data.activeControllerCount);
+      if (data.offlinePartitions) setOfflinePartitions(data.offlinePartitions);
+      if (data.underRepPartitions) setUnderReplicatedPartitions(data.underRepPartitions);
+      if (data.brokersRunning) setBrokersRunning(data.brokersRunning);
     })
   }, []);
 

@@ -4,7 +4,7 @@ const Client = require("socket.io-client");
 const { httpServer } = require('../server/server');
 const { fetchQuery, resetCounter } = require('../server/queries');
 // const {params} = require('../client/containers/Health_Dashboard')
-describe("Testing Zurau websocket", () => {
+describe("Testing KafkaPeek websocket", () => {
   let io, serverSocket, clientSocket;
 
   beforeAll((done) => {

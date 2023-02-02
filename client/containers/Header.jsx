@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ZurauLogo from '../assets/ZurauLogo';
+import KafkaPeekLogo from '../assets/KafkaPeekLogo';
 
 const Header = ({ user }) => {
   const { id } = user;
@@ -22,17 +22,17 @@ const Header = ({ user }) => {
   return (
     <div id='header-container'>
       <div id='header-left'>
-        <ZurauLogo />
-        <a href='https://zurau.app' target={'_blank'}>Zurau</a>
+        <KafkaPeekLogo />
+        <a href='https://kafkapeek.dev' target={'_blank'}>KafkaPeek</a>
       </div>
       <div id='header-mid'>
         <div id='header-mid-left'>
-          <a href='https://zurau.app' target='_blank'>
+          <a href='https://kafkapeek.com' target='_blank'>
             Documentation
           </a>
         </div>
         <div id='header-mid-right'>
-          <a href='https://github.com/oslabs-beta/zurau' target='_blank'>
+          <a href='https://github.com/oslabs-beta/KafkaPeek' target='_blank'>
             Github
           </a>
         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ZurauLogo = () => {
+const KafkaPeekLogo = () => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -17,4 +17,4 @@ const ZurauLogo = () => {
   );
 };
 
-export default ZurauLogo;
+export default KafkaPeekLogo;
