@@ -19,7 +19,7 @@ router.use(
 // github oauth variables
 const client_id = process.env.GITHUB_CLIENT_ID;
 const client_secret = process.env.GITHUB_CLIENT_SECRET;
-const callback_url = 'https://zurau.herokuapp.com/auth/github/callback';
+const callback_url = 'https://kafkapeek.herokuapp.com/auth/github/callback';
 
 // redirects to github oauth authorization page
 router.get('/github', (req, res, next) => {
@@ -40,7 +40,7 @@ router.get('/github/callback',
     req.session.token = res.locals.token
 
     // redirect user back to landing page with github token in params
-    return res.redirect(`https://zurau.herokuapp.com/?token=${req.session.token}`)
+    return res.redirect(`https://kafkapeek.herokuapp.com/?token=${req.session.token}`)
   });
 
 // removes stored user data from current session
@@ -48,7 +48,7 @@ router.get('/logout', (req, res, next) => {
   req.session = null;
 
   // redirect back to landing page
-  return res.redirect('https://zurau.herokuapp.com');
+  return res.redirect('https://kafkapeek.herokuapp.com');
 });
 
 // initial slack notification path
@@ -57,8 +57,8 @@ router.post('/form-submit',
   slackController.checkingMetric,
   (req, res, next) => {
 
-    // sends message to front-end when zurau begins tracking new metric
-    return res.status(200).send(`Zurau now tracking metric ${req.body.label}`)
+    // sends message to front-end when kafkapeek begins tracking new metric
+    return res.status(200).send(`KafkaPeek now tracking metric ${req.body.label}`)
   })
 
 module.exports = router;

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import GraphIcon from '../assets/GraphIcon.jsx';
 import CogIcon from '../assets/CogIcon.jsx';
 import UserIcon from '../assets/UserIcon.jsx';
-import ZurauLogo from '../assets/ZurauLogo.jsx';
+import KafkaPeekLogo from '../assets/KafkaPeekLogo.jsx';
 import Logout from '../assets/Logout.jsx';
 
 const Sidebar = ({active, setActive, handleHealthDisconnect, handlePerfDisconnect}) => {
@@ -20,11 +20,11 @@ const Sidebar = ({active, setActive, handleHealthDisconnect, handlePerfDisconnec
   return (
     <div id='sidebar-container'>
       <div id='top-sidebar'>
-        <Link to='/' onClick={handleAllDisconnect} >
-          <ZurauLogo />
+        <Link to='/' onClick={handleAllDisconnect}>
+          <KafkaPeekLogo />
         </Link>
         <div className='spacer' />
-        <div id='sidebar-title'>Zurau</div>
+        <div id='sidebar-title'>KafkaPeek</div>
       </div>
       <div id='middle-sidebar'>
         <div
@@ -40,7 +40,9 @@ const Sidebar = ({active, setActive, handleHealthDisconnect, handlePerfDisconnec
           <div>
             <GraphIcon />
           </div>
-          <Link to='/h_dashboard' onClick={handlePerfDisconnect}>Health Metrics</Link>
+          <Link to='/h_dashboard' onClick={handlePerfDisconnect}>
+            Health Metrics
+          </Link>
         </div>
 
         <div
@@ -56,7 +58,9 @@ const Sidebar = ({active, setActive, handleHealthDisconnect, handlePerfDisconnec
           <div>
             <GraphIcon />
           </div>
-          <Link to='/p_dashboard' onClick={handleHealthDisconnect}>Performance Metrics</Link>
+          <Link to='/p_dashboard' onClick={handleHealthDisconnect}>
+            Performance Metrics
+          </Link>
         </div>
 
         <div
@@ -70,9 +74,10 @@ const Sidebar = ({active, setActive, handleHealthDisconnect, handlePerfDisconnec
           <div>
             <CogIcon />
           </div>
-          <Link to='/notifications' onClick={handleAllDisconnect}>Settings</Link>
+          <Link to='/notifications' onClick={handleAllDisconnect}>
+            Settings
+          </Link>
         </div>
-
       </div>
       <div id='bottom-sidebar'>
         <div
@@ -85,7 +90,12 @@ const Sidebar = ({active, setActive, handleHealthDisconnect, handlePerfDisconnec
           <div>
             <Logout />
           </div>
-          <a href='http://localhost:4000/auth/logout' onClick={handleAllDisconnect}>Logout</a>
+          <a
+            href='http://localhost:4000/auth/logout'
+            onClick={handleAllDisconnect}
+          >
+            Logout
+          </a>
         </div>
       </div>
     </div>

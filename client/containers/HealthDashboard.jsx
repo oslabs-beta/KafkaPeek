@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
 import Sidebar from './Sidebar';
 import HealthBinBout from '../components/HealthBinBout';
 import HealthJVM from '../components/HealthJVM';
@@ -7,35 +7,50 @@ import HealthMsgIn from '../components/HealthMsgIn';
 import StaticMetricDisplay from '../components/StaticMetricDisplay';
 
 // front-end socket
-const socket = io('https://zurau.herokuapp.com/', {
-  autoConnect: false
+const socket = io('https://kafkapeek.herokuapp.com/', {
+  autoConnect: false,
 });
 // health metrics mbean args
 export const params = {
-  'bytesInPerSec': ['kafka_server_broker_topic_metrics_bytesinpersec_rate', '[10m:10s]'],
-  'bytesOutPerSec': ['kafka_server_broker_topic_metrics_bytesoutpersec_rate', '[10m:10s]'],
-  'messagesInPerSec': ['kafka_server_broker_topic_metrics_messagesinpersec_rate', '[10m:10s]'],
-  'jvmHeapUsage': ['kafka_jvm_heap_usage{env="cluster-demo", type="used"}', '[10m:10s]'],
-  'activeControllerCount': ["sum(kafka_controller_activecontrollercount)", ""],
-  'underRepPartitions': ['kafka_server_replica_manager_underreplicatedpartitions', ''],
-  'offlinePartitions': ['kafka_controller_offlinepartitionscount', ''],
-  'brokersRunning': ['count(kafka_server_brokerstate)', '']
+  bytesInPerSec: [
+    'kafka_server_broker_topic_metrics_bytesinpersec_rate',
+    '[10m:10s]',
+  ],
+  bytesOutPerSec: [
+    'kafka_server_broker_topic_metrics_bytesoutpersec_rate',
+    '[10m:10s]',
+  ],
+  messagesInPerSec: [
+    'kafka_server_broker_topic_metrics_messagesinpersec_rate',
+    '[10m:10s]',
+  ],
+  jvmHeapUsage: [
+    'kafka_jvm_heap_usage{env="cluster-demo", type="used"}',
+    '[10m:10s]',
+  ],
+  activeControllerCount: ['sum(kafka_controller_activecontrollercount)', ''],
+  underRepPartitions: [
+    'kafka_server_replica_manager_underreplicatedpartitions',
+    '',
+  ],
+  offlinePartitions: ['kafka_controller_offlinepartitionscount', ''],
+  brokersRunning: ['count(kafka_server_brokerstate)', ''],
 };
 
 // socket.io function sends mbean args to back-end promql request
 const emitFunc = () => {
-  socket.emit('health', params)
-}
+  socket.emit('health', params);
+};
 
 // socket.io function sends 'stop' to back-end to stop interval
 const stopFunc = () => {
   socket.emit('stop');
-}
+};
 
-const HealthDashboard = ({ active, setActive}) => {
+const HealthDashboard = ({ active, setActive }) => {
   let startMetric = useRef(false);
 
-    // text to be displayed inside button
+  // text to be displayed inside button
   const [buttonText, setButtonText] = useState('Get Metrics');
 
   // dynamic metrics
@@ -43,7 +58,7 @@ const HealthDashboard = ({ active, setActive}) => {
   const [bytesOut, setBytesOut] = useState([]);
   const [msgsIn, setMsgsIn] = useState([]);
   const [jvmUsage, setJvmUsage] = useState([]);
-  
+
   // static metrics
   const [activeControllerCount, setActiveControllerCount] = useState(0);
   const [offlinePartitions, setOfflinePartitions] = useState(0);
@@ -53,49 +68,80 @@ const HealthDashboard = ({ active, setActive}) => {
   // displays and pauses metrics to graphs
   const handleClick = () => {
     if (!startMetric.current) {
-      socket.connect()
+      socket.connect();
       emitFunc();
-      setButtonText('Pause')
+      setButtonText('Pause');
       startMetric.current = !startMetric.current;
     } else {
       stopFunc();
-      setButtonText('Get Metrics')
+      setButtonText('Get Metrics');
       startMetric.current = !startMetric.current;
     }
   };
 
   // stops incoming metrics from back-end
   const handleHealthDisconnect = () => {
-    socket.disconnect()
-  }
+    socket.disconnect();
+  };
 
   // listens to incoming metrics from back-end socket.io 'health' socket
   useEffect(() => {
     socket.on('health', (data) => {
-      setBytesIn(currentData => [...currentData, ...data.bytesInPerSec])
-      setBytesOut(currentData => [...currentData, ...data.bytesOutPerSec]);
-      setMsgsIn(currentData => [...currentData, ...data.messagesInPerSec]);
-      setJvmUsage(currentData => [...currentData, ...data.jvmHeapUsage]);
-      setActiveControllerCount(data.activeControllerCount);
-      setOfflinePartitions(data.offlinePartitions);
-      setUnderReplicatedPartitions(data.underRepPartitions);
-      setBrokersRunning(data.brokersRunning);
-    })
+      if (data.bytesInPerSec)
+        setBytesIn((currentData) => [...currentData, ...data.bytesInPerSec]);
+      if (data.bytesOutPerSec)
+        setBytesOut((currentData) => [...currentData, ...data.bytesOutPerSec]);
+      if (data.messagesInPerSec)
+        setMsgsIn((currentData) => [...currentData, ...data.messagesInPerSec]);
+      if (data.jvmHeapUsage)
+        setJvmUsage((currentData) => [...currentData, ...data.jvmHeapUsage]);
+      if (data.activeControllerCount)
+        setActiveControllerCount(data.activeControllerCount);
+      if (data.offlinePartitions) setOfflinePartitions(data.offlinePartitions);
+      if (data.underRepPartitions)
+        setUnderReplicatedPartitions(data.underRepPartitions);
+      if (data.brokersRunning) setBrokersRunning(data.brokersRunning);
+    });
   }, []);
 
   return (
     <div id='dashboard-container'>
-      <Sidebar active={active} setActive={setActive} handleHealthDisconnect={handleHealthDisconnect}/>
+      <Sidebar
+        active={active}
+        setActive={setActive}
+        handleHealthDisconnect={handleHealthDisconnect}
+      />
       <div id='dashboard-charts'>
-        <button onClick={handleClick}>
-          {buttonText}
-        </button>
-        <StaticMetricDisplay metric={activeControllerCount} title={"Active Controller Count"} container={1} />
-        <StaticMetricDisplay metric={offlinePartitions} title={"Offline Partitions"} container={2} />
-        <StaticMetricDisplay metric={underReplicatedPartitions} title={"Under Replicated Partitions"} container={3} />
-        <StaticMetricDisplay metric={brokersRunning} title={"Brokers Running"} container={4} />
-        <HealthBinBout series={[{ name: 'Bytes In Per Sec', data: bytesIn }, { name: 'Bytes Out Per Sec', data: bytesOut }]} />
-        <HealthMsgIn series={[{ name: 'Messages In Per Second', data: msgsIn }]} />
+        <button onClick={handleClick}>{buttonText}</button>
+        <StaticMetricDisplay
+          metric={activeControllerCount}
+          title={'Active Controller Count'}
+          container={1}
+        />
+        <StaticMetricDisplay
+          metric={offlinePartitions}
+          title={'Offline Partitions'}
+          container={2}
+        />
+        <StaticMetricDisplay
+          metric={underReplicatedPartitions}
+          title={'Under Replicated Partitions'}
+          container={3}
+        />
+        <StaticMetricDisplay
+          metric={brokersRunning}
+          title={'Brokers Running'}
+          container={4}
+        />
+        <HealthBinBout
+          series={[
+            { name: 'Bytes In Per Sec', data: bytesIn },
+            { name: 'Bytes Out Per Sec', data: bytesOut },
+          ]}
+        />
+        <HealthMsgIn
+          series={[{ name: 'Messages In Per Second', data: msgsIn }]}
+        />
         <HealthJVM series={[{ name: 'JVM Heap Usage', data: jvmUsage }]} />
       </div>
     </div>

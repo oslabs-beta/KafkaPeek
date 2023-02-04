@@ -1,14 +1,14 @@
 <div style="text-align: center;">
 
-![Zurau Logo](./client/assets/images/zurau-logo.png "Zurau Logo")
+![KafkaPeek Logo](./client/assets/images/kafkaPeek-logo.png "KafkaPeek Logo")
 
 </div>
 
-<h1 style="text-align: center" style="font-size: 10rem">Zurau</h1>
+<h1 style="text-align: center" style="font-size: 10rem">KafkaPeek</h1>
 
-Zurau is a developer tool that monitors key metrics in your local Kafka cluster. 
+KafkaPeek is a developer tool that monitors key metrics in your local Kafka deployment. 
 
-#### Key Health Metrics are:
+#### Key Health Metrics Tracked
 
 - Bytes In Per Sec 
 - Bytes Out Per Sec
@@ -18,7 +18,7 @@ Zurau is a developer tool that monitors key metrics in your local Kafka cluster.
 - Active Controller Count
 - Brokers Running
 
-#### Key Performance Metrics are:
+#### Key Performance Metrics Tracked
 
 - Requests Per Sec
 - Request Total Time (s)
@@ -45,7 +45,7 @@ Zurau is a developer tool that monitors key metrics in your local Kafka cluster.
 
 ## Installation
 
-Install Zurau with npm to install all dependencies
+Install KafkaPeek with npm to install all dependencies
 
 ```bash
   npm install

@@ -1,7 +1,7 @@
 {
-  "name": "zurau",
+  "name": "KafkaPeek",
   "version": "1.0.0",
-  "description": "Kafka visual tool",
+  "description": "Kafka observability and notification tool",
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --open & nodemon server/server.js",
@@ -13,15 +13,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oslabs-beta/zurau.git"
+    "url": "git+https://github.com/oslabs-beta/KafkaPeek.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/oslabs-beta/zurau/issues"
+    "url": "https://github.com/oslabs-beta/KafkaPeek/issues"
   },
-  "homepage": "https://github.com/oslabs-beta/zurau#readme",
+  "homepage": "https://github.com/oslabs-beta/KafkaPeek#readme",
   "devDependencies": {
     "nodemon": "^2.0.20"
   },
